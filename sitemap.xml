@@ -2,6 +2,13 @@
 <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
   
   <url>
+    <loc>https://jiyongg-code.github.io/ce-shi.html</loc>
+    
+    <lastmod>2023-03-10T16:05:03.720Z</lastmod>
+    
+  </url>
+  
+  <url>
     <loc>https://jiyongg-code.github.io/about/index.html</loc>
     
     <lastmod>2023-03-10T12:33:34.799Z</lastmod>
@@ -19,13 +26,6 @@
     <loc>https://jiyongg-code.github.io/friends/index.html</loc>
     
     <lastmod>2023-03-10T12:30:31.117Z</lastmod>
-    
-  </url>
-  
-  <url>
-    <loc>https://jiyongg-code.github.io/postarticle-title.html</loc>
-    
-    <lastmod>2023-03-10T12:07:30.192Z</lastmod>
     
   </url>
   
@@ -51,30 +51,9 @@
   </url>
   
   <url>
-    <loc>https://jiyongg-code.github.io/vmware-an-zhuang-centos-8-1-wan-zheng-jiao-cheng.html</loc>
-    
-    <lastmod>2023-03-10T11:44:15.903Z</lastmod>
-    
-  </url>
-  
-  <url>
-    <loc>https://jiyongg-code.github.io/1.html</loc>
-    
-    <lastmod>2023-03-10T11:44:15.903Z</lastmod>
-    
-  </url>
-  
-  <url>
     <loc>https://jiyongg-code.github.io/404.html</loc>
     
     <lastmod>2023-03-10T11:44:15.899Z</lastmod>
-    
-  </url>
-  
-  <url>
-    <loc>https://jiyongg-code.github.io/hello-world.html</loc>
-    
-    <lastmod>2023-03-10T11:38:47.740Z</lastmod>
     
   </url>
   
