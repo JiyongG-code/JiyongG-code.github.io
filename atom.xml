@@ -1,0 +1,45 @@
+<?xml version="1.0" encoding="utf-8"?>
+<feed xmlns="http://www.w3.org/2005/Atom">
+  <title>Ji`s Blog</title>
+  
+  <subtitle>Ji</subtitle>
+  <link href="/atom.xml" rel="self"/>
+  
+  <link href="https://jiyongg-code.github.io/"/>
+  <updated>2023-03-18T04:01:11.089Z</updated>
+  <id>https://jiyongg-code.github.io/</id>
+  
+  <author>
+    <name>jiyonggang</name>
+    
+  </author>
+  
+  <generator uri="http://hexo.io/">Hexo</generator>
+  
+  <entry>
+    <title>Mysql-01</title>
+    <link href="https://jiyongg-code.github.io/mysql01.html"/>
+    <id>https://jiyongg-code.github.io/mysql01.html</id>
+    <published>2023-03-17T10:59:16.000Z</published>
+    <updated>2023-03-18T04:01:11.089Z</updated>
+    
+    <summary type="html">
+    
+      
+      
+        
+        
+          &lt;h1 id=&quot;1-MySQL概述&quot;&gt;&lt;a href=&quot;#1-MySQL概述&quot; class=&quot;headerlink&quot; title=&quot;1.MySQL概述&quot;&gt;&lt;/a&gt;1.MySQL概述&lt;/h1&gt;&lt;h2 id=&quot;1-1-数据库相关概念&quot;&gt;&lt;a href=&quot;#1-1-数据库相关概念&quot;
+        
+      
+    
+    </summary>
+    
+      <category term="DataBase" scheme="https://jiyongg-code.github.io/categories/DataBase/"/>
+    
+    
+      <category term="Mysql" scheme="https://jiyongg-code.github.io/tags/Mysql/"/>
+    
+  </entry>
+  
+</feed>
