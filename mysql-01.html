@@ -4,27 +4,11 @@
 
 <head><meta name="generator" content="Hexo 3.9.0">
     <meta charset="utf-8">
-    <meta name="keywords" content="Mysql-01, 记录">
+    <meta name="keywords" content="记录">
     <meta name="baidu-site-verification" content="fmlEuI34ir">
     <meta name="google-site-verification" content="yCy2azpds5XSuGZvis6OuA-XIGF5GuGpYRAaGfD6o48">
     <meta name="360-site-verification" content="b7c11a830ef90fd1464ad6206bb7b6e7">
-    <meta name="description" content="1.MySQL概述1.1 数据库相关概念
-
-
-名称
-全称
-简称
-
-
-
-数据库
-存储数据的仓库，数据是有组织的进行存储
-DataBase（DB）
-
-
-数据库管理系统
-操纵和管理数据库的大型软件
-DataBase Management Syst">
+    <meta name="description" content="title: Mysql-01top: falsecover: falsetoc: truemathjax: truedate: 2023-03-18 14:23:15password:summary: 这是学习Mysql的记录 上篇tag">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no">
     <meta name="renderer" content="webkit|ie-stand|ie-comp">
@@ -32,7 +16,7 @@ DataBase Management Syst">
     <meta name="format-detection" content="telephone=no">
     <meta name="apple-mobile-web-app-capable" content="yes">
     <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
-    <title>Mysql-01 | Ji`s Blog</title>
+    <title>Ji`s Blog</title>
     <link rel="icon" type="image/png" href="/favicon.png">
 
     <link rel="stylesheet" type="text/css" href="/libs/awesome/css/font-awesome.min.css">
@@ -631,13 +615,13 @@ DataBase Management Syst">
 
 
 
-<div class="bg-cover pd-header post-cover" style="background-image: url('/medias/featureimages/10.jpg')">
+<div class="bg-cover pd-header post-cover" style="background-image: url('/medias/featureimages/6.jpg')">
     <div class="container">
         <div class="row">
             <div class="col s12 m12 l12">
                 <div class="brand">
                     <div class="description center-align post-title">
-                        Mysql-01
+                        
                     </div>
                 </div>
             </div>
@@ -747,24 +731,11 @@ DataBase Management Syst">
                 <div class="col s7">
                     
                     <div class="article-tag">
-                        
-                        <a href="/tags/Mysql/" target="_blank">
-                            <span class="chip bg-color">Mysql</span>
-                        </a>
-                        
+                        <span class="chip bg-color">无标签</span>
                     </div>
                     
                 </div>
                 <div class="col s5 right-align">
-                    
-                    <div class="post-cate">
-                        <i class="fa fa-bookmark fa-fw icon-category"></i>
-                        
-                        <a href="/categories/DataBase/" class="post-category" target="_blank">
-                            DataBase
-                        </a>
-                        
-                    </div>
                     
                 </div>
             </div>
@@ -786,14 +757,14 @@ DataBase Management Syst">
                 
                 <div class="info-break-policy">
                     <i class="fa fa-file-word-o fa-fw"></i>文章字数:&nbsp;&nbsp;
-                    2.5k
+                    9.5k
                 </div>
                 
 
                 
                 <div class="info-break-policy">
                     <i class="fa fa-clock-o fa-fw"></i>阅读时长:&nbsp;&nbsp;
-                    9 分
+                    39 分
                 </div>
                 
                 
@@ -809,7 +780,8 @@ DataBase Management Syst">
         <hr class="clearfix">
         <div class="card-content article-card-content">
             <div id="articleContent">
-                <h1 id="1-MySQL概述"><a href="#1-MySQL概述" class="headerlink" title="1.MySQL概述"></a>1.MySQL概述</h1><h2 id="1-1-数据库相关概念"><a href="#1-1-数据库相关概念" class="headerlink" title="1.1 数据库相关概念"></a>1.1 数据库相关概念</h2><table>
+                <p>title: Mysql-01<br>top: false<br>cover: false<br>toc: true<br>mathjax: true<br>date: 2023-03-18 14:23:15<br>password:<br>summary: 这是学习Mysql的记录 上篇<br>tags: Mysql<br>categories: DataBase<br>keywords:<br>description:</p>
+<h1 id="1-MySQL概述"><a href="#1-MySQL概述" class="headerlink" title="1.MySQL概述"></a>1.MySQL概述</h1><h2 id="1-1-数据库相关概念"><a href="#1-1-数据库相关概念" class="headerlink" title="1.1 数据库相关概念"></a>1.1 数据库相关概念</h2><table>
 <thead>
 <tr>
 <th>名称</th>
@@ -930,68 +902,68 @@ gender varchar(1) comment '性别'
 <table>
 <thead>
 <tr>
-<th>类型</th>
-<th>大小</th>
-<th>有符号（SIGNED）范围</th>
-<th>无符号(UNSIGNED)范围</th>
-<th>描述</th>
+<th align="left">类型</th>
+<th align="left">大小</th>
+<th align="left">范围（有符号）</th>
+<th align="left">范围（无符号）</th>
+<th align="left">用途</th>
 </tr>
 </thead>
 <tbody><tr>
-<td>TINYINT</td>
-<td>1byte</td>
-<td>(-128，127)</td>
-<td>(0，255)</td>
-<td>小整 数值</td>
+<td align="left">TINYINT</td>
+<td align="left">1 Bytes</td>
+<td align="left">(-128，127)</td>
+<td align="left">(0，255)</td>
+<td align="left">小整数值</td>
 </tr>
 <tr>
-<td>SMALLINT</td>
-<td>2bytes</td>
-<td>(-32768，32767)</td>
-<td>(0，65535)</td>
-<td>大整 数值</td>
+<td align="left">SMALLINT</td>
+<td align="left">2 Bytes</td>
+<td align="left">(-32 768，32 767)</td>
+<td align="left">(0，65 535)</td>
+<td align="left">大整数值</td>
 </tr>
 <tr>
-<td>MEDIUMINT</td>
-<td>3bytes</td>
-<td>(-8388608，8388607)</td>
-<td>(0，16777215)</td>
-<td>大整 数值</td>
+<td align="left">MEDIUMINT</td>
+<td align="left">3 Bytes</td>
+<td align="left">(-8 388 608，8 388 607)</td>
+<td align="left">(0，16 777 215)</td>
+<td align="left">大整数值</td>
 </tr>
 <tr>
-<td>INT/TNTEGER</td>
-<td>4bytes</td>
-<td>(-2147483648， 2147483647)</td>
-<td>(0，4294967295)</td>
-<td>大整 数值</td>
+<td align="left">INT或INTEGER</td>
+<td align="left">4 Bytes</td>
+<td align="left">(-2 147 483 648，2 147 483 647)</td>
+<td align="left">(0，4 294 967 295)</td>
+<td align="left">大整数值</td>
 </tr>
 <tr>
-<td>BIGINT</td>
-<td>8bytes</td>
-<td>(-2^63，2^63-1)</td>
-<td>(0，2^64-1)</td>
-<td>极大 整数 值</td>
+<td align="left">BIGINT</td>
+<td align="left">8 Bytes</td>
+<td align="left">(-9,223,372,036,854,775,808，9 223 372 036 854 775 807)</td>
+<td align="left">(0，18 446 744 073 709 551 615)</td>
+<td align="left">极大整数值</td>
 </tr>
 <tr>
-<td>FLOAT</td>
-<td>4bytes</td>
-<td>(-3.402823466 E+38， 3.402823466351 E+38)</td>
-<td>0 和 (1.175494351 E38，3.402823466 E+38)</td>
-<td>单精 度浮 点数 值</td>
+<td align="left">FLOAT</td>
+<td align="left">4 Bytes</td>
+<td align="left">(-3.402 823 466 E+38，-1.175 494 351 E-38)，0，(1.175 494 351 E-38，3.402 823 466 351 E+38)</td>
+<td align="left">0，(1.175 494 351 E-38，3.402 823 466 E+38)</td>
+<td align="left">单精度 浮点数值</td>
 </tr>
 <tr>
-<td>DOUBLE</td>
-<td>8bytes</td>
-<td>(-1.7976931348623157 E+308， 1.7976931348623157 E+308)</td>
-<td>0 和 (2.2250738585072014 E-308， 1.7976931348623157 E+308)</td>
-<td>双精 度浮 点数 值</td>
+<td align="left">DOUBLE</td>
+<td align="left">8 Bytes</td>
+<td align="left">(-1.797 693 134 862 315 7 E+308，-2.225 073 858 507 201 4 E-308)，0，(2.225 073 858 507 201 4 E-308，1.797 693 134 862 315 7 E+308)</td>
+<td align="left">0，(2.225 073 858 507 201 4 E-308，1.797 693 134 862 315 7 E+308)</td>
+<td align="left">双精度 浮点数值</td>
 </tr>
 <tr>
-<td>DECIMAL</td>
-<td></td>
-<td>依赖于M(精度)和D(标度) 的值</td>
-<td>依赖于M(精度)和D(标度)的 值</td>
-<td>小数 值(精 确定 点数)</td>
+<td align="left">DECIMAL</td>
+<td align="left">对DECIMAL(M,D) ，如果M&gt;D，为M+2否则为D+2</td>
+<td align="left">依赖于M和D的值</td>
+<td align="left">依赖于M和D的值</td>
+<td align="left">小数值</td>
 </tr>
 </tbody></table>
 <pre><code>如:
@@ -1146,7 +1118,672 @@ createtime datetime</code></pre><p>2.3.2.3 表操作-案例 设计一张员工�
 <pre><code>ALTER TABLE emp DROP username</code></pre><p>5). 修改表名</p>
 <pre><code>ALTER TABLE 表名 RENAME TO 新表名;</code></pre><p>案例: </p>
 <p>将emp表的表名修改为 employee</p>
-<pre><code> ALTER TABLE emp RENAME TO employee;</code></pre>
+<pre><code> ALTER TABLE emp RENAME TO employee;</code></pre><h4 id="2-3-2-5-表操作-删除"><a href="#2-3-2-5-表操作-删除" class="headerlink" title="2.3.2.5 表操作-删除"></a>2.3.2.5 表操作-删除</h4><pre><code>DROP TABLE [ IF EXISTS ] 表名;</code></pre><p>可选项 IF EXISTS 代表，只有表名存在时才会删除该表，表名不存在，则不执行删除操作(如果不 加该参数项，删除一张不存在的表，执行将会报错)。 案例: 如果tb_user表存在，则删除tb_user表</p>
+<pre><code>DROP TABLE IF EXISTS tb_user;</code></pre><p>2). 删除指定表, 并重新创建表</p>
+<pre><code>TRUNCATE TABLE 表名</code></pre><p>注意: 在删除表的时候，表中的全部数据也都会被删除。</p>
+<h2 id="2-4-图形化界面工具"><a href="#2-4-图形化界面工具" class="headerlink" title="2.4 图形化界面工具"></a>2.4 图形化界面工具</h2><p><img src="/mysql-01/image-20230318143403192.png" alt="image-20230318143403192"></p>
+<p>个人感觉DataGrip好用</p>
+<h2 id="2-5-DML"><a href="#2-5-DML" class="headerlink" title="2.5 DML"></a>2.5 DML</h2><p>DML英文全称是Data Manipulation Language(数据操作语言)，用来对数据库中表的数据记录进 行增、删、改操作。</p>
+<ul>
+<li>添加数据（INSERT）</li>
+<li>修改数据（UPDATE） </li>
+<li>删除数据（DELETE）</li>
+</ul>
+<h3 id="2-5-1-添加数据"><a href="#2-5-1-添加数据" class="headerlink" title="2.5.1 添加数据"></a>2.5.1 添加数据</h3><p> 1). 给指定字段添加数据</p>
+<pre><code>INSERT INTO 表名 (字段名1, 字段名2, ...) VALUES (值1, 值2, ...);</code></pre><p>给employee表所有的字段添加数据 ；</p>
+<pre><code>insert into employee(id,workno,name,gender,age,idcard,entrydate)
+values(1,&#39;1&#39;,&#39;Itcast&#39;,&#39;男&#39;,10,&#39;123456789012345678&#39;,&#39;2000-01-01&#39;);</code></pre><p>2). 给全部字段添加数据</p>
+<pre><code>INSERT INTO 表名 VALUES (值1, 值2, ...);</code></pre><p>插入数据到employee表，具体的SQL如下：</p>
+<pre><code>insert into employee values(2,&#39;2&#39;,&#39;张无忌&#39;,&#39;男&#39;,18,&#39;123456789012345670&#39;,&#39;2005-01-
+01&#39;);</code></pre><p>3). 批量添加数据</p>
+<pre><code>INSERT INTO 表名 (字段名1, 字段名2, ...) VALUES (值1, 值2, ...), (值1, 值2, ...), (值
+1, 值2, ...) ;</code></pre><pre><code>INSERT INTO 表名 VALUES (值1, 值2, ...), (值1, 值2, ...), (值1, 值2, ...) ;</code></pre><p>注意事项: </p>
+<ul>
+<li>插入数据时，指定的字段顺序需要与值的顺序是一一对应的。</li>
+<li>字符串和日期型数据应该包含在引号中。 </li>
+<li>插入的数据大小，应该在字段的规定范围内。</li>
+</ul>
+<h3 id="2-5-2-修改数据"><a href="#2-5-2-修改数据" class="headerlink" title="2.5.2 修改数据"></a>2.5.2 修改数据</h3><p>修改数据的具体语法为:</p>
+<pre><code>UPDATE 表名 SET 字段名1 = 值1 , 字段名2 = 值2 , .... [ WHERE 条件 ] ;</code></pre><p>案例:</p>
+<p>A. 修改id为1的数据，将name修改为nametest</p>
+<pre><code>update employee set name = &#39;nametest&#39; where id = 1;</code></pre><p>B. 修改id为1的数据, 将name修改为小昭, gender修改为 女</p>
+<pre><code>update employee set name = &#39;小昭&#39; , gender = &#39;女&#39; where id = 1;</code></pre><p>C. 将所有的员工入职日期修改为 2008-01-01</p>
+<pre><code> update employee set entrydate = &#39;2008-01-01&#39;;</code></pre><p>注意事项: 修改语句的条件可以有，也可以没有，如果没有条件，则会修改整张表的所有数据。</p>
+<h3 id="2-5-3-删除数据"><a href="#2-5-3-删除数据" class="headerlink" title="2.5.3 删除数据"></a>2.5.3 删除数据</h3><p>删除数据的具体语法为：</p>
+<pre><code> DELETE FROM 表名 [ WHERE 条件 ] ;</code></pre><p>案例: A. 删除gender为女的员工</p>
+<pre><code> delete from employee where gender = &#39;女&#39;;</code></pre><p>B. 删除所有员工</p>
+<pre><code>delete from employee</code></pre><p>注意事项:</p>
+<ul>
+<li>DELETE 语句的条件可以有，也可以没有，如果没有条件，则会删除整张表的所有数 据。</li>
+<li>DELETE 语句不能删除某一个字段的值(可以使用UPDATE，将该字段值置为NULL即 可)。 </li>
+<li>当进行删除全部数据操作时，datagrip会提示，询问是否确认删除，直接点击 Execute即可。</li>
+</ul>
+<h2 id="2-6-DQL"><a href="#2-6-DQL" class="headerlink" title="2.6 DQL"></a>2.6 DQL</h2><p>DQL英文全称是Data Query Language(数据查询语言)，数据查询语言，用来查询数据库中表的记 录。</p>
+<p>查询关键字: SELECT</p>
+<p>数据准备</p>
+<pre><code>drop table if exists employee;
+create table emp(
+id int comment &#39;编号&#39;,
+workno varchar(10) comment &#39;工号&#39;,
+name varchar(10) comment &#39;姓名&#39;,
+gender char(1) comment &#39;性别&#39;,
+age tinyint unsigned comment &#39;年龄&#39;,
+idcard char(18) comment &#39;身份证号&#39;,
+workaddress varchar(50) comment &#39;工作地址&#39;,
+entrydate date comment &#39;入职时间&#39;
+)comment &#39;员工表&#39;;
+INSERT INTO emp (id, workno, name, gender, age, idcard, workaddress, entrydate)
+VALUES (1, &#39;00001&#39;, &#39;柳岩666&#39;, &#39;女&#39;, 20, &#39;123456789012345678&#39;, &#39;北京&#39;, &#39;2000-01-
+01&#39;);
+INSERT INTO emp (id, workno, name, gender, age, idcard, workaddress, entrydate)
+VALUES (2, &#39;00002&#39;, &#39;张无忌&#39;, &#39;男&#39;, 18, &#39;123456789012345670&#39;, &#39;北京&#39;, &#39;2005-09-
+01&#39;)
+INSERT INTO emp (id, workno, name, gender, age, idcard, workaddress, entrydate)
+VALUES (3, &#39;00003&#39;, &#39;韦一笑&#39;, &#39;男&#39;, 38, &#39;123456789712345670&#39;, &#39;上海&#39;, &#39;2005-08-
+01&#39;);
+INSERT INTO emp (id, workno, name, gender, age, idcard, workaddress, entrydate)
+VALUES (4, &#39;00004&#39;, &#39;赵敏&#39;, &#39;女&#39;, 18, &#39;123456757123845670&#39;, &#39;北京&#39;, &#39;2009-12-01&#39;);
+INSERT INTO emp (id, workno, name, gender, age, idcard, workaddress, entrydate)
+VALUES (5, &#39;00005&#39;, &#39;小昭&#39;, &#39;女&#39;, 16, &#39;123456769012345678&#39;, &#39;上海&#39;, &#39;2007-07-01&#39;);
+INSERT INTO emp (id, workno, name, gender, age, idcard, workaddress, entrydate)
+VALUES (6, &#39;00006&#39;, &#39;杨逍&#39;, &#39;男&#39;, 28, &#39;12345678931234567X&#39;, &#39;北京&#39;, &#39;2006-01-01&#39;);
+INSERT INTO emp (id, workno, name, gender, age, idcard, workaddress, entrydate)
+VALUES (7, &#39;00007&#39;, &#39;范瑶&#39;, &#39;男&#39;, 40, &#39;123456789212345670&#39;, &#39;北京&#39;, &#39;2005-05-01&#39;);
+INSERT INTO emp (id, workno, name, gender, age, idcard, workaddress, entrydate)
+VALUES (8, &#39;00008&#39;, &#39;黛绮丝&#39;, &#39;女&#39;, 38, &#39;123456157123645670&#39;, &#39;天津&#39;, &#39;2015-05-
+01&#39;);
+INSERT INTO emp (id, workno, name, gender, age, idcard, workaddress, entrydate)
+VALUES (9, &#39;00009&#39;, &#39;范凉凉&#39;, &#39;女&#39;, 45, &#39;123156789012345678&#39;, &#39;北京&#39;, &#39;2010-04-
+01&#39;);
+INSERT INTO emp (id, workno, name, gender, age, idcard, workaddress, entrydate)
+VALUES (10, &#39;00010&#39;, &#39;陈友谅&#39;, &#39;男&#39;, 53, &#39;123456789012345670&#39;, &#39;上海&#39;, &#39;2011-01-
+01&#39;);
+INSERT INTO emp (id, workno, name, gender, age, idcard, workaddress, entrydate)
+VALUES (11, &#39;00011&#39;, &#39;张士诚&#39;, &#39;男&#39;, 55, &#39;123567897123465670&#39;, &#39;江苏&#39;, &#39;2015-05-
+01&#39;);
+INSERT INTO emp (id, workno, name, gender, age, idcard, workaddress, entrydate)
+VALUES (12, &#39;00012&#39;, &#39;常遇春&#39;, &#39;男&#39;, 32, &#39;123446757152345670&#39;, &#39;北京&#39;, &#39;2004-02-
+01&#39;);
+INSERT INTO emp (id, workno, name, gender, age, idcard, workaddress, entrydate)
+VALUES (13, &#39;00013&#39;, &#39;张三丰&#39;, &#39;男&#39;, 88, &#39;123656789012345678&#39;, &#39;江苏&#39;, &#39;2020-11-
+01&#39;);
+INSERT INTO emp (id, workno, name, gender, age, idcard, workaddress, entrydate)
+VALUES (14, &#39;00014&#39;, &#39;灭绝&#39;, &#39;女&#39;, 65, &#39;123456719012345670&#39;, &#39;西安&#39;, &#39;2019-05-
+01&#39;);
+INSERT INTO emp (id, workno, name, gender, age, idcard, workaddress, entrydate)
+VALUES (15, &#39;00015&#39;, &#39;胡青牛&#39;, &#39;男&#39;, 70, &#39;12345674971234567X&#39;, &#39;西安&#39;, &#39;2018-04-
+01&#39;);
+INSERT INTO emp (id, workno, name, gender, age, idcard, workaddress, entrydate)
+VALUES (16, &#39;00016&#39;, &#39;周芷若&#39;, &#39;女&#39;, 18, null, &#39;北京&#39;, &#39;2012-06-01&#39;);</code></pre><h3 id="2-6-1-基本语法"><a href="#2-6-1-基本语法" class="headerlink" title="2.6.1 基本语法"></a>2.6.1 基本语法</h3><p>DQL 查询语句，语法结构如下：</p>
+<pre><code>SELECT
+    字段列表
+FROM
+    表名列表
+WHERE
+    条件列表
+GROUP BY
+    分组字段列表
+HAVING
+    分组后条件列表
+ORDER BY
+    排序字段列表
+LIMIT
+    分页参数</code></pre><h3 id="2-6-2-基础查询"><a href="#2-6-2-基础查询" class="headerlink" title="2.6.2 基础查询"></a>2.6.2 基础查询</h3><p>1). 查询多个字段</p>
+<pre><code>SELECT 字段1, 字段2, 字段3 ... FROM 表名 ;</code></pre><pre><code>SELECT * FROM 表名 ；</code></pre><p>注意 : * 号代表查询所有字段，在实际开发中尽量少用（不直观、影响效率）。</p>
+<p>2). 字段设置别名</p>
+<pre><code> SELECT 字段1 [ AS 别名1 ] , 字段2 [ AS 别名2 ] ... FROM 表名;</code></pre><pre><code> SELECT 字段1 [ 别名1 ] , 字段2 [ 别名2 ] ... FROM 表名;</code></pre><p>3). 去除重复记录</p>
+<pre><code>SELECT DISTINCT 字段列表 FROM 表名;</code></pre><h3 id="2-6-3-条件查询"><a href="#2-6-3-条件查询" class="headerlink" title="2.6.3 条件查询"></a>2.6.3 条件查询</h3><p>1). 语法</p>
+<pre><code>SELECT 字段列表 FROM 表名 WHERE 条件列表 ;</code></pre><p>2). 条件</p>
+<table>
+<thead>
+<tr>
+<th align="left">操作符</th>
+<th align="left">描述</th>
+<th align="left">实例</th>
+</tr>
+</thead>
+<tbody><tr>
+<td align="left">=</td>
+<td align="left">等号，检测两个值是否相等，如果相等返回true</td>
+<td align="left">(A = B) 返回false。</td>
+</tr>
+<tr>
+<td align="left">&lt;&gt;, !=</td>
+<td align="left">不等于，检测两个值是否相等，如果不相等返回true</td>
+<td align="left">(A != B) 返回 true。</td>
+</tr>
+<tr>
+<td align="left">&gt;</td>
+<td align="left">大于号，检测左边的值是否大于右边的值, 如果左边的值大于右边的值返回true</td>
+<td align="left">(A &gt; B) 返回false。</td>
+</tr>
+<tr>
+<td align="left">&lt;</td>
+<td align="left">小于号，检测左边的值是否小于右边的值, 如果左边的值小于右边的值返回true</td>
+<td align="left">(A &lt; B) 返回 true。</td>
+</tr>
+<tr>
+<td align="left">&gt;=</td>
+<td align="left">大于等于号，检测左边的值是否大于或等于右边的值, 如果左边的值大于或等于右边的值返回true</td>
+<td align="left">(A &gt;= B) 返回false。</td>
+</tr>
+<tr>
+<td align="left">&lt;=</td>
+<td align="left">小于等于号，检测左边的值是否小于或等于右边的值, 如果左边的值小于或等于右边的值返回true</td>
+<td align="left">(A &lt;= B) 返回 true。</td>
+</tr>
+<tr>
+<td align="left">BETWEEN … AND …</td>
+<td align="left">在某个范围之内(含最小、最大值)</td>
+<td align="left">(between15 and 20) 返回15到20之间</td>
+</tr>
+<tr>
+<td align="left">IN(…)</td>
+<td align="left">在in之后的列表中的值，多选一</td>
+<td align="left">[in(18,80,40) ] 返回18，20，40</td>
+</tr>
+<tr>
+<td align="left">LIKE 占位符</td>
+<td align="left">模糊匹配(_匹配单个字符, %匹配任意个字符)</td>
+<td align="left"></td>
+</tr>
+<tr>
+<td align="left">IS NULL</td>
+<td align="left">是NULL</td>
+<td align="left"></td>
+</tr>
+</tbody></table>
+<h3 id="2-6-4-聚合函数"><a href="#2-6-4-聚合函数" class="headerlink" title="2.6.4 聚合函数"></a>2.6.4 聚合函数</h3><p>1). 介绍</p>
+<p>将一列数据作为一个整体，进行纵向计算 。</p>
+<p>2). 常见的聚合函数</p>
+<table>
+<thead>
+<tr>
+<th>函数</th>
+<th>功能</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>count</td>
+<td>统计数量</td>
+</tr>
+<tr>
+<td>max</td>
+<td>最大值</td>
+</tr>
+<tr>
+<td>min</td>
+<td>最小值</td>
+</tr>
+<tr>
+<td>avg</td>
+<td>平均值</td>
+</tr>
+<tr>
+<td>sum</td>
+<td>求和</td>
+</tr>
+</tbody></table>
+<p>3). 语法</p>
+<pre><code> SELECT 聚合函数(字段列表) FROM 表名 ;</code></pre><p>注意 : NULL值是不参与所有聚合函数运算的。</p>
+<p>案例：</p>
+<p>A. 统计该企业员工数量</p>
+<pre><code>select count(*) from emp; -- 统计的是总记录数
+select count(idcard) from emp; -- 统计的是idcard字段不为null的记录数</code></pre><p>对于count聚合函数，统计符合条件的总记录数，还可以通过 count(数字/字符串)的形式进行统计 查询，比如：</p>
+<pre><code> select count(1) from emp;</code></pre><h3 id="2-6-5-分组查询"><a href="#2-6-5-分组查询" class="headerlink" title="2.6.5 分组查询"></a>2.6.5 分组查询</h3><p>1). 语法</p>
+<pre><code>SELECT 字段列表 FROM 表名 [ WHERE 条件 ] GROUP BY 分组字段名 [ HAVING 分组
+后过滤条件 ];</code></pre><p>2). where与having区别 执行时机不同：</p>
+<ul>
+<li>where是分组之前进行过滤，不满足where条件，不参与分组；</li>
+<li>而having是分组 之后对结果进行过滤。 判断条件不同：where不能对聚合函数进行判断，而having可以。</li>
+</ul>
+<p>案例:</p>
+<p>A. 根据性别分组 , 统计男性员工 和 女性员工的数量</p>
+<pre><code>select gender, count(*) from emp group by gender ;</code></pre><p>B. 根据性别分组 , 统计男性员工 和 女性员工的平均年龄</p>
+<pre><code> select gender, avg(age) from emp group by gender ;</code></pre><p>C. 查询年龄小于45的员工 , 并根据工作地址分组 , 获取员工数量大于等于3的工作地址</p>
+<pre><code>select workaddress, count(*) address_count from emp where age &lt; 45 group by
+workaddress having address_count &gt;= 3;</code></pre><p>D. 统计各个工作地址上班的男性及女性员工的数量</p>
+<pre><code>select workaddress, gender, count(*) &#39;数量&#39; from emp group by gender , workaddress
+;</code></pre><h3 id="2-6-6-排序查询"><a href="#2-6-6-排序查询" class="headerlink" title="2.6.6 排序查询"></a>2.6.6 排序查询</h3><p>排序在日常开发中是非常常见的一个操作，有升序排序，也有降序排序</p>
+<p>1). 语法</p>
+<pre><code>SELECT 字段列表 FROM 表名 ORDER BY 字段1 排序方式1 , 字段2 排序方式2 ;
+</code></pre><p>2). 排序方式</p>
+<ul>
+<li>ASC : 升序(默认值) </li>
+<li>DESC: 降序</li>
+</ul>
+<p>注意事项：</p>
+<ul>
+<li>如果是升序, 可以不指定排序方式ASC ; </li>
+<li>如果是多字段排序，当第一个字段值相同时，才会根据第二个字段进行排序 ;</li>
+</ul>
+<h3 id="2-6-7-分页查询"><a href="#2-6-7-分页查询" class="headerlink" title="2.6.7 分页查询"></a>2.6.7 分页查询</h3><p>1). 语法</p>
+<pre><code>SELECT 字段列表 FROM 表名 LIMIT 起始索引, 查询记录数 ;</code></pre><p>注意事项: </p>
+<p>起始索引从0开始，起始索引 = （查询页码 - 1）* 每页显示记录数。 </p>
+<p>分页查询是数据库的方言，不同的数据库有不同的实现，MySQL中是LIMIT。 </p>
+<p>如果查询的是第一页数据，起始索引可以省略，直接简写为 limit 10。</p>
+<p>案例: </p>
+<p>A. 查询第1页员工数据, 每页展示10条记录</p>
+<pre><code>select * from emp limit 0,10;
+select * from emp limit 10;</code></pre><p>B. 查询第2页员工数据, 每页展示10条记录 ——–&gt; (页码-1)*页展示记录数</p>
+<pre><code> select * from emp limit 10,10;</code></pre><h3 id="2-6-9-执行顺序"><a href="#2-6-9-执行顺序" class="headerlink" title="2.6.9 执行顺序"></a>2.6.9 执行顺序</h3><p><img src="/mysql-01/image-20230318153026758.png" alt="image-20230318153026758"></p>
+<p>执行顺序为</p>
+<p>from … where … group by … having … select … order by … limit …</p>
+<h2 id="2-7-DCL"><a href="#2-7-DCL" class="headerlink" title="2.7 DCL"></a>2.7 DCL</h2><p>DCL英文全称是Data Control Language(数据控制语言)，用来管理数据库用户、控制数据库的访 问权限。</p>
+<h3 id="2-7-1-管理用户"><a href="#2-7-1-管理用户" class="headerlink" title="2.7.1 管理用户"></a>2.7.1 管理用户</h3><p>1). 查询用户</p>
+<pre><code>select * from mysql.user;</code></pre><p><img src="/mysql-01/image-20230318153333941.png" alt="image-20230318153333941"></p>
+<p>其中 Host代表当前用户访问的主机, 如果为localhost, 仅代表只能够在当前本机访问，是不可以 远程访问的。 User代表的是访问该数据库的用户名。在MySQL中需要通过Host和User来唯一标识一 个用户。</p>
+<p>2). 创建用户</p>
+<pre><code>CREATE USER &#39;用户名&#39;@&#39;主机名&#39; IDENTIFIED BY &#39;密码&#39;;</code></pre><p>3). 修改用户密码</p>
+<pre><code>ALTER USER &#39;用户名&#39;@&#39;主机名&#39; IDENTIFIED WITH mysql_native_password BY &#39;新密码&#39; ;</code></pre><p>4). 删除用户</p>
+<pre><code>DROP USER &#39;用户名&#39;@&#39;主机名&#39; ;</code></pre><p>注意事项:</p>
+<ul>
+<li>在MySQL中需要通过用户名@主机名的方式，来唯一标识一个用户。</li>
+<li>主机名可以使用 % 通配。 </li>
+</ul>
+<h3 id="2-7-2-权限控制"><a href="#2-7-2-权限控制" class="headerlink" title="2.7.2 权限控制"></a>2.7.2 权限控制</h3><p>Mysql中常用的的权限</p>
+<table>
+<thead>
+<tr>
+<th>权限</th>
+<th>说明</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>ALL, ALL PRIVILEGES</td>
+<td>所有权限</td>
+</tr>
+<tr>
+<td>SELECT</td>
+<td>查询数据</td>
+</tr>
+<tr>
+<td>INSERT</td>
+<td>插入数据</td>
+</tr>
+<tr>
+<td>UPDATE</td>
+<td>修改数据</td>
+</tr>
+<tr>
+<td>DELETE</td>
+<td>删除数据</td>
+</tr>
+<tr>
+<td>ALTER</td>
+<td>修改表</td>
+</tr>
+<tr>
+<td>DROP</td>
+<td>删除数据库/表/视图</td>
+</tr>
+<tr>
+<td>CREATE</td>
+<td>创建数据库/表</td>
+</tr>
+</tbody></table>
+<p><a href="https://dev.mysql.com/doc/refman/8.0/en/privileges-provided.html" target="_blank" rel="noopener">MySQL :: MySQL 8.0 Reference Manual :: 6.2.2 Privileges Provided by MySQL</a></p>
+<p>1). 查询权限</p>
+<pre><code> SHOW GRANTS FOR &#39;用户名&#39;@&#39;主机名&#39; ;</code></pre><p>2). 授予权限</p>
+<pre><code> GRANT 权限列表 ON 数据库名.表名 TO &#39;用户名&#39;@&#39;主机名&#39;;</code></pre><p>3). 撤销权限</p>
+<pre><code>REVOKE 权限列表 ON 数据库名.表名 FROM &#39;用户名&#39;@&#39;主机名&#39;;</code></pre><p>注意事项： • 多个权限之间，使用逗号分隔 • 授权时， 数据库名和表名可以使用 * 进行通配，代表所有。</p>
+<h1 id="3-函数"><a href="#3-函数" class="headerlink" title="3.函数"></a>3.函数</h1><p>函数 是指一段可以直接被另一段程序调用的程序或代码。 也就意味着，这一段程序或代码在MySQL中 已经给我们提供了，我们要做的就是在合适的业务场景调用对应的函数完成对应的业务需求即可</p>
+<p>MySQL中的函数主要分为以下四类： 字符串函数、数值函数、日期函数、流程函数。</p>
+<h2 id="3-1-字符串函数"><a href="#3-1-字符串函数" class="headerlink" title="3.1 字符串函数"></a>3.1 字符串函数</h2><table>
+<thead>
+<tr>
+<th>函数</th>
+<th>功能</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>CONCAT(S1,S2,…Sn)</td>
+<td>字符串拼接，将S1，S2，… Sn拼接成一个字符串</td>
+</tr>
+<tr>
+<td>LOWER(str)</td>
+<td>将字符串str全部转为小写</td>
+</tr>
+<tr>
+<td>UPPER(str)</td>
+<td>将字符串str全部转为大写</td>
+</tr>
+<tr>
+<td>LPAD(str,n,pad)</td>
+<td>左填充，用字符串pad对str的左边进行填充，达到n个字符 串长度</td>
+</tr>
+<tr>
+<td>RPAD(str,n,pad)</td>
+<td>右填充，用字符串pad对str的右边进行填充，达到n个字符 串长度</td>
+</tr>
+<tr>
+<td>TRIM(str)</td>
+<td>去掉字符串头部和尾部的空格</td>
+</tr>
+<tr>
+<td>SUBSTRING(str,start,len)</td>
+<td>返回从字符串str从start位置起的len个长度的字符串</td>
+</tr>
+</tbody></table>
+<p>lpad : 左填充</p>
+<pre><code>select lpad(&#39;01&#39;, 5, &#39;-&#39;);</code></pre><p>trim : 去除空格</p>
+<pre><code>select trim(&#39; Hello MySQL &#39;)</code></pre><p>substring : 截取子字符串</p>
+<pre><code> select substring(&#39;Hello MySQL&#39;,1,5);</code></pre><h2 id="3-2-数值函数"><a href="#3-2-数值函数" class="headerlink" title="3.2 数值函数"></a>3.2 数值函数</h2><table>
+<thead>
+<tr>
+<th>函数</th>
+<th>功能</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>CEIL(x)</td>
+<td>向上取整</td>
+</tr>
+<tr>
+<td>FLOOR(x)</td>
+<td>向下取整</td>
+</tr>
+<tr>
+<td>MOD(x,y)</td>
+<td>返回x/y的模</td>
+</tr>
+<tr>
+<td>RAND()</td>
+<td>返回0~1内的随机数</td>
+</tr>
+<tr>
+<td>ROUND(x,y)</td>
+<td>求参数x的四舍五入的值，保留y位小数</td>
+</tr>
+</tbody></table>
+<h2 id="3-3-日期函数"><a href="#3-3-日期函数" class="headerlink" title="3.3 日期函数"></a>3.3 日期函数</h2><table>
+<thead>
+<tr>
+<th>函数</th>
+<th>功能</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>CURDATE()</td>
+<td>返回当前日期</td>
+</tr>
+<tr>
+<td>CURTIME()</td>
+<td>返回当前时间</td>
+</tr>
+<tr>
+<td>NOW()</td>
+<td>返回当前日期和时间</td>
+</tr>
+<tr>
+<td>YEAR(date)</td>
+<td>获取指定date的年份</td>
+</tr>
+<tr>
+<td>MONTH(date)</td>
+<td>获取指定date的月份</td>
+</tr>
+<tr>
+<td>DAY(date)</td>
+<td>获取指定date的日期</td>
+</tr>
+<tr>
+<td>DATE_ADD(date, INTERVAL expr type)</td>
+<td>返回一个日期/时间值加上一个时间间隔expr后的 时间值</td>
+</tr>
+<tr>
+<td>DATEDIFF(date1,date2)</td>
+<td>返回起始时间date1 和 结束时间date2之间的天 数</td>
+</tr>
+</tbody></table>
+<h2 id="3-4-流程函数"><a href="#3-4-流程函数" class="headerlink" title="3.4 流程函数"></a>3.4 流程函数</h2><p>流程函数也是很常用的一类函数，可以在SQL语句中实现条件筛选，从而提高语句的效率。</p>
+<table>
+<thead>
+<tr>
+<th>函数</th>
+<th>功能</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>IF(value , t , f)</td>
+<td>如果value为true，则返回t，否则返回 f</td>
+</tr>
+<tr>
+<td>IFNULL(value1 , value2)</td>
+<td>如果value1不为空，返回value1，否则 返回value2</td>
+</tr>
+<tr>
+<td>CASE WHEN [ val1 ] THEN [res1] … ELSE [ default ] END</td>
+<td>如果val1为true，返回res1，… 否 则返回default默认值</td>
+</tr>
+<tr>
+<td>CASE [ expr ] WHEN [ val1 ] THEN [res1] … ELSE [ default ] END</td>
+<td>如果expr的值等于val1，返回 res1，… 否则返回default默认值</td>
+</tr>
+</tbody></table>
+<p>需求: 查询emp表的员工姓名和工作地址 (北京/上海 —-&gt; 一线城市 , 其他 —-&gt; 二线城市)</p>
+<pre><code>select
+name,
+( case workaddress when &#39;北京&#39; then &#39;一线城市&#39; when &#39;上海&#39; then &#39;一线城市&#39; else
+&#39;二线城市&#39; end ) as &#39;工作地址&#39;
+from emp;</code></pre><h1 id="4-约束"><a href="#4-约束" class="headerlink" title="4.约束"></a>4.约束</h1><p>概念：约束是作用于表中字段上的规则，用于限制存储在表中的数据。</p>
+<p> 目的：保证数据库中数据的正确、有效性和完整性。</p>
+<table>
+<thead>
+<tr>
+<th>约束</th>
+<th>描述</th>
+<th>关键字</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>非空约束</td>
+<td>限制该字段的数据不能为null</td>
+<td>NOT NULL</td>
+</tr>
+<tr>
+<td>唯一约束</td>
+<td>保证该字段的所有数据都是唯一、不重复的</td>
+<td>UNIQUE</td>
+</tr>
+<tr>
+<td>主键约束</td>
+<td>主键是一行数据的唯一标识，要求非空且唯一</td>
+<td>PRIMARY KEY</td>
+</tr>
+<tr>
+<td>默认约束</td>
+<td>保存数据时，如果未指定该字段的值，则采用默认值</td>
+<td>DEFAULT</td>
+</tr>
+<tr>
+<td>检查约束(8.0.16版本 之后)</td>
+<td>保证字段值满足某一个条件</td>
+<td>CHECK</td>
+</tr>
+<tr>
+<td>外键约束</td>
+<td>用来让两张表的数据之间建立连接，保证数据的一致 性和完整性</td>
+<td>FOREIGN KEY</td>
+</tr>
+</tbody></table>
+<p>注意：约束是作用于表中字段上的，可以在创建表/修改表的时候添加约束。</p>
+<h2 id="4-3-外键约束"><a href="#4-3-外键约束" class="headerlink" title="4.3 外键约束"></a>4.3 外键约束</h2><p>外键：用来让两张表的数据之间建立连接，从而保证数据的一致性和完整性。</p>
+<p><img src="/mysql-01/image-20230318161258249.png" alt="image-20230318161258249"></p>
+<p>左侧的emp表是员工表，里面存储员工的基本信息，包含员工的ID、姓名、年龄、职位、薪资、入职日 期、上级主管ID、部门ID，在员工的信息中存储的是部门的ID dept_id，而这个部门的ID是关联的 部门表dept的主键id，那emp表的dept_id就是外键,关联的是另一张表的主键。</p>
+<p>注意：目前上述两张表，只是在逻辑上存在这样一层关系；在数据库层面，并未建立外键关联， 所以是无法保证数据的一致性和完整性的。</p>
+<h3 id="4-3-2-语法"><a href="#4-3-2-语法" class="headerlink" title="4.3.2 语法"></a>4.3.2 语法</h3><p>1). 添加外键</p>
+<pre><code>CREATE TABLE 表名(
+    字段名 数据类型,
+    ...
+    [CONSTRAINT] [外键名称] FOREIGN KEY (外键字段名) REFERENCES 主表 (主表列名)
+);</code></pre><pre><code>ALTER TABLE 表名 ADD CONSTRAINT 外键名称 FOREIGN KEY (外键字段名)
+REFERENCES 主表 (主表列名) ;</code></pre><p>为emp表的dept_id字段添加外键约束,关联dept表的主键id。</p>
+<pre><code>alter table emp add constraint fk_emp_dept_id foreign key (dept_id) references
+dept(id);</code></pre><p><img src="/mysql-01/image-20230318161641788.png" alt="image-20230318161641788"></p>
+<p>添加了外键约束之后，到dept表(父表)删除id为1的记录。 此时 将会报错，不能删除或更新父表记录，因为存在外键约束。</p>
+<p>2). 删除外键</p>
+<pre><code>ALTER TABLE 表名 DROP FOREIGN KEY 外键名称;</code></pre><p>案例： 删除emp表的外键fk_emp_dept_id。</p>
+<pre><code>alter table emp drop foreign key fk_emp_dept_id;</code></pre><h3 id="4-3-3-删除-更新行为"><a href="#4-3-3-删除-更新行为" class="headerlink" title="4.3.3 删除/更新行为"></a>4.3.3 删除/更新行为</h3><p>添加了外键之后，再删除父表数据时产生的约束行为，称为删除/更新行为。具体的删除/更新行 为有以下几种</p>
+<table>
+<thead>
+<tr>
+<th>行为</th>
+<th>说明</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>NO ACTION</td>
+<td>当在父表中删除/更新对应记录时，首先检查该记录是否有对应外键，如果有则不 允许删除/更新。 (与 RESTRICT 一致) 默认行为</td>
+</tr>
+<tr>
+<td>RESTRICT</td>
+<td>当在父表中删除/更新对应记录时，首先检查该记录是否有对应外键，如果有则不 允许删除/更新。 (与 NO ACTION 一致) 默认行为</td>
+</tr>
+<tr>
+<td>CASCADE</td>
+<td>当在父表中删除/更新对应记录时，首先检查该记录是否有对应外键，如果有，则 也删除/更新外键在子表中的记录。</td>
+</tr>
+<tr>
+<td>SET NULL</td>
+<td>当在父表中删除对应记录时，首先检查该记录是否有对应外键，如果有则设置子表 中该外键值为null（这就要求该外键允许取null）。</td>
+</tr>
+<tr>
+<td>SET DEFAULT</td>
+<td>父表有变更时，子表将外键列设置成一个默认的值 (Innodb不支持)</td>
+</tr>
+</tbody></table>
+<p>具体语法为:</p>
+<pre><code>ALTER TABLE 表名 ADD CONSTRAINT 外键名称 FOREIGN KEY (外键字段) REFERENCES
+主表名 (主表字段名) ON UPDATE CASCADE ON DELETE CASCADE;</code></pre><p>演示如下：</p>
+<p>1). CASCADE</p>
+<pre><code>alter table emp add constraint fk_emp_dept_id foreign key (dept_id) references
+dept(id) on update cascade on delete cascade ;
+</code></pre><p>A. 修改父表id为1的记录，将id修改为6</p>
+<p><img src="/mysql-01/image-20230318162417947.png" alt="image-20230318162417947"></p>
+<p>原来在子表中dept_id值为1的记录，现在也变为6了，这就是cascade级联的效果。</p>
+<p>在一般的业务系统中，不会修改一张表的主键值。</p>
+<p>B. 删除父表id为6的记录</p>
+<p><img src="/mysql-01/image-20230318162446703.png" alt="image-20230318162446703"></p>
+<p>父表的数据删除成功了，但是子表中关联的记录也被级联删除了。</p>
+<p>2). SET NULL</p>
+<pre><code>alter table emp add constraint fk_emp_dept_id foreign key (dept_id) references
+dept(id) on update set null on delete set null ;
+</code></pre><p><img src="/mysql-01/image-20230318162633853.png" alt="image-20230318162633853"></p>
+<p>父表的记录是可以正常的删除的，父表的数据删除之后，再打开子表 emp，发现子表emp 的dept_id字段，原来dept_id为1的数据，现在都被置为NULL了。</p>
+<p><img src="/mysql-01/image-20230318162649038.png" alt="image-20230318162649038"></p>
+<h1 id="5-多表查询"><a href="#5-多表查询" class="headerlink" title="5.多表查询"></a>5.多表查询</h1><h2 id="5-1-多表关系"><a href="#5-1-多表关系" class="headerlink" title="5.1 多表关系"></a>5.1 多表关系</h2><p>项目开发中，在进行数据库表结构设计时，会根据业务需求及业务模块之间的关系，分析并设计表结 构，由于业务之间相互关联，所以各个表结构之间也存在着各种联系，基本上分为三种：</p>
+<ul>
+<li>一对多(多对一)</li>
+<li>多对多</li>
+<li>一对一</li>
+</ul>
+<h3 id="5-1-1-一对多"><a href="#5-1-1-一对多" class="headerlink" title="5.1.1 一对多"></a>5.1.1 一对多</h3><ul>
+<li>案例: 部门 与 员工的关系</li>
+<li>关系: 一个部门对应多个员工，一个员工对应一个部门 </li>
+<li>实现: 在多的一方建立外键，指向一的一方的主键</li>
+</ul>
+<p><img src="/mysql-01/image-20230318163215620.png" alt="image-20230318163215620"></p>
+<h3 id="5-1-2-多对多"><a href="#5-1-2-多对多" class="headerlink" title="5.1.2 多对多"></a>5.1.2 多对多</h3><ul>
+<li>案例: 学生 与 课程的关系 </li>
+<li>关系: 一个学生可以选修多门课程，一门课程也可以供多个学生选择 </li>
+<li>实现: 建立第三张中间表，中间表至少包含两个外键，分别关联两方主键</li>
+</ul>
+<p><img src="/mysql-01/image-20230318163305957.png" alt="image-20230318163305957"></p>
+<p>约束语句：</p>
+<pre><code>constraint fk_courseid foreign key (courseid) references course (id),
+constraint fk_studentid foreign key (studentid) references student (id)
+</code></pre><h3 id="5-1-3-一对一"><a href="#5-1-3-一对一" class="headerlink" title="5.1.3 一对一"></a>5.1.3 一对一</h3><p>案例: 用户 与 用户详情的关系 关系:</p>
+<p> 一对一关系，多用于单表拆分，将一张表的基础字段放在一张表中，其他详情字段放在另 一张表中，以提升操作效率 </p>
+<p>实现: 在任意一方加入外键，关联另外一方的主键，并且设置外键为唯一的(UNIQUE)</p>
+<p><img src="/mysql-01/image-20230318163537120.png" alt="image-20230318163537120"></p>
+<h2 id="5-2-多表查询"><a href="#5-2-多表查询" class="headerlink" title="5.2 多表查询"></a>5.2 多表查询</h2><h3 id="5-2-2-概述"><a href="#5-2-2-概述" class="headerlink" title="5.2.2 概述"></a>5.2.2 概述</h3><p>多表查询就是指从多张表中查询数据。</p>
+<p>原来查询单表数据，执行的SQL形式为：select * from emp;</p>
+<p>那么我们要执行多表查询，就只需要使用逗号分隔多张表即可，如： select * from emp , dept ; 具体的执行结果如下:</p>
+<p><img src="/mysql-01/image-20230318163656019.png" alt="image-20230318163656019"></p>
+<p>此时,查询结果中包含了大量的结果集，总共102条记录，而这其实就是员工表emp所有的记录 (17) 与 部门表dept所有记录(6) 的所有组合情况，这种现象称之为笛卡尔积。</p>
+<p>笛卡尔积: 笛卡尔乘积是指在数学中，两个集合A集合 和 B集合的所有组合情况。</p>
+<p><img src="/mysql-01/image-20230318163727372.png" alt="image-20230318163727372"></p>
+<p>而在多表查询中，是需要消除无效的笛卡尔积的，只保留两张表关联部分的数据。</p>
+<p><img src="/mysql-01/image-20230318163744086.png" alt="image-20230318163744086"></p>
+<p>给多表查询加上连接查询的条件，消除笛卡尔集。</p>
+<pre><code>select * from emp , dept where emp.dept_id = dept.id;
+</code></pre><p><img src="/mysql-01/image-20230318163821696.png" alt="image-20230318163821696"></p>
+<p>而由于id为17的员工，没有dept_id字段值，所以在多表查询时，根据连接查询的条件并没有查询 到。</p>
+<h3 id="5-2-3-分类"><a href="#5-2-3-分类" class="headerlink" title="5.2.3 分类"></a>5.2.3 分类</h3><p>连接查询 </p>
+<p>​    内连接：相当于查询A、B交集部分数据     </p>
+<p>​    外连接：     </p>
+<p>​        左外连接：查询左表所有数据，以及两张表交集部分数据     </p>
+<p>​        右外连接：查询右表所有数据，以及两张表交集部分数据     </p>
+<p>​    自连接：当前表与自身的连接查询，自连接必须使用表别名</p>
+<ul>
+<li>子查询</li>
+</ul>
+<p><img src="/mysql-01/image-20230318164141106.png" alt="image-20230318164141106"></p>
+<h2 id="5-3-内连接"><a href="#5-3-内连接" class="headerlink" title="5.3 内连接"></a>5.3 内连接</h2><p><img src="/mysql-01/image-20230318164353496.png" alt="image-20230318164353496"></p>
+<p>内连接查询的是两张表交集部分的数 据。(也就是绿色部分的数据) 内连接的语法分为两种: 隐式内连接、显式内连接。</p>
+<p>1). 隐式内连接</p>
+<pre><code>SELECT 字段列表 FROM 表1 , 表2 WHERE 条件 ... ;</code></pre><p>2). 显式内连接</p>
+<pre><code>SELECT 字段列表 FROM 表1 [ INNER ] JOIN 表2 ON 连接条件 ... ;</code></pre><p>案例: </p>
+<p>A. 查询每一个员工的姓名 , 及关联的部门的名称 (隐式内连接实现) </p>
+<p>表结构: emp , dept </p>
+<p>连接条件: emp.dept_id = dept.id</p>
+<pre><code>select emp.name , dept.name from emp , dept where emp.dept_id = dept.id ;
+-- 为每一张表起别名,简化SQL编写
+select e.name,d.name from emp e , dept d where e.dept_id = d.id;</code></pre><p>B. 查询每一个员工的姓名 , 及关联的部门的名称 (显式内连接实现) — INNER JOIN … ON …</p>
+<p>​    表结构: emp , dept </p>
+<p>​    连接条件: emp.dept_id = dept.id</p>
+<pre><code>select e.name, d.name from emp e inner join dept d on e.dept_id = d.id;
+-- 为每一张表起别名,简化SQL编写
+select e.name, d.name from emp e join dept d on e.dept_id = d.id;</code></pre><p>注意事项:一旦为表起了别名，就不能再使用表名来指定对应的字段了，此时只能够使用别名来指定字 段。</p>
+<h2 id="5-4-外连接"><a href="#5-4-外连接" class="headerlink" title="5.4 外连接"></a>5.4 外连接</h2><p><img src="/mysql-01/image-20230318165025944.png" alt="image-20230318165025944"></p>
+<p>外连接分为两种，分别是：左外连接 和 右外连接。具体的语法结构为：</p>
+<p>1). 左外连接</p>
+<pre><code>SELECT 字段列表 FROM 表1 LEFT [ OUTER ] JOIN 表2 ON 条件 ... ;</code></pre><p>左外连接相当于查询表1(左表)的所有数据，当然也包含表1和表2交集部分的数据。</p>
+<p>2). 右外连接</p>
+<pre><code>SELECT 字段列表 FROM 表1 RIGHT [ OUTER ] JOIN 表2 ON 条件 ... ;</code></pre><p>右外连接相当于查询表2(右表)的所有数据，当然也包含表1和表2交集部分的数据。</p>
+<p>案例:</p>
+<p>A.     查询emp表的所有数据, 和对应的部门信息 </p>
+<p>​        由于需求中提到，要查询emp的所有数据，所以是不能内连接查询的，需要考虑使用外连接查询。         表结构: emp, dept 连接条件: emp.dept_id = dept.id</p>
+<p>​        连接条件: emp.dept_id = dept.id</p>
+<pre><code>select e.*, d.name from emp e left outer join dept d on e.dept_id = d.id;
+select e.*, d.name from emp e left join dept d on e.dept_id = d.id;</code></pre><p>​    B. 查询dept表的所有数据, 和对应的员工信息(右外连接)</p>
+<p>由于需求中提到，要查询dept表的所有数据，所以是不能内连接查询的，需要考虑使用外连接查 询。 </p>
+<p>​    表结构: emp, dept </p>
+<p>​    连接条件: emp.dept_id = dept.id</p>
+<pre><code>select d.*, e.* from emp e right outer join dept d on e.dept_id = d.id;
+select d.*, e.* from dept d left outer join emp e on e.dept_id = d.id;</code></pre><p>注意事项： 左外连接和右外连接是可以相互替换的，只需要调整在连接查询时SQL中，表结构的先后顺 序就可以了。日常开发使用时，更偏向于左外连接。</p>
+<h2 id="5-5-自连接"><a href="#5-5-自连接" class="headerlink" title="5.5 自连接"></a>5.5 自连接</h2><h3 id="5-5-1-自连接查询"><a href="#5-5-1-自连接查询" class="headerlink" title="5.5.1 自连接查询"></a>5.5.1 自连接查询</h3><p>自连接查询，顾名思义，就是自己连接自己，也就是把一张表连接查询多次。</p>
+<pre><code>SELECT 字段列表 FROM 表A 别名A JOIN 表A 别名B ON 条件 ... ;</code></pre><p>而对于自连接查询，可以是内连接查询，也可以是外连接查询。</p>
+<p>案例： </p>
+<p>A. 查询员工 及其 所属领导的名字 </p>
+<p>表结构: emp</p>
+<pre><code>select a.name , b.name from emp a , emp b where a.managerid = b.id;</code></pre><p>B. 查询所有员工 emp 及其领导的名字 emp , 如果员工没有领导, 也需要查询出来 </p>
+<p>表结构: emp a , emp b</p>
+<p>注意事项: 在自连接查询中，必须要为表起别名，要不然不清楚所指定的条件、返回的字段，到底 是哪一张表的字段</p>
+<h3 id="5-5-2-联合查询"><a href="#5-5-2-联合查询" class="headerlink" title="5.5.2 联合查询"></a>5.5.2 联合查询</h3><p>对于union查询，就是把多次查询的结果合并起来，形成一个新的查询结果集。</p>
+<pre><code>SELECT 字段列表 FROM 表A ...
+UNION [ ALL ]
+SELECT 字段列表 FROM 表B ....;</code></pre><ul>
+<li>对于联合查询的多张表的列数必须保持一致，字段类型也需要保持一致。</li>
+<li>union all 会将全部的数据直接合并在一起，union 会对合并之后的数据去重。</li>
+</ul>
+<p>案例: A. 将薪资低于 5000 的员工 , 和 年龄大于 50 岁的员工全部查询出来. </p>
+<p>当前对于这个需求，可以直接使用多条件查询，使用逻辑运算符 or 连接即可。 也可以通过union/union all来联合查询.</p>
+<p><img src="/mysql-01/image-20230318171722519.png" alt="image-20230318171722519"></p>
+<p>union all查询出来的结果，仅仅进行简单的合并，并未去重</p>
+<pre><code>select * from emp where salary &lt; 5000
+union
+select * from emp where age &gt; 50;</code></pre><p><img src="/mysql-01/image-20230318171749423.png" alt="image-20230318171749423"></p>
+<p>union 联合查询，会对查询出来的结果进行去重处理。</p>
+<p>注意： 如果多条查询语句查询出来的结果，字段数量不一致，在进行union/union all联合查询时，将会报错。如：</p>
+<p><img src="/mysql-01/image-20230318171808521.png" alt="image-20230318171808521"></p>
+<h2 id="5-6-子查询"><a href="#5-6-子查询" class="headerlink" title="5.6 子查询"></a>5.6 子查询</h2><h3 id="5-6-1-概述"><a href="#5-6-1-概述" class="headerlink" title="5.6.1 概述"></a>5.6.1 概述</h3><p>1). 概念</p>
+<p>SQL语句中嵌套SELECT语句，称为嵌套查询，又称子查询。</p>
+<pre><code>SELECT * FROM t1 WHERE column1 = ( SELECT column1 FROM t2 );
+</code></pre><p>子查询外部的语句可以是INSERT / UPDATE / DELETE / SELECT 的任何一个。</p>
+<p>2). 分类</p>
+
             </div>
             <hr />
 
@@ -1304,7 +1941,7 @@ createtime datetime</code></pre><p>2.3.2.3 表操作-案例 设计一张员工�
             <br/>
             <span xmlns:dct="http://purl.org/dc/terms/" href="http://purl.org/dc/dcmitype/Text"
                   property="dct:title" rel="dct:type">
-                    《Mysql-01》
+                    《》
                 </span> 由
             <a xmlns:cc="http://creativecommons.org/ns#" href="/mysql-01.html" property="cc:attributionName"
                rel="cc:attributionURL">
@@ -1640,15 +2277,15 @@ createtime datetime</code></pre><p>2.3.2.3 表操作-案例 设计一张员工�
                     <div class="card-image">
                         
                         
-                        <img src="/medias/featureimages/10.jpg" class="responsive-img" alt="Mysql-01">
+                        <img src="/medias/featureimages/6.jpg" class="responsive-img" alt="">
                         
-                        <span class="card-title">Mysql-01</span>
+                        <span class="card-title"></span>
                     </div>
                 </a>
                 <div class="card-content article-content">
                     <div class="summary block-with-text">
                         
-                            这是学习Mysql的记录 上篇
+                            title: Mysql-01top: falsecover: falsetoc: truemathjax: truedate: 2023-03-18 14:23:15password:summary: 这是学习Mysql的记录 上篇tag
                         
                     </div>
                     <div class="publish-info">
@@ -1657,25 +2294,10 @@ createtime datetime</code></pre><p>2.3.2.3 表操作-案例 设计一张员工�
                             </span>
                         <span class="publish-author">
                             
-                            <i class="fa fa-bookmark fa-fw icon-category"></i>
-                            
-                            <a href="/categories/DataBase/" class="post-category" target="_blank">
-                                    DataBase
-                                </a>
-                            
-                            
                         </span>
                     </div>
                 </div>
 
-                
-                <div class="card-action article-tags">
-                    
-                    <a href="/tags/Mysql/" target="_blank">
-                        <span class="chip bg-color">Mysql</span>
-                    </a>
-                    
-                </div>
                 
             </div>
         </div>
@@ -1690,15 +2312,15 @@ createtime datetime</code></pre><p>2.3.2.3 表操作-案例 设计一张员工�
                     <div class="card-image">
                         
                         
-                        <img src="/medias/featureimages/10.jpg" class="responsive-img" alt="Mysql-01">
+                        <img src="/medias/featureimages/6.jpg" class="responsive-img" alt="">
                         
-                        <span class="card-title">Mysql-01</span>
+                        <span class="card-title"></span>
                     </div>
                 </a>
                 <div class="card-content article-content">
                     <div class="summary block-with-text">
                         
-                            这是学习Mysql的记录 上篇
+                            title: Mysql-01top: falsecover: falsetoc: truemathjax: truedate: 2023-03-18 14:23:15password:summary: 这是学习Mysql的记录 上篇tag
                         
                     </div>
                     <div class="publish-info">
@@ -1707,25 +2329,10 @@ createtime datetime</code></pre><p>2.3.2.3 表操作-案例 设计一张员工�
                             </span>
                         <span class="publish-author">
                             
-                            <i class="fa fa-bookmark fa-fw icon-category"></i>
-                            
-                            <a href="/categories/DataBase/" class="post-category" target="_blank">
-                                    DataBase
-                                </a>
-                            
-                            
                         </span>
                     </div>
                 </div>
 
-                
-                <div class="card-action article-tags">
-                    
-                    <a href="/tags/Mysql/" target="_blank">
-                        <span class="chip bg-color">Mysql</span>
-                    </a>
-                    
-                </div>
                 
             </div>
         </div>
@@ -1870,25 +2477,6 @@ createtime datetime</code></pre><p>2.3.2.3 表操作-案例 设计一张员工�
 </main>
 
 
-<script src="https://cdn.bootcss.com/mathjax/2.7.5/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
-<script>
-    MathJax.Hub.Config({
-        tex2jax: {inlineMath: [['$', '$'], ['\(', '\)']]}
-    });
-</script>
-
-<script type="text/javascript" src="/libs/codeBlock/codeBlockFuction.js"></script>
-<!-- 代码语言 -->
-<script type="text/javascript" src="/libs/codeBlock/codeLang.js"></script>
-<!-- 代码块复制 -->
-<script type="text/javascript" src="/libs/codeBlock/codeCopy.js"></script>
-<script type="text/javascript" src="/libs/codeBlock/clipboard.min.js"></script>
-<!-- 代码块收缩 -->
-<script type="text/javascript" src="/libs/codeBlock/codeShrink.js"></script> 
-<!-- 代码块折行 -->
-<style type="text/css">code[class*="language-"], pre[class*="language-"] { white-space: pre !important; }</style>
-
-
     <footer class="page-footer bg-color">
     <div class="container row center-align">
        <div class="Copy-right">
@@ -1898,7 +2486,7 @@ createtime datetime</code></pre><p>2.3.2.3 表操作-案例 设计一张员工�
            <!--<a href="/sitemap.xml" target="_blank">站点地图</a>丨-->
            
             &nbsp;<i class="fa fa-area-chart"></i>&nbsp;站点总字数:&nbsp;
-            <span class="white-color">2.5k
+            <span class="white-color">9.5k
              丨            
           
 
@@ -1992,7 +2580,7 @@ createtime datetime</code></pre><p>2.3.2.3 表操作-案例 设计一张员工�
       <span class="badge-subject">PV</span><span class="badge-value bg-brightgreen" id="busuanzi_value_site_pv"></span>
     </div>
     <div class="github-badge">
-      <span class="badge-subject">WordCount</span><span class="badge-value bg-blueviolet">2.5k</span>
+      <span class="badge-subject">WordCount</span><span class="badge-value bg-blueviolet">9.5k</span>
     </div>
 </footer>
 
