@@ -1,0 +1,2385 @@
+<!DOCTYPE HTML>
+<html lang="zh-CN">
+
+
+<head><meta name="generator" content="Hexo 3.9.0">
+    <meta charset="utf-8">
+    <meta name="keywords" content="Mysql-02, 记录">
+    <meta name="baidu-site-verification" content="fmlEuI34ir">
+    <meta name="google-site-verification" content="yCy2azpds5XSuGZvis6OuA-XIGF5GuGpYRAaGfD6o48">
+    <meta name="360-site-verification" content="b7c11a830ef90fd1464ad6206bb7b6e7">
+    <meta name="description" content="1.存储引擎1.1 MySQL体系结构
+1). 连接层
+最上层是一些客户端和链接服务，包含本地sock 通信和大多数基于客户端/服务端工具实现的类似于 TCP/IP的通信。主要完成一些类似于连接处理、授权认证、及相关的安全方案。在该层上引入">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no">
+    <meta name="renderer" content="webkit|ie-stand|ie-comp">
+    <meta name="mobile-web-app-capable" content="yes">
+    <meta name="format-detection" content="telephone=no">
+    <meta name="apple-mobile-web-app-capable" content="yes">
+    <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+    <title>Mysql-02 | Ji`s Blog</title>
+    <link rel="icon" type="image/png" href="/favicon.png">
+
+    <link rel="stylesheet" type="text/css" href="/libs/awesome/css/font-awesome.min.css">
+    <link rel="stylesheet" type="text/css" href="/libs/materialize/materialize.min.css">
+    <link rel="stylesheet" type="text/css" href="/libs/aos/aos.css">
+    <link rel="stylesheet" type="text/css" href="/libs/animate/animate.min.css">
+    <link rel="stylesheet" type="text/css" href="/libs/lightGallery/css/lightgallery.min.css">
+    <link rel="stylesheet" type="text/css" href="/css/matery.css">
+    <link rel="stylesheet" type="text/css" href="/css/my.css">
+    <style type="text/css">
+        
+    </style>
+
+    <script src="/libs/jquery/jquery-2.2.0.min.js"></script>
+    <script src="https://sdk.jinrishici.com/v2/browser/jinrishici.js" charset="utf-8"></script>
+
+    <script>
+    var _hmt = _hmt || [];
+    (function() {
+    var hm = document.createElement("script");
+    hm.src = "https://hm.baidu.com/hm.js?4d1d73af45a62734730491a6b6c41da4";
+    var s = document.getElementsByTagName("script")[0]; 
+    s.parentNode.insertBefore(hm, s);
+    })();
+   </script>
+
+
+    <script>(function (i, s, o, g, r, a, m) {
+        i['DaoVoiceObject'] = r;
+        i[r] = i[r] ||
+          function () {
+            (i[r].q = i[r].q || []).push(arguments);
+          };
+        i[r].l = 1 * new Date();
+        a = s.createElement(o);
+        m = s.getElementsByTagName(o)[0];
+        a.async = 1;
+        a.src = g;
+        a.charset = 'utf-8';
+        m.parentNode.insertBefore(a, m);
+      })(window, document, 'script', ('https:' === document.location.protocol ? 'https:' : 'http:') + "//widget.daovoice.io/widget/xxx.js", 'daovoice');
+      daovoice('init', {
+        app_id: "xxx",
+      });
+      daovoice('update');
+    </script>
+  
+  
+
+
+    
+        <script>
+            (function(){
+                var bp = document.createElement('script');
+                var curProtocol = window.location.protocol.split(':')[0];
+                if (curProtocol === 'https') {
+                    bp.src = 'https://zz.bdstatic.com/linksubmit/push.js';        
+                }
+                else {
+                    bp.src = 'http://push.zhanzhang.baidu.com/push.js';
+                }
+                var s = document.getElementsByTagName("script")[0];
+                s.parentNode.insertBefore(bp, s);
+            })();
+        </script>
+    
+
+    <script>
+        (function(){
+        var src = "https://jspassport.ssl.qhimg.com/11.0.1.js?d182b3f28525f2db83acfaaf6e696dba";
+        document.write('<script src="' + src + '" id="sozz"><\/script>');
+        })();
+    </script>
+
+    <meta name="baidu-site-verification" content>
+
+
+
+
+<style type="text/css" lang="css">
+    #loading-container{
+        position: fixed;
+        top: 0;
+        left: 0;
+        min-height: 100vh;
+        width: 100vw;
+        z-index: 9999;
+        display: flex;
+        flex-direction: column;
+        justify-content: center;
+        align-items: center;
+        background: #FFF;
+        text-align: center;
+        /* loaderҳ����ʧ���ý����ķ�ʽ*/
+        -webkit-transition: opacity 1s ease;
+        -moz-transition: opacity 1s ease;
+        -o-transition: opacity 1s ease;
+        transition: opacity 1s ease;
+    }
+    .loading-image{
+        width: 120px;
+        height: 50px;
+        transform: translate(-50%);
+    }
+
+    .loading-image div:nth-child(2) {
+        -webkit-animation: pacman-balls 1s linear 0s infinite;
+        animation: pacman-balls 1s linear 0s infinite
+    }
+
+    .loading-image div:nth-child(3) {
+        -webkit-animation: pacman-balls 1s linear .33s infinite;
+        animation: pacman-balls 1s linear .33s infinite
+    }
+
+    .loading-image div:nth-child(4) {
+        -webkit-animation: pacman-balls 1s linear .66s infinite;
+        animation: pacman-balls 1s linear .66s infinite
+    }
+
+    .loading-image div:nth-child(5) {
+        -webkit-animation: pacman-balls 1s linear .99s infinite;
+        animation: pacman-balls 1s linear .99s infinite
+    }
+
+   .loading-image div:first-of-type {
+        width: 0;
+        height: 0;
+        border: 25px solid #49b1f5;
+        border-right-color: transparent;
+        border-radius: 25px;
+        -webkit-animation: rotate_pacman_half_up .5s 0s infinite;
+        animation: rotate_pacman_half_up .5s 0s infinite;
+    }
+    .loading-image div:nth-child(2) {
+        width: 0;
+        height: 0;
+        border: 25px solid #49b1f5;
+        border-right-color: transparent;
+        border-radius: 25px;
+        -webkit-animation: rotate_pacman_half_down .5s 0s infinite;
+        animation: rotate_pacman_half_down .5s 0s infinite;
+        margin-top: -50px;
+    }
+    @-webkit-keyframes rotate_pacman_half_up {0% {transform: rotate(270deg)}50% {transform: rotate(1turn)}to {transform: rotate(270deg)}}
+
+    @keyframes rotate_pacman_half_up {0% {transform: rotate(270deg)}50% {transform: rotate(1turn)}to {transform: rotate(270deg)}}
+
+    @-webkit-keyframes rotate_pacman_half_down {0% {transform: rotate(90deg)}50% {transform: rotate(0deg)}to {transform: rotate(90deg)}}
+
+    @keyframes rotate_pacman_half_down {0% {transform: rotate(90deg)}50% {transform: rotate(0deg)}to {transform: rotate(90deg)}}
+
+    @-webkit-keyframes pacman-balls {75% {opacity: .7}to {transform: translate(-100px, -6.25px)}}
+
+    @keyframes pacman-balls {75% {opacity: .7}to {transform: translate(-100px, -6.25px)}}
+
+
+    .loading-image div:nth-child(3),
+    .loading-image div:nth-child(4),
+    .loading-image div:nth-child(5),
+    .loading-image div:nth-child(6){
+        background-color: #49b1f5;
+        width: 15px;
+        height: 15px;
+        border-radius: 100%;
+        margin: 2px;
+        width: 10px;
+        height: 10px;
+        position: absolute;
+        transform: translateY(-6.25px);
+        top: 25px;
+        left: 100px;
+    }
+    .loading-text{
+        margin-bottom: 20vh;
+        text-align: center;
+        color: #2c3e50;
+        font-size: 2rem;
+        box-sizing: border-box;
+        padding: 0 10px;
+        text-shadow: 0 2px 10px rgba(0,0,0,0.2);
+    }
+    @media only screen and (max-width: 500px) {
+         .loading-text{
+            font-size: 1.5rem;
+         }
+    }
+    .fadeout {
+        opacity: 0;
+        filter: alpha(opacity=0);
+    }
+    /* logo���ֶ��� */
+    @-webkit-keyframes fadeInDown{0%{opacity:0;-webkit-transform:translate3d(0,-100%,0);transform:translate3d(0,-100%,0)}100%{opacity:1;-webkit-transform:none;transform:none}}
+    @keyframes fadeInDown{0%{opacity:0;-webkit-transform:translate3d(0,-100%,0);}}
+ </style>
+ <script>
+(function () {
+    const loaded = function(){
+       setTimeout(function(){
+            const loader = document.getElementById("loading-container");
+            loader.className="fadeout" ;//ʹ�ý����ķ�������loading page
+            // document.getElementById("body-wrap").style.display="flex";
+            setTimeout(function(){
+                loader.style.display="none";
+            },1000); 
+        },1000);//ǿ����ʾloading page 1s  
+    };
+    loaded();
+})()
+ </script><link rel="stylesheet" href="/css/prism-tomorrow.css" type="text/css">
+<link rel="stylesheet" href="/css/prism-line-numbers.css" type="text/css"><style type="text/css" lang="css">
+    #loading-container{
+        position: fixed;
+        top: 0;
+        left: 0;
+        min-height: 100vh;
+        width: 100vw;
+        z-index: 9999;
+        display: flex;
+        flex-direction: column;
+        justify-content: center;
+        align-items: center;
+        background: #FFF;
+        text-align: center;
+        /* loaderҳ����ʧ���ý����ķ�ʽ*/
+        -webkit-transition: opacity 1s ease;
+        -moz-transition: opacity 1s ease;
+        -o-transition: opacity 1s ease;
+        transition: opacity 1s ease;
+    }
+    .loading-image{
+        width: 120px;
+        height: 50px;
+        transform: translate(-50%);
+    }
+
+    .loading-image div:nth-child(2) {
+        -webkit-animation: pacman-balls 1s linear 0s infinite;
+        animation: pacman-balls 1s linear 0s infinite
+    }
+
+    .loading-image div:nth-child(3) {
+        -webkit-animation: pacman-balls 1s linear .33s infinite;
+        animation: pacman-balls 1s linear .33s infinite
+    }
+
+    .loading-image div:nth-child(4) {
+        -webkit-animation: pacman-balls 1s linear .66s infinite;
+        animation: pacman-balls 1s linear .66s infinite
+    }
+
+    .loading-image div:nth-child(5) {
+        -webkit-animation: pacman-balls 1s linear .99s infinite;
+        animation: pacman-balls 1s linear .99s infinite
+    }
+
+   .loading-image div:first-of-type {
+        width: 0;
+        height: 0;
+        border: 25px solid #49b1f5;
+        border-right-color: transparent;
+        border-radius: 25px;
+        -webkit-animation: rotate_pacman_half_up .5s 0s infinite;
+        animation: rotate_pacman_half_up .5s 0s infinite;
+    }
+    .loading-image div:nth-child(2) {
+        width: 0;
+        height: 0;
+        border: 25px solid #49b1f5;
+        border-right-color: transparent;
+        border-radius: 25px;
+        -webkit-animation: rotate_pacman_half_down .5s 0s infinite;
+        animation: rotate_pacman_half_down .5s 0s infinite;
+        margin-top: -50px;
+    }
+    @-webkit-keyframes rotate_pacman_half_up {0% {transform: rotate(270deg)}50% {transform: rotate(1turn)}to {transform: rotate(270deg)}}
+
+    @keyframes rotate_pacman_half_up {0% {transform: rotate(270deg)}50% {transform: rotate(1turn)}to {transform: rotate(270deg)}}
+
+    @-webkit-keyframes rotate_pacman_half_down {0% {transform: rotate(90deg)}50% {transform: rotate(0deg)}to {transform: rotate(90deg)}}
+
+    @keyframes rotate_pacman_half_down {0% {transform: rotate(90deg)}50% {transform: rotate(0deg)}to {transform: rotate(90deg)}}
+
+    @-webkit-keyframes pacman-balls {75% {opacity: .7}to {transform: translate(-100px, -6.25px)}}
+
+    @keyframes pacman-balls {75% {opacity: .7}to {transform: translate(-100px, -6.25px)}}
+
+
+    .loading-image div:nth-child(3),
+    .loading-image div:nth-child(4),
+    .loading-image div:nth-child(5),
+    .loading-image div:nth-child(6){
+        background-color: #49b1f5;
+        width: 15px;
+        height: 15px;
+        border-radius: 100%;
+        margin: 2px;
+        width: 10px;
+        height: 10px;
+        position: absolute;
+        transform: translateY(-6.25px);
+        top: 25px;
+        left: 100px;
+    }
+    .loading-text{
+        margin-bottom: 20vh;
+        text-align: center;
+        color: #2c3e50;
+        font-size: 2rem;
+        box-sizing: border-box;
+        padding: 0 10px;
+        text-shadow: 0 2px 10px rgba(0,0,0,0.2);
+    }
+    @media only screen and (max-width: 500px) {
+         .loading-text{
+            font-size: 1.5rem;
+         }
+    }
+    .fadeout {
+        opacity: 0;
+        filter: alpha(opacity=0);
+    }
+    /* logo���ֶ��� */
+    @-webkit-keyframes fadeInDown{0%{opacity:0;-webkit-transform:translate3d(0,-100%,0);transform:translate3d(0,-100%,0)}100%{opacity:1;-webkit-transform:none;transform:none}}
+    @keyframes fadeInDown{0%{opacity:0;-webkit-transform:translate3d(0,-100%,0);}}
+ </style>
+ <script>
+(function () {
+    const loaded = function(){
+       setTimeout(function(){
+            const loader = document.getElementById("loading-container");
+            loader.className="fadeout" ;//ʹ�ý����ķ�������loading page
+            // document.getElementById("body-wrap").style.display="flex";
+            setTimeout(function(){
+                loader.style.display="none";
+            },1000); 
+        },1000);//ǿ����ʾloading page 1s  
+    };
+    loaded();
+})()
+ </script></head>
+
+
+ <div id="loading-container">
+     <p class="loading-text"></p> 
+     <div class="loading-image">
+         <div></div>
+         <div></div>
+         <div></div>
+         <div></div> 
+         <div></div>
+     </div>
+ </div><body>
+
+    <header class="navbar-fixed">
+    <nav id="headNav" class="bg-color nav-transparent">
+        <div id="navContainer" class="nav-wrapper container">
+            <div class="brand-logo">
+                <a href="/" class="waves-effect waves-light">
+                    
+                    <img src="/medias/logo.png" class="logo-img" alt="LOGO">
+                    
+                    <span class="logo-span">Ji`s Blog</span>
+                </a>
+            </div>
+            
+
+<a href="#" data-target="mobile-nav" class="sidenav-trigger button-collapse"><i class="fa fa-navicon"></i></a>
+<ul class="right">
+    
+    <li class="hide-on-med-and-down">
+        <a href="/" class="waves-effect waves-light">
+            
+            <span>首页</span>
+        </a>
+    </li>
+    
+    <li class="hide-on-med-and-down">
+        <a href="/tags" class="waves-effect waves-light">
+            
+            <span>标签</span>
+        </a>
+    </li>
+    
+    <li class="hide-on-med-and-down">
+        <a href="/categories" class="waves-effect waves-light">
+            
+            <span>分类</span>
+        </a>
+    </li>
+    
+    <li class="hide-on-med-and-down">
+        <a href="/archives" class="waves-effect waves-light">
+            
+            <span>归档</span>
+        </a>
+    </li>
+    
+    <li class="hide-on-med-and-down">
+        <a href="/about" class="waves-effect waves-light">
+            
+            <span>关于</span>
+        </a>
+    </li>
+    
+    <li class="hide-on-med-and-down">
+        <a href="/friends" class="waves-effect waves-light">
+            
+            <span>友情链接</span>
+        </a>
+    </li>
+    
+    <li class="hide-on-med-and-down">
+        <a href="/contact" class="waves-effect waves-light">
+            
+            <span>留言板</span>
+        </a>
+    </li>
+    
+    <li>
+        <a href="#searchModal" class="modal-trigger waves-effect waves-light">
+            <i id="searchIcon" class="fa fa-search" title="搜索"></i>
+        </a>
+    </li>
+</ul>
+
+<div id="mobile-nav" class="side-nav sidenav">
+
+    <div class="mobile-head bg-color">
+        
+        <img src="/medias/logo.png" class="logo-img circle responsive-img">
+        
+        <div class="logo-name">Ji`s Blog</div>
+        <div class="logo-desc">
+            
+            Java | Spring | Redis
+            
+        </div>
+    </div>
+
+    
+
+    <ul class="menu-list mobile-menu-list">
+        
+        <li>
+            <a href="/" class="waves-effect waves-light">
+                
+                <i class="fa fa-fw fa-link"></i>
+                
+                首页
+            </a>
+        </li>
+        
+        <li>
+            <a href="/tags" class="waves-effect waves-light">
+                
+                <i class="fa fa-fw fa-link"></i>
+                
+                标签
+            </a>
+        </li>
+        
+        <li>
+            <a href="/categories" class="waves-effect waves-light">
+                
+                <i class="fa fa-fw fa-link"></i>
+                
+                分类
+            </a>
+        </li>
+        
+        <li>
+            <a href="/archives" class="waves-effect waves-light">
+                
+                <i class="fa fa-fw fa-link"></i>
+                
+                归档
+            </a>
+        </li>
+        
+        <li>
+            <a href="/about" class="waves-effect waves-light">
+                
+                <i class="fa fa-fw fa-link"></i>
+                
+                关于
+            </a>
+        </li>
+        
+        <li>
+            <a href="/friends" class="waves-effect waves-light">
+                
+                <i class="fa fa-fw fa-link"></i>
+                
+                友情链接
+            </a>
+        </li>
+        
+        <li>
+            <a href="/contact" class="waves-effect waves-light">
+                
+                <i class="fa fa-fw fa-link"></i>
+                
+                留言板
+            </a>
+        </li>
+        
+        
+        <li><div class="divider"></div></li>
+        <li>
+            <a href="https://github.com/jiyongg-code" class="waves-effect waves-light" target="_blank">
+                <i class="fa fa-github-square fa-fw"></i>Fork Me
+            </a>
+        </li>
+        
+    </ul>
+</div>
+
+        </div>
+
+        
+            <style>
+    .nav-transparent .github-corner {
+        display: none !important;
+    }
+
+    .github-corner {
+        position: absolute;
+        z-index: 10;
+        top: 0;
+        right: 0;
+        border: 0;
+        transform: scale(1.1);
+    }
+
+    .github-corner svg {
+        color: #0f9d58;
+        fill: #fff;
+        height: 64px;
+        width: 64px;
+    }
+
+    .github-corner:hover .octo-arm {
+        animation: a 0.56s ease-in-out;
+    }
+
+    .github-corner .octo-arm {
+        animation: none;
+    }
+
+    @keyframes a {
+        0%,
+        to {
+            transform: rotate(0);
+        }
+        20%,
+        60% {
+            transform: rotate(-25deg);
+        }
+        40%,
+        80% {
+            transform: rotate(10deg);
+        }
+    }
+</style>
+
+<a href="https://github.com/jiyongg-code" class="github-corner tooltipped hide-on-med-and-down" target="_blank"
+   data-tooltip="Fork Me" data-position="left" data-delay="50">
+    <svg viewBox="0 0 250 250" aria-hidden="true">
+        <path d="M0,0 L115,115 L130,115 L142,142 L250,250 L250,0 Z"></path>
+        <path d="M128.3,109.0 C113.8,99.7 119.0,89.6 119.0,89.6 C122.0,82.7 120.5,78.6 120.5,78.6 C119.2,72.0 123.4,76.3 123.4,76.3 C127.3,80.9 125.5,87.3 125.5,87.3 C122.9,97.6 130.6,101.9 134.4,103.2"
+              fill="currentColor" style="transform-origin: 130px 106px;" class="octo-arm"></path>
+        <path d="M115.0,115.0 C114.9,115.1 118.7,116.5 119.8,115.4 L133.7,101.6 C136.9,99.2 139.9,98.4 142.2,98.6 C133.8,88.0 127.5,74.4 143.8,58.0 C148.5,53.4 154.0,51.2 159.7,51.0 C160.3,49.4 163.2,43.6 171.4,40.1 C171.4,40.1 176.1,42.5 178.8,56.2 C183.1,58.6 187.2,61.8 190.9,65.4 C194.5,69.0 197.7,73.2 200.1,77.6 C213.8,80.2 216.3,84.9 216.3,84.9 C212.7,93.1 206.9,96.0 205.4,96.6 C205.1,102.4 203.0,107.8 198.3,112.5 C181.9,128.9 168.3,122.5 157.7,114.1 C157.9,116.9 156.7,120.9 152.7,124.9 L141.0,136.5 C139.8,137.7 141.6,141.9 141.8,141.8 Z"
+              fill="currentColor" class="octo-body"></path>
+    </svg>
+</a>
+        
+    </nav>
+
+</header>
+
+    
+<script src="/libs/cryptojs/crypto-js.min.js"></script>
+<script>
+    (function() {
+        let pwd = '';
+        if (pwd && pwd.length > 0) {
+            if (pwd !== CryptoJS.SHA256(prompt('请输入访问本文章的密码')).toString(CryptoJS.enc.Hex)) {
+                alert('密码错误，将返回主页！');
+                location.href = '/';
+            }
+        }
+    })();
+</script>
+
+
+
+
+<div class="bg-cover pd-header post-cover" style="background-image: url('/medias/featureimages/11.jpg')">
+    <div class="container">
+        <div class="row">
+            <div class="col s12 m12 l12">
+                <div class="brand">
+                    <div class="description center-align post-title">
+                        Mysql-02
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+
+
+<main class="post-container content">
+
+    
+    <link rel="stylesheet" href="/libs/tocbot/tocbot.css">
+<style>
+    #articleContent h1::before,
+    #articleContent h2::before,
+    #articleContent h3::before,
+    #articleContent h4::before,
+    #articleContent h5::before,
+    #articleContent h6::before {
+        display: block;
+        content: " ";
+        height: 100px;
+        margin-top: -100px;
+        visibility: hidden;
+    }
+
+    #articleContent :focus {
+        outline: none;
+    }
+
+    .toc-fixed {
+        position: fixed;
+        top: 64px;
+    }
+
+    .toc-widget {
+        padding-left: 20px;
+    }
+
+    .toc-widget .toc-title {
+        margin: 35px 0 15px 0;
+        padding-left: 17px;
+        font-size: 1.5rem;
+        font-weight: bold;
+        line-height: 1.5rem;
+    }
+
+    .toc-widget ol {
+        padding: 0;
+        list-style: none;
+    }
+
+    #toc-content ol {
+        padding-left: 10px;
+    }
+
+    #toc-content ol li {
+        padding-left: 10px;
+    }
+
+    #toc-content .toc-link:hover {
+        color: #42b983;
+        font-weight: 700;
+        text-decoration: underline;
+    }
+
+    #toc-content .toc-link::before {
+        background-color: transparent;
+        max-height: 25px;
+    }
+
+    #toc-content .is-active-link {
+        color: #42b983;
+    }
+
+    #toc-content .is-active-link::before {
+        background-color: #42b983;
+    }
+
+    #floating-toc-btn {
+        position: fixed;
+        right: 20px;
+        bottom: 76px;
+        padding-top: 15px;
+        margin-bottom: 0;
+        z-index: 998;
+    }
+
+    #floating-toc-btn .btn-floating {
+        width: 48px;
+        height: 48px;
+    }
+
+    #floating-toc-btn .btn-floating i {
+        line-height: 48px;
+        font-size: 1.4rem;
+    }
+</style>
+<div class="row">
+    <div id="main-content" class="col s12 m12 l9">
+        <!-- 文章内容详情 -->
+<div id="artDetail">
+    <div class="card">
+        <div class="card-content article-info">
+            <div class="row tag-cate">
+                <div class="col s7">
+                    
+                    <div class="article-tag">
+                        
+                        <a href="/tags/Mysql/" target="_blank">
+                            <span class="chip bg-color">Mysql</span>
+                        </a>
+                        
+                    </div>
+                    
+                </div>
+                <div class="col s5 right-align">
+                    
+                    <div class="post-cate">
+                        <i class="fa fa-bookmark fa-fw icon-category"></i>
+                        
+                        <a href="/categories/DataBase/" class="post-category" target="_blank">
+                            DataBase
+                        </a>
+                        
+                    </div>
+                    
+                </div>
+            </div>
+
+            <div class="post-info">
+                <div class="post-date info-break-policy">
+                    <i class="fa fa-calendar-minus-o fa-fw"></i>发布日期:&nbsp;&nbsp;
+                    2023-03-18
+                </div>
+
+                <div class="post-author info-break-policy">
+                    <i class="fa fa-user-o fa-fw"></i>作者:&nbsp;&nbsp;
+                    
+                    jiyonggang
+                    
+                </div>
+
+                
+                
+                <div class="info-break-policy">
+                    <i class="fa fa-file-word-o fa-fw"></i>文章字数:&nbsp;&nbsp;
+                    8.3k
+                </div>
+                
+
+                
+                <div class="info-break-policy">
+                    <i class="fa fa-clock-o fa-fw"></i>阅读时长:&nbsp;&nbsp;
+                    31 分
+                </div>
+                
+                
+
+                
+                <div id="busuanzi_container_page_pv" class="info-break-policy">
+                    <i class="fa fa-eye fa-fw"></i>阅读次数:&nbsp;&nbsp;
+                    <span id="busuanzi_value_page_pv"></span>
+                </div>
+                
+            </div>
+        </div>
+        <hr class="clearfix">
+        <div class="card-content article-card-content">
+            <div id="articleContent">
+                <h1 id="1-存储引擎"><a href="#1-存储引擎" class="headerlink" title="1.存储引擎"></a>1.存储引擎</h1><h2 id="1-1-MySQL体系结构"><a href="#1-1-MySQL体系结构" class="headerlink" title="1.1 MySQL体系结构"></a>1.1 MySQL体系结构</h2><p><img src="/mysql-02/image-20230318181430255.png" alt="image-20230318181430255"></p>
+<p>1). 连接层</p>
+<p>最上层是一些客户端和链接服务，包含本地sock 通信和大多数基于客户端/服务端工具实现的类似于 TCP/IP的通信。主要完成一些类似于连接处理、授权认证、及相关的安全方案。在该层上引入了线程 池的概念，为通过认证安全接入的客户端提供线程。同样在该层上可以实现基于SSL的安全链接。服务 器也会为安全接入的每个客户端验证它所具有的操作权限。</p>
+<p>2). 服务层</p>
+<p>第二层架构主要完成大多数的核心服务功能，如SQL接口，并完成缓存的查询，SQL的分析和优化，部 分内置函数的执行。所有跨存储引擎的功能也在这一层实现，如 过程、函数等。在该层，服务器会解 析查询并创建相应的内部解析树，并对其完成相应的优化如确定表的查询的顺序，是否利用索引等， 最后生成相应的执行操作。如果是select语句，服务器还会查询内部的缓存，如果缓存空间足够大， 这样在解决大量读操作的环境中能够很好的提升系统的性能。</p>
+<p>3). 引擎层</p>
+<p>存储引擎层， 存储引擎真正的负责了MySQL中数据的存储和提取，服务器通过API和存储引擎进行通 信。不同的存储引擎具有不同的功能，这样我们可以根据自己的需要，来选取合适的存储引擎。数据库 中的索引是在存储引擎层实现的。</p>
+<p>4). 存储层</p>
+<p>数据存储层， 主要是将数据(如: redolog、undolog、数据、索引、二进制日志、错误日志、查询 日志、慢查询日志等)存储在文件系统之上，并完成与存储引擎的交互。</p>
+<p>和其他数据库相比，MySQL有点与众不同，它的架构可以在多种不同场景中应用并发挥良好作用。主要 体现在存储引擎上，插件式的存储引擎架构，将查询处理和其他的系统任务以及数据的存储提取分离。 这种架构可以根据业务的需求和实际需要选择合适的存储引擎。</p>
+<h2 id="1-2-存储引擎介绍"><a href="#1-2-存储引擎介绍" class="headerlink" title="1.2 存储引擎介绍"></a>1.2 存储引擎介绍</h2><p>对于存储引擎，也是一样，他是mysql数据库的核心，需要在合适的场景选择合适的存储引 擎。接下来就来介绍一下存储引擎。 存储引擎就是存储数据、建立索引、更新/查询数据等技术的实现方式 。存储引擎是基于表的，而不是 基于库的，所以存储引擎也可被称为表类型。可以在创建表的时候，来指定选择的存储引擎，如果 没有指定将自动选择默认的存储引擎。</p>
+<p>1). 建表时指定存储引擎</p>
+<pre><code>CREATE TABLE 表名(
+字段1 字段1类型 [ COMMENT 字段1注释 ] ,
+......
+字段n 字段n类型 [COMMENT 字段n注释 ]
+) ENGINE = INNODB [ COMMENT 表注释 ] ;</code></pre><p>2). 查询当前数据库支持的存储引擎</p>
+<pre><code> show engines;</code></pre><p>示例演示:</p>
+<p>A. 查询建表语句 — 默认存储引擎: InnoDB</p>
+<pre><code> show create table account;</code></pre><p><img src="/mysql-02/image-20230318182248843.png" alt="image-20230318182248843"></p>
+<p>创建表时，即使没有指定存储疫情，数据库也会自动选择默认的存储引擎。</p>
+<p>B. 查询当前数据库支持的存储引擎</p>
+<pre><code>show engines ;</code></pre><p><img src="/mysql-02/image-20230318182342529.png" alt="image-20230318182342529"></p>
+<p>C. 创建表 my_myisam , 并指定MyISAM存储引擎</p>
+<pre><code>create table my_myisam(
+id int,
+name varchar(10)
+) engine = MyISAM ;</code></pre><h2 id="1-3-存储引擎特点"><a href="#1-3-存储引擎特点" class="headerlink" title="1.3 存储引擎特点"></a>1.3 存储引擎特点</h2><h3 id="1-3-1-InnoDB"><a href="#1-3-1-InnoDB" class="headerlink" title="1.3.1 InnoDB"></a>1.3.1 InnoDB</h3><p>1). 介绍</p>
+<p>InnoDB是一种兼顾高可靠性和高性能的通用存储引擎，在 MySQL 5.5 之后，InnoDB是默认的 MySQL 存储引擎。</p>
+<p>2). 特点</p>
+<ul>
+<li>DML操作遵循ACID模型，支持事务； </li>
+<li>行级锁，提高并发访问性能； </li>
+<li>支持外键FOREIGN KEY约束，保证数据的完整性和正确性；</li>
+</ul>
+<p>3). 文件</p>
+<p>xxx.ibd：xxx代表的是表名，innoDB引擎的每张表都会对应这样一个表空间文件，存储该表的表结 构（frm-早期的 、sdi-新版的）、数据和索引。</p>
+<p>参数：innodb_file_per_table</p>
+<pre><code>show variables like &#39;innodb_file_per_table&#39;</code></pre><p><img src="/mysql-02/image-20230318182528184.png" alt="image-20230318182528184"></p>
+<p>如果该参数开启，代表对于InnoDB引擎的表，每一张表都对应一个ibd文件。 直接打开MySQL的 数据存放目录： C:\ProgramData\MySQL\MySQL Server 8.0\Data ， 这个目录下有很多文件 夹，不同的文件夹代表不同的数据库。</p>
+<p><img src="/mysql-02/image-20230318182600816.png" alt="image-20230318182600816"></p>
+<p>可以看到里面有很多的ibd文件，每一个ibd文件就对应一张表，比如：有一张表 account，就 有这样的一个account.ibd文件，而在这个ibd文件中不仅存放表结构、数据，还会存放该表对应的 索引信息。 而该文件是基于二进制存储的，不能直接基于记事本打开，我们可以使用mysql提供的一 个指令 ibd2sdi ，通过该指令就可以从ibd文件中提取sdi信息，而sdi数据字典信息中就包含该表的表结构。</p>
+<p><img src="/mysql-02/image-20230318182704471.png" alt="image-20230318182704471"></p>
+<p>4). 逻辑存储结构</p>
+<p><img src="/mysql-02/image-20230318182718828.png" alt="image-20230318182718828"></p>
+<ul>
+<li>表空间 : InnoDB存储引擎逻辑结构的最高层，ibd文件其实就是表空间文件，在表空间中可以 包含多个Segment段。 </li>
+<li>段 : 表空间是由各个段组成的， 常见的段有数据段、索引段、回滚段等。InnoDB中对于段的管 理，都是引擎自身完成，不需要人为对其控制，一个段中包含多个区。 </li>
+<li>区 : 区是表空间的单元结构，每个区的大小为1M。 默认情况下， InnoDB存储引擎页大小为 16K， 即一个区中一共有64个连续的页。</li>
+<li>页 : 页是组成区的最小单元，页也是InnoDB 存储引擎磁盘管理的最小单元，每个页的大小默 认为 16KB。为了保证页的连续性，InnoDB 存储引擎每次从磁盘申请 4-5 个区。</li>
+<li>行 : InnoDB 存储引擎是面向行的，也就是说数据是按行进行存放的，在每一行中除了定义表时 所指定的字段以外，还包含两个隐藏字段。</li>
+</ul>
+<h3 id="1-3-2-MyISAM"><a href="#1-3-2-MyISAM" class="headerlink" title="1.3.2 MyISAM"></a>1.3.2 MyISAM</h3><p>1). 介绍</p>
+<p>MyISAM是MySQL早期的默认存储引擎</p>
+<p>2). 特点 </p>
+<p>不支持事务，</p>
+<p>不支持外键</p>
+<p> 支持表锁，不支持行锁 </p>
+<p>访问速度快</p>
+<p>3). 文件</p>
+<p>xxx.sdi：存储表结构信息</p>
+<p> xxx.MYD: 存储数据 </p>
+<p>xxx.MYI: 存储索引</p>
+<p><img src="/mysql-02/image-20230318182949362.png" alt="image-20230318182949362"></p>
+<h3 id="1-3-3-Memory"><a href="#1-3-3-Memory" class="headerlink" title="1.3.3 Memory"></a>1.3.3 Memory</h3><p>1). 介绍</p>
+<p>Memory引擎的表数据时存储在内存中的，由于受到硬件问题、或断电问题的影响，只能将这些表作为 临时表或缓存使用。</p>
+<p>2). 特点</p>
+<p> 内存存放</p>
+<p> hash索引（默认）</p>
+<p>3).文件</p>
+<p>xxx.sdi：存储表结构信息</p>
+<h3 id="1-3-4-区别及特点"><a href="#1-3-4-区别及特点" class="headerlink" title="1.3.4 区别及特点"></a>1.3.4 区别及特点</h3><table>
+<thead>
+<tr>
+<th>特点</th>
+<th>InnoDB</th>
+<th>MyISAM</th>
+<th>Memory</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>存储限制</td>
+<td>64TB</td>
+<td>有</td>
+<td>有</td>
+</tr>
+<tr>
+<td>事务安全</td>
+<td>支持</td>
+<td>-</td>
+<td>-</td>
+</tr>
+<tr>
+<td>锁机制</td>
+<td>行锁</td>
+<td>表锁</td>
+<td>表锁</td>
+</tr>
+<tr>
+<td>B+tree索引</td>
+<td>支持</td>
+<td>支持</td>
+<td>支持</td>
+</tr>
+<tr>
+<td>Hash索引</td>
+<td>-</td>
+<td>-</td>
+<td>支持</td>
+</tr>
+<tr>
+<td>全文索引</td>
+<td>支持(5.6版本之后)</td>
+<td>支持</td>
+<td>-</td>
+</tr>
+<tr>
+<td>空间使用</td>
+<td>高</td>
+<td>低</td>
+<td>N/A</td>
+</tr>
+<tr>
+<td>内存使用</td>
+<td>高</td>
+<td>低</td>
+<td>中等</td>
+</tr>
+<tr>
+<td>批量插入速度</td>
+<td>低</td>
+<td>高</td>
+<td>高</td>
+</tr>
+<tr>
+<td>支持外键</td>
+<td>支持</td>
+<td>-</td>
+<td>-</td>
+</tr>
+</tbody></table>
+<p>InnoDB引擎与MyISAM引擎的区别 ? </p>
+<p>①. InnoDB引擎, 支持事务, 而MyISAM不支持。 </p>
+<p>②. InnoDB引擎, 支持行锁和表锁, 而MyISAM仅支持表锁, 不支持行锁。 </p>
+<p>③. InnoDB引擎, 支持外键, 而MyISAM是不支持的。 </p>
+<p>主要是上述三点区别，当然也可以从索引结构、存储限制等方面，更加深入的回答，具体参 考如下官方文档：</p>
+<p><a href="https://dev.mysql.com/doc/refman/8.0/en/innodb-introduction.html" target="_blank" rel="noopener">https://dev.mysql.com/doc/refman/8.0/en/innodb-introduction.html</a></p>
+<p><a href="https://dev.mysql.com/doc/refman/8.0/en/myisam-storage-engine.html" target="_blank" rel="noopener">https://dev.mysql.com/doc/refman/8.0/en/myisam-storage-engine.html</a></p>
+<h3 id="1-4-存储引擎选择"><a href="#1-4-存储引擎选择" class="headerlink" title="1.4 存储引擎选择"></a>1.4 存储引擎选择</h3><p>在选择存储引擎时，应该根据应用系统的特点选择合适的存储引擎。对于复杂的应用系统，还可以根据 实际情况选择多种存储引擎进行组合。 </p>
+<p>InnoDB: 是Mysql的默认存储引擎，支持事务、外键。如果应用对事务的完整性有比较高的要 求，在并发条件下要求数据的一致性，数据操作除了插入和查询之外，还包含很多的更新、删除操 作，那么InnoDB存储引擎是比较合适的选择。 </p>
+<p>MyISAM ： 如果应用是以读操作和插入操作为主，只有很少的更新和删除操作，并且对事务的完 整性、并发性要求不是很高，那么选择这个存储引擎是非常合适的。 </p>
+<p>MEMORY：将所有数据保存在内存中，访问速度快，通常用于临时表及缓存。MEMORY的缺陷就是 对表的大小有限制，太大的表无法缓存在内存中，而且无法保障数据的安全性。</p>
+<h1 id="2-索引"><a href="#2-索引" class="headerlink" title="2.索引"></a>2.索引</h1><h3 id="2-1-索引概述"><a href="#2-1-索引概述" class="headerlink" title="2.1 索引概述"></a>2.1 索引概述</h3><h4 id="2-1-1-介绍"><a href="#2-1-1-介绍" class="headerlink" title="2.1.1 介绍"></a>2.1.1 介绍</h4><p>索引（index）是帮助MySQL高效获取数据的数据结构(有序)。在数据之外，数据库系统还维护着满足 特定查找算法的数据结构，这些数据结构以某种方式引用（指向）数据， 这样就可以在这些数据结构 上实现高级查找算法，这种数据结构就是索引。</p>
+<h4 id="2-2-演示"><a href="#2-2-演示" class="headerlink" title="2.2 演示"></a>2.2 演示</h4><p>表结构及其数据如下：</p>
+<p><img src="/mysql-02/image-20230318194855504.png" alt="image-20230318194855504"></p>
+<p>假如要执行的SQL语句为 ： select * from user where age = 45</p>
+<p>1). 无索引情况</p>
+<p><img src="/mysql-02/image-20230318194914129.png" alt="image-20230318194914129"></p>
+<p>在无索引情况下，就需要从第一行开始扫描，一直扫描到最后一行，我们称之为 全表扫描，性能很 低。</p>
+<p>2). 有索引情况</p>
+<p>如果针对于这张表建立了索引，假设索引结构就是二叉树，那么也就意味着，会对age这个字段建 立一个二叉树的索引结构。</p>
+<p><img src="/mysql-02/image-20230318194942971.png" alt="image-20230318194942971"></p>
+<p>此时进行查询时，只需要扫描三次就可以找到数据了，极大的提高的查询的效率。</p>
+<h4 id="2-3-特点"><a href="#2-3-特点" class="headerlink" title="2.3 特点"></a>2.3 特点</h4><table>
+<thead>
+<tr>
+<th>优势</th>
+<th>劣势</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>提高数据检索的效率，降低数据库 的IO成本</td>
+<td>索引列也是要占用空间的。</td>
+</tr>
+<tr>
+<td>通过索引列对数据进行排序，降低 数据排序的成本，降低CPU的消 耗。</td>
+<td>索引大大提高了查询效率，同时却也降低更新表的速度， 如对表进行INSERT、UPDATE、DELETE时，效率降低。</td>
+</tr>
+</tbody></table>
+<h3 id="2-2-索引结构"><a href="#2-2-索引结构" class="headerlink" title="2.2 索引结构"></a>2.2 索引结构</h3><h4 id="2-2-1-概述"><a href="#2-2-1-概述" class="headerlink" title="2.2.1 概述"></a>2.2.1 概述</h4><p>MySQL的索引是在存储引擎层实现的，不同的存储引擎有不同的索引结构，主要包含以下几种：</p>
+<table>
+<thead>
+<tr>
+<th>索引结构</th>
+<th>描述</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>B+Tree索引</td>
+<td>最常见的索引类型，大部分引擎都支持 B+ 树索引</td>
+</tr>
+<tr>
+<td>Hash索引</td>
+<td>底层数据结构是用哈希表实现的, 只有精确匹配索引列的查询才有效, 不 支持范围查询</td>
+</tr>
+<tr>
+<td>R-tree(空间索 引）</td>
+<td>空间索引是MyISAM引擎的一个特殊索引类型，主要用于地理空间数据类 型，通常使用较少</td>
+</tr>
+<tr>
+<td>Full-text(全文 索引)</td>
+<td>是一种通过建立倒排索引,快速匹配文档的方式。类似于 Lucene,Solr,ES</td>
+</tr>
+</tbody></table>
+<p>上述是MySQL中所支持的所有的索引结构.</p>
+<table>
+<thead>
+<tr>
+<th>索引</th>
+<th>InnoDB</th>
+<th>MyISAM</th>
+<th>Memory</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>B+tree索引</td>
+<td>支持</td>
+<td>支持</td>
+<td>支持</td>
+</tr>
+<tr>
+<td>Hash 索引</td>
+<td>不支持</td>
+<td>不支持</td>
+<td>支持</td>
+</tr>
+<tr>
+<td>R-tree 索引</td>
+<td>不支持</td>
+<td>支持</td>
+<td>不支持</td>
+</tr>
+<tr>
+<td>Full-text</td>
+<td>5.6版本之后支持</td>
+<td>支持</td>
+<td>不支持</td>
+</tr>
+</tbody></table>
+<h4 id="2-2-2-二叉树"><a href="#2-2-2-二叉树" class="headerlink" title="2.2.2 二叉树"></a>2.2.2 二叉树</h4><p>假如说MySQL的索引结构采用二叉树的数据结构，比较理想的结构如下:</p>
+<p><img src="/mysql-02/image-20230318195506632.png" alt="image-20230318195506632"></p>
+<p>如果主键是顺序插入的，则会形成一个单向链表，结构如下：</p>
+<p><img src="/mysql-02/image-20230318195523470.png" alt="image-20230318195523470"></p>
+<p>所以，如果选择二叉树作为索引结构，会存在以下缺点：</p>
+<ul>
+<li>顺序插入时，会形成一个链表，查询性能大大降低。 </li>
+<li>大数据量情况下，层级较深，检索速度慢。</li>
+</ul>
+<p>可以选择红黑树，红黑树是一颗自平衡二叉树，那这样即使是顺序插入数 据，最终形成的数据结构也是一颗平衡的二叉树,结构如下</p>
+<p><img src="/mysql-02/image-20230318195600407.png" alt="image-20230318195600407"></p>
+<p>但是，即使如此，由于红黑树也是一颗二叉树，所以也会存在一个缺点：</p>
+<ul>
+<li>大数据量情况下，层级较深，检索速度慢。</li>
+</ul>
+<p>所以，在MySQL的索引结构中，并没有选择二叉树或者红黑树，而选择的是B+Tree.</p>
+<h4 id="2-2-3-B-Tree"><a href="#2-2-3-B-Tree" class="headerlink" title="2.2.3 B-Tree"></a>2.2.3 B-Tree</h4><p>B-Tree，B树是一种多叉路衡查找树，相对于二叉树，B树每个节点可以有多个分支，即多叉。</p>
+<p>以一颗最大度数（max-degree）为5(5阶)的b-tree为例，那这个B树每个节点最多存储4个key，5 个指针：</p>
+<p><img src="/mysql-02/image-20230318200101312.png" alt="image-20230318200101312"></p>
+<p>树的度数指的是一个节点的子节点个数。</p>
+<p><a href="https://www.cs.usfca.edu/~galles/visualization/BTree.html" target="_blank" rel="noopener">B-Tree Visualization (usfca.edu)</a></p>
+<p>演示</p>
+<p><img src="/mysql-02/image-20230318200153552.png" alt="image-20230318200153552"></p>
+<p><img src="/mysql-02/image-20230318200233820.png" alt="image-20230318200233820"></p>
+<p>特点：</p>
+<ul>
+<li>5阶的B树，每一个节点最多存储4个key，对应5个指针。 </li>
+<li>一旦节点存储的key数量到达5，就会裂变，中间元素向上分裂。 </li>
+<li>在B树中，非叶子节点和叶子节点都会存放数据。</li>
+</ul>
+<h4 id="2-2-4-B-Tree"><a href="#2-2-4-B-Tree" class="headerlink" title="2.2.4 B+Tree"></a>2.2.4 B+Tree</h4><p>B+Tree是B-Tree的变种，以一颗最大度数（max-degree）为4（4阶）的b+tree为例，</p>
+<p><img src="/mysql-02/image-20230318201225101.png" alt="image-20230318201225101"></p>
+<p>可以看到，两部分： </p>
+<p>绿色框框起来的部分，是索引部分，仅仅起到索引数据的作用，不存储数据。 </p>
+<p>红色框框起来的部分，是数据存储部分，在其叶子节点中要存储具体的数据。</p>
+<p><img src="/mysql-02/image-20230318201257821.png" alt="image-20230318201257821"></p>
+<p>B+Tree 与 B-Tree相比，主要有以下三点区别： </p>
+<ul>
+<li>所有的数据都会出现在叶子节点。 </li>
+<li>叶子节点形成一个单向链表。 </li>
+<li>非叶子节点仅仅起到索引数据作用，具体的数据都是在叶子节点存放的。</li>
+</ul>
+<p>MySQL索引数据结构对经典的B+Tree进行了优化。在原B+Tree的基础上，增加一个指向相邻叶子节点 的链表指针，就形成了带有顺序指针的B+Tree，提高区间访问的性能，利于排序。</p>
+<p><img src="/mysql-02/image-20230318201350644.png" alt="image-20230318201350644"></p>
+<h4 id="2-2-5-Hash"><a href="#2-2-5-Hash" class="headerlink" title="2.2.5 Hash"></a>2.2.5 Hash</h4><p>MySQL中除了支持B+Tree索引，还支持一种索引类型—Hash索引。</p>
+<p>1). 结构 哈希索引就是采用一定的hash算法，将键值换算成新的hash值，映射到对应的槽位上，然后存储在 hash表中。</p>
+<p><img src="/mysql-02/image-20230318201435838.png" alt="image-20230318201435838"></p>
+<p>如果两个(或多个)键值，映射到一个相同的槽位上，他们就产生了hash冲突（也称为hash碰撞），可 以通过链表来解决。</p>
+<p><img src="/mysql-02/image-20230318201504428.png" alt="image-20230318201504428"></p>
+<p>2). 特点 </p>
+<p>A. Hash索引只能用于对等比较(=，in)，不支持范围查询（between，&gt;，&lt; ，…）</p>
+<p>B. 无法利用索引完成排序操作 C. 查询效率高，通常(不存在hash冲突的情况)只需要一次检索就可以了，效率通常要高于B+tree索引</p>
+<p>3). 存储引擎支持</p>
+<p> 在MySQL中，支持hash索引的是Memory存储引擎。 而InnoDB中具有自适应hash功能，hash索引是 InnoDB存储引擎根据B+Tree索引在指定条件下自动构建的。</p>
+<h3 id="2-3-索引分类"><a href="#2-3-索引分类" class="headerlink" title="2.3 索引分类"></a>2.3 索引分类</h3><h4 id="2-3-1-索引分类"><a href="#2-3-1-索引分类" class="headerlink" title="2.3.1 索引分类"></a>2.3.1 索引分类</h4><p>在MySQL数据库，将索引的具体类型主要分为以下几类：主键索引、唯一索引、常规索引、全文索引。</p>
+<table>
+<thead>
+<tr>
+<th>分类</th>
+<th>含义</th>
+<th>特点</th>
+<th>关键字</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>主键 索引</td>
+<td>针对于表中主键创建的索引</td>
+<td>默认自动创建, 只能 有一个</td>
+<td>PRIMARY</td>
+</tr>
+<tr>
+<td>唯一 索引</td>
+<td>避免同一个表中某数据列中的值重复</td>
+<td>可以有多个</td>
+<td>UNIQUE</td>
+</tr>
+<tr>
+<td>常规 索引</td>
+<td>快速定位特定数据</td>
+<td>可以有多个</td>
+<td></td>
+</tr>
+<tr>
+<td>全文 索引</td>
+<td>全文索引查找的是文本中的关键词，而不是比 较索引中的值</td>
+<td>可以有多个</td>
+<td>FULLTEXT</td>
+</tr>
+</tbody></table>
+<h4 id="2-3-2-聚集索引-amp-二级索引"><a href="#2-3-2-聚集索引-amp-二级索引" class="headerlink" title="2.3.2 聚集索引&amp;二级索引"></a>2.3.2 聚集索引&amp;二级索引</h4><p>而在在InnoDB存储引擎中，根据索引的存储形式，又可以分为以下两种：</p>
+<table>
+<thead>
+<tr>
+<th>分类</th>
+<th>含义</th>
+<th>特点</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>聚集索引(Clustered Index)</td>
+<td>将数据存储与索引放到了一块，索引结构的叶子 节点保存了行数据</td>
+<td>必须有,而且只 有一个</td>
+</tr>
+<tr>
+<td>二级索引(Secondary Index)</td>
+<td>将数据与索引分开存储，索引结构的叶子节点关 联的是对应的主键</td>
+<td>可以存在多个</td>
+</tr>
+</tbody></table>
+<p>聚集索引选取规则:</p>
+<ul>
+<li>如果存在主键，主键索引就是聚集索引。</li>
+</ul>
+<ul>
+<li><p>如果不存在主键，将使用第一个唯一（UNIQUE）索引作为聚集索引。</p>
+</li>
+<li><p>如果表没有主键，或没有合适的唯一索引，则InnoDB会自动生成一个rowid作为隐藏的聚集索引。</p>
+</li>
+</ul>
+<p>聚集索引选取规则:</p>
+<ul>
+<li>如果存在主键，主键索引就是聚集索引。</li>
+<li>如果不存在主键，将使用第一个唯一（UNIQUE）索引作为聚集索引。</li>
+<li>如果表没有主键，或没有合适的唯一索引，则InnoDB会自动生成一个rowid作为隐藏的聚集索 引。</li>
+</ul>
+<p>聚集索引和二级索引的具体结构如下：</p>
+<p><img src="/mysql-02/image-20230318221645990.png" alt="image-20230318221645990"></p>
+<ul>
+<li>聚集索引的叶子节点下挂的是这一行的数据 。 </li>
+<li>二级索引的叶子节点下挂的是该字段值对应的主键值。</li>
+</ul>
+<p>执行如下的SQL语句时，具体的查找过程是什么样子的。</p>
+<p><img src="/mysql-02/image-20230318221907869.png" alt="image-20230318221907869"></p>
+<p>具体过程如下:</p>
+<p>①. 由于是根据name字段进行查询，所以先根据name=’Arm’到name字段的二级索引中进行匹配查 找。但是在二级索引中只能查找到 Arm 对应的主键值10</p>
+<p>②. 由于查询返回的数据是*，所以此时，还需要根据主键值10，到聚集索引中查找10对应的记录，最 终找到10对应的行row。</p>
+<p>③. 最终拿到这一行的数据，直接返回即可。</p>
+<p>回表查询： 这种先到二级索引中查找数据，找到主键值，然后再到聚集索引中根据主键值，获取 数据的方式，就称之为回表查询。</p>
+<p><img src="/mysql-02/image-20230318222059039.png" alt="image-20230318222059039"></p>
+<p>假设:</p>
+<p>一行数据大小为1k，一页中可以存储16行这样的数据。InnoDB的指针占用6个字节的空 间，主键即使为bigint，占用字节数为8。</p>
+<p>高度为2：</p>
+<p>​        n * 8 + (n + 1) * 6 = 16*1024 , 算出n约为 1170</p>
+<p>​        1171* 16 = 18736</p>
+<p>也就是说，如果树的高度为2，则可以存储 18000 多条记录。</p>
+<p>高度为3：</p>
+<p>1171 * 1171 * 16 = 21939856</p>
+<p>也就是说，如果树的高度为3，则可以存储 2200w 左右的记录。</p>
+<h3 id="2-4-索引语法"><a href="#2-4-索引语法" class="headerlink" title="2.4 索引语法"></a>2.4 索引语法</h3><p>1). 创建索引</p>
+<pre><code>CREATE [ UNIQUE | FULLTEXT ] INDEX index_name ON table_name (
+index_col_name,... ) ;</code></pre><p>2). 查看索引</p>
+<pre><code> SHOW INDEX FROM table_name ;</code></pre><p>3). 删除索引</p>
+<pre><code>DROP INDEX index_name ON table_name ;</code></pre><p>演示表</p>
+<pre><code>create table tb_user(
+id int primary key auto_increment comment &#39;主键&#39;,
+name varchar(50) not null comment &#39;用户名&#39;,
+phone varchar(11) not null comment &#39;手机号&#39;,
+email varchar(100) comment &#39;邮箱&#39;,
+profession varchar(11) comment &#39;专业&#39;,
+age tinyint unsigned comment &#39;年龄&#39;,
+gender char(1) comment &#39;性别 , 1: 男, 2: 女&#39;,
+status char(1) comment &#39;状态&#39;,
+createtime datetime comment &#39;创建时间&#39;
+) comment &#39;系统用户表&#39;</code></pre><p><img src="/mysql-02/image-20230318222406413.png" alt="image-20230318222406413"></p>
+<p>A. name字段为姓名字段，该字段的值可能会重复，为该字段创建索引。</p>
+<pre><code>CREATE INDEX idx_user_name ON tb_user(name);</code></pre><p>B. phone手机号字段的值，是非空，且唯一的，为该字段创建唯一索引。</p>
+<pre><code>CREATE UNIQUE INDEX idx_user_phone ON tb_user(phone);
+</code></pre><p>C. 为profession、age、status创建联合索引。</p>
+<pre><code>CREATE INDEX idx_user_pro_age_sta ON tb_user(profession,age,status);</code></pre><p>D. 为email建立合适的索引来提升查询效率</p>
+<pre><code>CREATE INDEX idx_email ON tb_user(email)</code></pre><p><img src="/mysql-02/image-20230318222612965.png" alt="image-20230318222612965"></p>
+<h3 id="2-5-SQL性能分析"><a href="#2-5-SQL性能分析" class="headerlink" title="2.5 SQL性能分析"></a>2.5 SQL性能分析</h3><h4 id="2-5-1-SQL执行频率"><a href="#2-5-1-SQL执行频率" class="headerlink" title="2.5.1 SQL执行频率"></a>2.5.1 SQL执行频率</h4><p>通过 show [session|global] status 命令可以提供服务器状态信 息。通过如下指令，可以查看当前数据库的INSERT、UPDATE、DELETE、SELECT的访问频次：</p>
+<pre><code>-- session 是查看当前会话 ;
+-- global 是查询全局数据 ;
+SHOW GLOBAL STATUS LIKE &#39;Com_______&#39;;
+</code></pre><p><img src="/mysql-02/image-20230318222752012.png" alt="image-20230318222752012"></p>
+<p>查看到当前数据库到底是以查询为主，还是以增删改为主，从而为数据库优化提供参考依据。 如果是以增删改为主，可以考虑不对其进行索引的优化。 如果是以查询为主，那么就要考虑对数据库的索引进行优化了。</p>
+<h4 id="2-5-2-慢查询日志"><a href="#2-5-2-慢查询日志" class="headerlink" title="2.5.2 慢查询日志"></a>2.5.2 慢查询日志</h4><p>慢查询日志记录了所有执行时间超过指定参数（long_query_time，单位：秒，默认10秒）的所有 SQL语句的日志</p>
+<p>MySQL的慢查询日志默认没有开启，</p>
+<p><img src="/mysql-02/image-20230318224609961.png" alt="image-20230318224609961"></p>
+<p>如果要开启慢查询日志，需要在MySQL的配置文件（/etc/my.cnf）中配置如下信息：</p>
+<pre><code># 开启MySQL慢日志查询开关
+slow_query_log=1
+# 设置慢日志的时间为2秒，SQL语句执行时间超过2秒，就会视为慢查询，记录慢查询日志
+long_query_time=2
+</code></pre><p>配置完毕之后，通过以下指令重新启动MySQL服务器进行测试，查看慢日志文件中记录的信息</p>
+<p>/var/lib/mysql/localhost-slow.log。</p>
+<pre><code>systemctl restart mysqld</code></pre><p>然后，再次查看开关情况，慢查询日志就已经打开了。</p>
+<p><img src="/mysql-02/image-20230318224945351.png" alt="image-20230318224945351"></p>
+<p>A. 执行如下SQL语句 ：</p>
+<pre><code>select * from tb_user; -- 这条SQL执行效率比较高, 执行耗时 0.00sec
+select count(*) from tb_sku; -- 由于tb_sku表中, 预先存入了1000w的记录, count一次,耗时
+13.35sec
+</code></pre><p>B. 检查慢查询日志 ：在慢查询日志中，只会记录执行时间超多预设时间（2s）的SQL，执行较快的SQL 是不会记录的。</p>
+<p><img src="/mysql-02/image-20230318225343630.png" alt="image-20230318225343630"></p>
+<h4 id="2-5-3-profile详情"><a href="#2-5-3-profile详情" class="headerlink" title="2.5.3 profile详情"></a>2.5.3 profile详情</h4><p>show profiles 能够在做SQL优化时帮助了解时间都耗费到哪里去了。通过have_profiling 参数，能够看到当前MySQL是否支持profile操作：</p>
+<pre><code>SELECT @@have_profiling ;</code></pre><p><img src="/mysql-02/image-20230318225426205.png" alt="image-20230318225426205"></p>
+<p>可以看到，当前MySQL是支持 profile操作的，但是开关是关闭的。可以通过set语句在 session/global级别开启profiling：</p>
+<pre><code>SET profiling = 1;</code></pre><p>开关已经打开了，接下来，执行的SQL语句，都会被MySQL记录，并记录执行时间消耗到哪儿去 了。 </p>
+<p>执行一系列的业务SQL的操作，然后通过如下指令查看指令的执行耗时：</p>
+<pre><code>-- 查看每一条SQL的耗时基本情况
+show profiles;
+-- 查看指定query_id的SQL语句各个阶段的耗时情况
+show profile for query query_id;
+-- 查看指定query_id的SQL语句CPU的使用情况
+show profile cpu for query query_id;
+</code></pre><p><img src="/mysql-02/image-20230318225648176.png" alt="image-20230318225648176"></p>
+<p>查看指定SQL各个阶段的耗时情况 :  query_id为16的情况</p>
+<p><img src="/mysql-02/image-20230318225705567.png" alt="image-20230318225705567"></p>
+<h4 id="2-5-4-explain"><a href="#2-5-4-explain" class="headerlink" title="2.5.4 explain"></a>2.5.4 explain</h4><p>EXPLAIN 或者 DESC命令获取 MySQL 如何执行 SELECT 语句的信息，包括在 SELECT 语句执行 过程中表如何连接和连接的顺序。</p>
+<p>语法:</p>
+<pre><code>-- 直接在select语句之前加上关键字 explain / desc
+EXPLAIN SELECT 字段列表 FROM 表名 WHERE 条件 ;</code></pre><p><img src="/mysql-02/image-20230318225806472.png" alt="image-20230318225806472"></p>
+<p>Explain 执行计划中各个字段的含义:</p>
+<table>
+<thead>
+<tr>
+<th>字段</th>
+<th>含义</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>id</td>
+<td>select查询的序列号，表示查询中执行select子句或者是操作表的顺序 (id相同，执行顺序从上到下；id不同，值越大，越先执行)。</td>
+</tr>
+<tr>
+<td>select_type</td>
+<td>表示 SELECT 的类型，常见的取值有 SIMPLE（简单表，即不使用表连接 或者子查询）、PRIMARY（主查询，即外层的查询）、 UNION（UNION 中的第二个或者后面的查询语句）、 SUBQUERY（SELECT/WHERE之后包含了子查询）等</td>
+</tr>
+<tr>
+<td>type</td>
+<td>表示连接类型，性能由好到差的连接类型为NULL、system、const、 eq_ref、ref、range、 index、all 。</td>
+</tr>
+<tr>
+<td>possible_key</td>
+<td>显示可能应用在这张表上的索引，一个或多个。</td>
+</tr>
+<tr>
+<td>key</td>
+<td>实际使用的索引，如果为NULL，则没有使用索引。</td>
+</tr>
+<tr>
+<td>key_len</td>
+<td>表示索引中使用的字节数， 该值为索引字段最大可能长度，并非实际使用长 度，在不损失精确性的前提下， 长度越短越好 。</td>
+</tr>
+<tr>
+<td>rows</td>
+<td>MySQL认为必须要执行查询的行数，在innodb引擎的表中，是一个估计值， 可能并不总是准确的。</td>
+</tr>
+<tr>
+<td>filtered</td>
+<td>表示返回结果的行数占需读取行数的百分比， filtered 的值越大越好。</td>
+</tr>
+</tbody></table>
+<h3 id="2-6-索引使用"><a href="#2-6-索引使用" class="headerlink" title="2.6 索引使用"></a>2.6 索引使用</h3><h4 id="2-6-1-验证索引效率"><a href="#2-6-1-验证索引效率" class="headerlink" title="2.6.1 验证索引效率"></a>2.6.1 验证索引效率</h4><p>这表中有1000W的记录</p>
+<p>这张表中id为主键，有主键索引，而其他字段是没有建立索引的。 先来查询其中的一条记录，看 看里面的字段情况，执行如下SQL：</p>
+<pre><code>select * from tb_sku where id = 1\G;
+\G是垂直显示</code></pre><p><img src="/mysql-02/image-20230318230447872.png" alt="image-20230318230447872"></p>
+<p>可以看到即使有1000w的数据,根据id进行数据查询,性能依然很快，因为主键id是有索引的。</p>
+<pre><code>SELECT * FROM tb_sku WHERE sn = &#39;100000003145001&#39;;
+</code></pre><p><img src="/mysql-02/image-20230318230511242.png" alt="image-20230318230511242"></p>
+<p>可以看到根据sn字段进行查询，查询返回了一条数据，结果耗时 20.78sec，就是因为sn没有索 引，而造成查询效率很低。 可以针对于sn字段，建立一个索引，建立了索引之后，再次根据sn进行查询，再来看一 下查询耗时情况。</p>
+<p>创建索引：</p>
+<pre><code>create index idx_sku_sn on tb_sku(sn) ;</code></pre><p><img src="/mysql-02/image-20230318230652231.png" alt="image-20230318230652231"></p>
+<p>然后再次执行相同的SQL语句，再次查看SQL的耗时。</p>
+<pre><code>SELECT * FROM tb_sku WHERE sn = &#39;100000003145001&#39;;
+</code></pre><p><img src="/mysql-02/image-20230318230724284.png" alt="image-20230318230724284"></p>
+<p>明显会看到，sn字段建立了索引之后，查询性能大大提升。建立索引前后，查询耗时都不是一个数 量级的。</p>
+<h4 id="2-6-2-最左前缀法则"><a href="#2-6-2-最左前缀法则" class="headerlink" title="2.6.2 最左前缀法则"></a>2.6.2 最左前缀法则</h4><p>如果索引了多列（联合索引），要遵守最左前缀法则。最左前缀法则指的是查询从索引的最左列开始， 并且不跳过索引中的列。如果跳跃某一列，索引将会部分失效(后面的字段索引失效)。</p>
+<p>以 tb_user 表为例，</p>
+<p><img src="/mysql-02/image-20230318230807101.png" alt="image-20230318230807101"></p>
+<p>在 tb_user 表中，有一个联合索引，这个联合索引涉及到三个字段，顺序分别为：profession， age，status。 对于最左前缀法则指的是，查询时，最左变的列，也就是profession必须存在，否则索引全部失效。 而且中间不能跳过某一列，否则该列后面的字段索引将失效。</p>
+<p>当执行SQL语句: explain select * from tb_user where age = 31 and status = ‘0’ and profession = ‘软件工程’； 时，是否满足最左前缀法则，走不走 上述的联合索引，索引长度？</p>
+<p><img src="/mysql-02/image-20230318230911191.png" alt="image-20230318230911191"></p>
+<p>可以看到，是完全满足最左前缀法则的，索引长度54，联合索引是生效的。</p>
+<p>注意 ： 最左前缀法则中指的最左边的列，是指在查询时，联合索引的最左边的字段(即是 第一个字段)必须存在，与我们编写SQL时，条件编写的先后顺序无关。</p>
+<h4 id="2-6-3-范围查询"><a href="#2-6-3-范围查询" class="headerlink" title="2.6.3 范围查询"></a>2.6.3 范围查询</h4><p>联合索引中，出现范围查询(&gt;,&lt;)，范围查询右侧的列索引失效。</p>
+<pre><code>explain select * from tb_user where profession = &#39;软件工程&#39; and age &gt; 30 and status
+= &#39;0&#39;;
+</code></pre><p><img src="/mysql-02/image-20230318231120926.png" alt="image-20230318231120926"></p>
+<p>当范围查询使用&gt; 或 &lt; 时，走联合索引了，但是索引的长度为49，就说明范围查询右边的status字 段是没有走索引的。</p>
+<pre><code>explain select * from tb_user where profession = &#39;软件工程&#39; and age &gt;= 30 and
+status = &#39;0&#39;;</code></pre><p><img src="/mysql-02/image-20230318231212418.png" alt="image-20230318231212418"></p>
+<p>当范围查询使用&gt;= 或 &lt;= 时，走联合索引了，但是索引的长度为54，就说明所有的字段都是走索引 的。 所以，在业务允许的情况下，尽可能的使用类似于 &gt;= 或 &lt;= 这类的范围查询，而避免使用 &gt; 或 &lt; 。</p>
+<h4 id="2-6-4-索引失效情况"><a href="#2-6-4-索引失效情况" class="headerlink" title="2.6.4 索引失效情况"></a>2.6.4 索引失效情况</h4><h5 id="2-6-4-1-索引列运算"><a href="#2-6-4-1-索引列运算" class="headerlink" title="2.6.4.1 索引列运算"></a>2.6.4.1 索引列运算</h5><p>不要在索引列上进行运算操作， 索引将失效。</p>
+<p>在tb_user表中，除了前面介绍的联合索引之外，还有一个索引，是phone字段的单列索引。</p>
+<p><img src="/mysql-02/image-20230318231259493.png" alt="image-20230318231259493"></p>
+<p>A. 当根据phone字段进行等值匹配查询时, 索引生效。</p>
+<pre><code>explain select * from tb_user where phone = &#39;17799990015&#39;;
+</code></pre><p>B. 当根据phone字段进行函数运算操作之后，索引失效。</p>
+<pre><code>explain select * from tb_user where substring(phone,10,2) = &#39;15&#39;</code></pre><p><img src="/mysql-02/image-20230318231423997.png" alt="image-20230318231423997"></p>
+<h5 id="2-6-4-2-字符串不加引号"><a href="#2-6-4-2-字符串不加引号" class="headerlink" title="2.6.4.2 字符串不加引号"></a>2.6.4.2 字符串不加引号</h5><p>字符串类型字段使用时，不加引号，索引将失效。</p>
+<pre><code>explain select * from tb_user where profession = &#39;软件工程&#39; and age = 31 and status
+= &#39;0&#39;;
+explain select * from tb_user where profession = &#39;软件工程&#39; and age = 31 and status
+= 0;</code></pre><p><img src="/mysql-02/image-20230318231630498.png" alt="image-20230318231630498"></p>
+<pre><code>explain select * from tb_user where phone = &#39;17799990015&#39;;
+explain select * from tb_user where phone = 17799990015;
+</code></pre><p><img src="/mysql-02/image-20230318231652044.png" alt="image-20230318231652044"></p>
+<p>经过上面两组示例，会明显的发现，如果字符串不加单引号，对于查询结果，没什么影响，但是数 据库存在隐式类型转换，索引将失效。</p>
+<h5 id="2-6-4-3-模糊查询"><a href="#2-6-4-3-模糊查询" class="headerlink" title="2.6.4.3 模糊查询"></a>2.6.4.3 模糊查询</h5><p>如果仅仅是尾部模糊匹配，索引不会失效。如果是头部模糊匹配，索引失效。</p>
+<p>由于下面查询语句中，都是根据profession字段查询，符合最左前缀法则，联合索引是可以生效的， 主要看一下，模糊查询时，%加在关键字之前，和加在关键字之后的影响。</p>
+<pre><code>explain select * from tb_user where profession like &#39;软件%&#39;;
+explain select * from tb_user where profession like &#39;%工程&#39;;
+explain select * from tb_user where profession like &#39;%工%&#39;;</code></pre><p><img src="/mysql-02/image-20230318231758572.png" alt="image-20230318231758572"></p>
+<p>经过上述的测试，在like模糊查询中，在关键字后面加%，索引可以生效。而如果在关键字 前面加了%，索引将会失效。</p>
+<h5 id="3-6-4-4-or连接条件"><a href="#3-6-4-4-or连接条件" class="headerlink" title="3.6.4.4 or连接条件"></a>3.6.4.4 or连接条件</h5><p>用or分割开的条件， 如果or前的条件中的列有索引，而后面的列中没有索引，那么涉及的索引都不会 被用到。</p>
+<pre><code>xplain select * from tb_user where id = 10 or age = 23;
+explain select * from tb_user where phone = &#39;17799990017&#39; or age = 23;</code></pre><p><img src="/mysql-02/image-20230318231912002.png" alt="image-20230318231912002"></p>
+<p>由于age没有索引，所以即使id、phone有索引，索引也会失效。所以需要针对于age也要建立索引。</p>
+<p>然后，可以对age字段建立索引。</p>
+<pre><code>create index idx_user_age on tb_user(age)</code></pre><p><img src="/mysql-02/image-20230318231942043.png" alt="image-20230318231942043"></p>
+<p>建立了索引之后，再次执行上述的SQL语句，看看前后执行计划的变化。</p>
+<p><img src="/mysql-02/image-20230318231954670.png" alt="image-20230318231954670"></p>
+<p>当or连接的条件，左右两侧字段都有索引时，索引才会生效。</p>
+<h5 id="3-6-4-5-数据分布影响"><a href="#3-6-4-5-数据分布影响" class="headerlink" title="3.6.4.5 数据分布影响"></a>3.6.4.5 数据分布影响</h5><pre><code>select * from tb_user where phone &gt;= &#39;17799990005&#39;;
+select * from tb_user where phone &gt;= &#39;17799990015&#39;;</code></pre><p><img src="/mysql-02/image-20230318232049614.png" alt="image-20230318232049614"></p>
+<p>相同的SQL语句，只是传入的字段值不同，最终的执行计划也完全不一样</p>
+<p>因为MySQL在查询时，会评估使用索引的效率与走全表扫描的效率，如果走全表扫描更快，则放弃 索引，走全表扫描。 因为索引是用来索引少量数据的，如果通过索引查询返回大批量的数据，则还不 如走全表扫描来的快，此时索引就会失效。</p>
+<p> is null 与 is not null 操作是否走索引。</p>
+<p>执行如下两条语句 ：</p>
+<pre><code>explain select * from tb_user where profession is null;
+explain select * from tb_user where profession is not null;
+</code></pre><p><img src="/mysql-02/image-20230318232202493.png" alt="image-20230318232202493"></p>
+<p>将profession字段值全部更新为null。</p>
+<p><img src="/mysql-02/image-20230318232214786.png" alt="image-20230318232214786"></p>
+<p>然后，再次执行上述的两条SQL，查看SQL语句的执行计划。</p>
+<p>最终看到，一模一样的SQL语句，先后执行了两次，结果查询计划是不一样的，为什么会出现这种 现象，这是和数据库的数据分布有关系。查询时MySQL会评估，走索引快，还是全表扫描快，如果全表 扫描更快，则放弃索引走全表扫描。 因此，is null 、is not null是否走索引，得具体情况具体 分析，并不是固定的。</p>
+<h5 id="2-6-5-SQL提示"><a href="#2-6-5-SQL提示" class="headerlink" title="2.6.5 SQL提示"></a>2.6.5 SQL提示</h5><p>目前tb_user表的数据情况如下:</p>
+<p><img src="/mysql-02/image-20230318232304149.png" alt="image-20230318232304149"></p>
+<p>索引情况如下:</p>
+<p><img src="/mysql-02/image-20230318232313580.png" alt="image-20230318232313580"></p>
+<p>把上述的 idx_user_age, idx_email 这两个之前测试使用过的索引直接删除。</p>
+<pre><code>drop index idx_user_age on tb_user;
+drop index idx_email on tb_user;</code></pre><p>A. 执行SQL : explain select * from tb_user where profession = ‘软件工程’;</p>
+<p><img src="/mysql-02/image-20230318232402315.png" alt="image-20230318232402315"></p>
+<p>查询走了联合索引。</p>
+<p>B. 执行SQL，创建profession的单列索引：create index idx_user_pro on tb_user(profession);</p>
+<p><img src="/mysql-02/image-20230318232418417.png" alt="image-20230318232418417"></p>
+<p>C. 创建单列索引后，再次执行A中的SQL语句，查看执行计划，看看到底走哪个索引。</p>
+<p><img src="/mysql-02/image-20230318232427617.png" alt="image-20230318232427617"></p>
+<p>可以看到，possible_keys中 idx_user_pro_age_sta,idx_user_pro 这两个 索引都可能用到，最终MySQL选择了idx_user_pro_age_sta索引。这是MySQL自动选择的结果。</p>
+<p>手动指定使用索引</p>
+<p>SQL提示，是优化数据库的一个重要手段，简单来说，就是在SQL语句中加入一些人为的提示来达到优 化操作的目的。</p>
+<p>1). use index ： 建议MySQL使用哪一个索引完成此次查询（仅仅是建议，mysql内部还会再次进 行评估）。</p>
+<pre><code>explain select * from tb_user use index(idx_user_pro) where profession = &#39;软件工
+程&#39;;</code></pre><p>2). ignore index ： 忽略指定的索引。</p>
+<pre><code>explain select * from tb_user ignore index(idx_user_pro) where profession = &#39;软件工
+程&#39;;</code></pre><p>3). force index ： 强制使用索引。</p>
+<pre><code>explain select * from tb_user force index(idx_user_pro) where profession = &#39;软件工
+程&#39;;</code></pre><h5 id="2-6-6-覆盖索引"><a href="#2-6-6-覆盖索引" class="headerlink" title="2.6.6 覆盖索引"></a>2.6.6 覆盖索引</h5><p>尽量使用覆盖索引，减少select *。 那么什么是覆盖索引呢？ 覆盖索引是指 查询使用了索引，并 且需要返回的列，在该索引中已经全部能够找到 。</p>
+<p>执行下述sql语句</p>
+<pre><code>explain select id, profession from tb_user where profession = &#39;软件工程&#39; and age =
+31 and status = &#39;0&#39; ;
+explain select id,profession,age, status from tb_user where profession = &#39;软件工程&#39;
+and age = 31 and status = &#39;0&#39; ;
+explain select id,profession,age, status, name from tb_user where profession = &#39;软
+件工程&#39; and age = 31 and status = &#39;0&#39; ;
+explain select * from tb_user where profession = &#39;软件工程&#39; and age = 31 and status
+= &#39;0&#39;;</code></pre><p>上述这几条SQL的执行结果为:</p>
+<p><img src="/mysql-02/image-20230318232641116.png" alt="image-20230318232641116"></p>
+<p>从上述的执行计划我们可以看到，这四条SQL语句的执行计划前面所有的指标都是一样的，看不出来差 异。但是此时主要关注的是后面的Extra，前面两天SQL的结果为 Using where; Using Index ; 而后面两条SQL的结果为: Using index condition 。</p>
+
+            </div>
+            <hr />
+
+            
+            <style>
+    #reward {
+        margin: 40px 0;
+        text-align: center;
+    }
+
+    #reward .reward-link {
+        font-size: 1.88rem;
+    }
+
+    #reward .btn-floating:hover {
+        box-shadow: 0 6px 12px rgba(0, 0, 0, 0.2), 0 5px 15px rgba(0, 0, 0, 0.2);
+    }
+
+    #rewardModal {
+        width: 320px;
+        height: 350px;
+    }
+
+    #rewardModal .reward-title {
+        margin: 15px auto;
+        padding-bottom: 5px;
+    }
+
+    #rewardModal .modal-content {
+        padding: 10px;
+    }
+
+    #rewardModal .close {
+        position: absolute;
+        right: 15px;
+        top: 15px;
+        color: rgba(0, 0, 0, 0.5);
+        font-size: 1.3rem;
+        line-height: 20px;
+        cursor: pointer;
+    }
+
+    #rewardModal .close:hover {
+        color: #ef5350;
+        transform: scale(1.3);
+        -moz-transform:scale(1.3);
+        -webkit-transform:scale(1.3);
+        -o-transform:scale(1.3);
+    }
+
+    #rewardModal .reward-tabs {
+        margin: 0 auto;
+        width: 210px;
+    }
+
+    .reward-tabs .tabs {
+        height: 38px;
+        margin: 10px auto;
+        padding-left: 0;
+    }
+
+    .reward-content ul {
+        padding-left: 0 !important;
+    }
+
+    .reward-tabs .tabs .tab {
+        height: 38px;
+        line-height: 38px;
+    }
+
+    .reward-tabs .tab a {
+        color: #fff;
+        background-color: #ccc;
+    }
+
+    .reward-tabs .tab a:hover {
+        background-color: #ccc;
+        color: #fff;
+    }
+
+    .reward-tabs .wechat-tab .active {
+        color: #fff !important;
+        background-color: #22AB38 !important;
+    }
+
+    .reward-tabs .alipay-tab .active {
+        color: #fff !important;
+        background-color: #019FE8 !important;
+    }
+
+    .reward-tabs .reward-img {
+        width: 210px;
+        height: 210px;
+    }
+</style>
+
+<div id="reward">
+    <a href="#rewardModal" class="reward-link modal-trigger btn-floating btn-large waves-effect waves-light red">赏</a>
+
+    <!-- Modal Structure -->
+    <div id="rewardModal" class="modal">
+        <div class="modal-content">
+            <a class="close modal-close"><i class="fa fa-close"></i></a>
+            <h4 class="reward-title">写作不易，客官能否打赏一杯奶茶？</h4>
+            <div class="reward-content">
+                <div class="reward-tabs">
+                    <ul class="tabs row">
+                        <li class="tab col s6 alipay-tab waves-effect waves-light"><a href="#alipay">支付宝</a></li>
+                        <li class="tab col s6 wechat-tab waves-effect waves-light"><a href="#wechat">微 信</a></li>
+                    </ul>
+                    <div id="alipay">
+                        <img src="/medias/reward/alipay.jpg" class="reward-img" alt="支付宝打赏二维码">
+                    </div>
+                    <div id="wechat">
+                        <img src="/medias/reward/wechat.png" class="reward-img" alt="微信打赏二维码">
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<script>
+    $(function () {
+        $('.tabs').tabs();
+    });
+</script>
+            
+
+            <link rel="stylesheet" type="text/css" href="/libs/share/css/share.min.css">
+
+<div id="article-share">
+    
+    <div class="social-share" data-disabled="qzone" data-wechat-qrcode-helper="<p>微信里点“发现”->“扫一扫”二维码便可查看分享。</p>"></div>
+    
+</div>
+
+<script src="/libs/share/js/social-share.min.js"></script>
+
+            
+
+    <div class="reprint" id="reprint-statement">
+        <p class="reprint-tip">
+            <i class="fa fa-exclamation-triangle"></i>&nbsp;&nbsp;
+            <span>转载规则</span>
+        </p>
+        
+            <div class="center-align">
+                <a rel="license" href="https://creativecommons.org/licenses/by/4.0/deed.zh">
+                    <img alt=""
+                         style="border-width:0"
+                         src="https://i.creativecommons.org/l/by/4.0/88x31.png"/>
+                </a>
+            </div>
+            <br/>
+            <span xmlns:dct="http://purl.org/dc/terms/" href="http://purl.org/dc/dcmitype/Text"
+                  property="dct:title" rel="dct:type">
+                    《Mysql-02》
+                </span> 由
+            <a xmlns:cc="http://creativecommons.org/ns#" href="/mysql-02.html" property="cc:attributionName"
+               rel="cc:attributionURL">
+                jiyonggang
+            </a> 采用
+            <a rel="license" href="https://creativecommons.org/licenses/by/4.0/deed.zh">
+                知识共享署名 4.0 国际许可协议
+            </a>进行许可。
+        
+    </div>
+
+    <script async defer>
+      document.addEventListener("copy", function (e) {
+        let toastHTML = '<span>复制成功，请遵循本文的转载规则</span><button class="btn-flat toast-action" onclick="navToReprintStatement()" style="font-size: smaller">查看</a>';
+        M.toast({html: toastHTML})
+      });
+
+      function navToReprintStatement() {
+        $("html, body").animate({scrollTop: $("#reprint-statement").offset().top - 80}, 800);
+      }
+    </script>
+
+
+        </div>
+    </div>
+
+    
+    <link rel="stylesheet" href="/libs/gitalk/gitalk.css">
+<link rel="stylesheet" href="/css/my-gitalk.css">
+
+<div class="card gitalk-card" data-aos="fade-up">
+    <div id="gitalk-container" class="card-content"></div>
+</div>
+
+<script src="/libs/gitalk/gitalk.min.js"></script>
+<script>
+    let gitalk = new Gitalk({
+        clientID: '',
+        clientSecret: '',
+        repo: 'jiyongg-code.github.io',
+        owner: 'jiyongg-code',
+        admin: "jiyongg-code",
+        id: 'mysql-02.html',
+        distractionFreeMode: false  // Facebook-like distraction free mode
+    });
+
+    gitalk.render('gitalk-container');
+</script>
+    
+
+    
+
+    
+
+    
+
+    
+    <style>
+    .valine-card {
+        margin: 1.5rem auto;
+    }
+
+    .valine-card .card-content {
+        padding: 20px 20px 5px 20px;
+    }
+
+    #vcomments input[type=text],
+    #vcomments input[type=email],
+    #vcomments input[type=url],
+    #vcomments textarea {
+        box-sizing: border-box;
+    }
+
+    #vcomments p {
+        margin: 2px 2px 10px;
+        font-size: 1.05rem;
+        line-height: 1.78rem;
+    }
+
+    #vcomments blockquote p {
+        text-indent: 0.2rem;
+    }
+
+    #vcomments a {
+        padding: 0 2px;
+        color: #42b983;
+        font-weight: 500;
+        text-decoration: underline;
+    }
+
+    #vcomments img {
+        max-width: 100%;
+        height: auto;
+        cursor: pointer;
+    }
+
+    #vcomments ol li {
+        list-style-type: decimal;
+    }
+
+    #vcomments ol,
+    ul {
+        display: block;
+        padding-left: 2em;
+        word-spacing: 0.05rem;
+    }
+
+    #vcomments ul li,
+    ol li {
+        display: list-item;
+        line-height: 1.8rem;
+        font-size: 1rem;
+    }
+
+    #vcomments ul li {
+        list-style-type: disc;
+    }
+
+    #vcomments ul ul li {
+        list-style-type: circle;
+    }
+
+    #vcomments table, th, td {
+        padding: 12px 13px;
+        border: 1px solid #dfe2e5;
+    }
+
+    #vcomments table, th, td {
+        border: 0;
+    }
+
+    table tr:nth-child(2n), thead {
+        background-color: #fafafa;
+    }
+
+    #vcomments table th {
+        background-color: #f2f2f2;
+        min-width: 80px;
+    }
+
+    #vcomments table td {
+        min-width: 80px;
+    }
+
+    #vcomments h1 {
+        font-size: 1.85rem;
+        font-weight: bold;
+        line-height: 2.2rem;
+    }
+
+    #vcomments h2 {
+        font-size: 1.65rem;
+        font-weight: bold;
+        line-height: 1.9rem;
+    }
+
+    #vcomments h3 {
+        font-size: 1.45rem;
+        font-weight: bold;
+        line-height: 1.7rem;
+    }
+
+    #vcomments h4 {
+        font-size: 1.25rem;
+        font-weight: bold;
+        line-height: 1.5rem;
+    }
+
+    #vcomments h5 {
+        font-size: 1.1rem;
+        font-weight: bold;
+        line-height: 1.4rem;
+    }
+
+    #vcomments h6 {
+        font-size: 1rem;
+        line-height: 1.3rem;
+    }
+
+    #vcomments p {
+        font-size: 1rem;
+        line-height: 1.5rem;
+    }
+
+    #vcomments hr {
+        margin: 12px 0;
+        border: 0;
+        border-top: 1px solid #ccc;
+    }
+
+    #vcomments blockquote {
+        margin: 15px 0;
+        border-left: 5px solid #42b983;
+        padding: 1rem 0.8rem 0.3rem 0.8rem;
+        color: #666;
+        background-color: rgba(66, 185, 131, .1);
+    }
+
+    #vcomments pre {
+        font-family: monospace, monospace;
+        padding: 1.2em;
+        margin: .5em 0;
+        background: #272822;
+        overflow: auto;
+        border-radius: 0.3em;
+        tab-size: 4;
+    }
+
+    #vcomments code {
+        font-family: monospace, monospace;
+        padding: 1px 3px;
+        font-size: 0.92rem;
+        color: #e96900;
+        background-color: #f8f8f8;
+        border-radius: 2px;
+    }
+
+    #vcomments pre code {
+        font-family: monospace, monospace;
+        padding: 0;
+        color: #e8eaf6;
+        background-color: #272822;
+    }
+
+    #vcomments pre[class*="language-"] {
+        padding: 1.2em;
+        margin: .5em 0;
+    }
+
+    #vcomments code[class*="language-"],
+    pre[class*="language-"] {
+        color: #e8eaf6;
+    }
+
+    #vcomments [type="checkbox"]:not(:checked), [type="checkbox"]:checked {
+        position: inherit;
+        margin-left: -1.3rem;
+        margin-right: 0.4rem;
+        margin-top: -1px;
+        vertical-align: middle;
+        left: unset;
+        visibility: visible;
+    }
+
+    #vcomments b,
+    strong {
+        font-weight: bold;
+    }
+
+    #vcomments dfn {
+        font-style: italic;
+    }
+
+    #vcomments small {
+        font-size: 85%;
+    }
+
+    #vcomments cite {
+        font-style: normal;
+    }
+
+    #vcomments mark {
+        background-color: #fcf8e3;
+        padding: .2em;
+    }
+
+    #vcomments table, th, td {
+        padding: 12px 13px;
+        border: 1px solid #dfe2e5;
+    }
+
+    table tr:nth-child(2n), thead {
+        background-color: #fafafa;
+    }
+
+    #vcomments table th {
+        background-color: #f2f2f2;
+        min-width: 80px;
+    }
+
+    #vcomments table td {
+        min-width: 80px;
+    }
+
+    #vcomments [type="checkbox"]:not(:checked), [type="checkbox"]:checked {
+        position: inherit;
+        margin-left: -1.3rem;
+        margin-right: 0.4rem;
+        margin-top: -1px;
+        vertical-align: middle;
+        left: unset;
+        visibility: visible;
+    }
+</style>
+
+<div class="card valine-card" data-aos="fade-up">
+    <div id="vcomments" class="card-content"></div>
+</div>
+
+<script src="//code.bdstatic.com/npm/leancloud-storage@4.12.2/dist/av-min.js"></script>
+<!-- <script src="/libs/valine/av-min.js"></script> -->
+<!-- <script src="/libs/valine/Valine.min.js"></script> -->
+<script src="//unpkg.com/valine@latest/dist/Valine.min.js"></script> 
+
+<script>
+    new Valine({
+        el: '#vcomments',
+        appId: '',
+        appKey: '',
+        notify: 'true' === 'true',
+        verify: 'false' === 'true',
+        visitor: 'false' === 'true',
+        avatar: 'wavatar',
+        pageSize: '10',
+        lang: 'zh-cn',
+        placeholder: '如果你没有GitHub账号，还可以在这里评论啦！'
+    });
+</script>
+
+    
+
+    
+
+<article id="prenext-posts" class="prev-next articles">
+    <div class="row article-row">
+        
+        <div class="article col s12 m6" data-aos="fade-up" data-aos="fade-up">
+            <div class="article-badge left-badge text-color">
+                <i class="fa fa-dot-circle-o"></i>&nbsp;本篇
+            </div>
+            <div class="card">
+                <a href="/mysql-02.html">
+                    <div class="card-image">
+                        
+                        
+                        <img src="/medias/featureimages/11.jpg" class="responsive-img" alt="Mysql-02">
+                        
+                        <span class="card-title">Mysql-02</span>
+                    </div>
+                </a>
+                <div class="card-content article-content">
+                    <div class="summary block-with-text">
+                        
+                            学习Mysql的记录 中篇
+                        
+                    </div>
+                    <div class="publish-info">
+                            <span class="publish-date">
+                                <i class="fa fa-clock-o fa-fw icon-date"></i>2023-03-18
+                            </span>
+                        <span class="publish-author">
+                            
+                            <i class="fa fa-bookmark fa-fw icon-category"></i>
+                            
+                            <a href="/categories/DataBase/" class="post-category" target="_blank">
+                                    DataBase
+                                </a>
+                            
+                            
+                        </span>
+                    </div>
+                </div>
+
+                
+                <div class="card-action article-tags">
+                    
+                    <a href="/tags/Mysql/" target="_blank">
+                        <span class="chip bg-color">Mysql</span>
+                    </a>
+                    
+                </div>
+                
+            </div>
+        </div>
+        
+        
+        <div class="article col s12 m6" data-aos="fade-up">
+            <div class="article-badge right-badge text-color">
+                下一篇&nbsp;<i class="fa fa-chevron-right"></i>
+            </div>
+            <div class="card">
+                <a href="/mysql-01.html">
+                    <div class="card-image">
+                        
+                        
+                        <img src="/medias/featureimages/10.jpg" class="responsive-img" alt="Mysql-01">
+                        
+                        <span class="card-title">Mysql-01</span>
+                    </div>
+                </a>
+                <div class="card-content article-content">
+                    <div class="summary block-with-text">
+                        
+                            学习Mysql的记录 上篇
+                        
+                    </div>
+                    <div class="publish-info">
+                            <span class="publish-date">
+                                <i class="fa fa-clock-o fa-fw icon-date"></i>2023-03-18
+                            </span>
+                        <span class="publish-author">
+                            
+                            <i class="fa fa-bookmark fa-fw icon-category"></i>
+                            
+                            <a href="/categories/DataBase/" class="post-category" target="_blank">
+                                    DataBase
+                                </a>
+                            
+                            
+                        </span>
+                    </div>
+                </div>
+                
+                <div class="card-action article-tags">
+                    
+                    <a href="/tags/Mysql/" target="_blank">
+                        <span class="chip bg-color">Mysql</span>
+                    </a>
+                    
+                </div>
+                
+            </div>
+        </div>
+        
+    </div>
+</article>
+</div>
+
+
+<script>
+    $('#articleContent').on('copy', function (e) {
+        // IE8 or earlier browser is 'undefined'
+        if (typeof window.getSelection === 'undefined') return;
+
+        var selection = window.getSelection();
+        // if the selection is short let's not annoy our users.
+        if (('' + selection).length < Number.parseInt('120')) {
+            return;
+        }
+
+        // create a div outside of the visible area and fill it with the selected text.
+        var bodyElement = document.getElementsByTagName('body')[0];
+        var newdiv = document.createElement('div');
+        newdiv.style.position = 'absolute';
+        newdiv.style.left = '-99999px';
+        bodyElement.appendChild(newdiv);
+        newdiv.appendChild(selection.getRangeAt(0).cloneContents());
+
+        // we need a <pre> tag workaround.
+        // otherwise the text inside "pre" loses all the line breaks!
+        if (selection.getRangeAt(0).commonAncestorContainer.nodeName === 'PRE') {
+            newdiv.innerHTML = "<pre>" + newdiv.innerHTML + "</pre>";
+        }
+
+        var url = document.location.href;
+        newdiv.innerHTML += '<br />'
+            + '来源: Ji`s Blog<br />'
+            + '作者: jiyonggang<br />'
+            + '链接: <a href="' + url + '">' + url + '</a><br />'
+            + '本文章著作权归作者所有，任何形式的转载都请注明出处。';
+
+        selection.selectAllChildren(newdiv);
+        window.setTimeout(function () { bodyElement.removeChild(newdiv); }, 200);
+    });
+</script>
+
+    </div>
+    <div id="toc-aside" class="expanded col l3 hide-on-med-and-down">
+        <div class="toc-widget">
+            <div class="toc-title"><i class="fa fa-list-alt"></i>&nbsp;&nbsp;目录</div>
+            <div id="toc-content"></div>
+        </div>
+    </div>
+</div>
+
+<!-- TOC 悬浮按钮. -->
+
+<div id="floating-toc-btn" class="hide-on-med-and-down">
+    <a class="btn-floating btn-large bg-color">
+        <i class="fa fa-list"></i>
+    </a>
+</div>
+
+
+<script src="/libs/tocbot/tocbot.min.js"></script>
+<script>
+    $(function () {
+        tocbot.init({
+            tocSelector: '#toc-content',
+            contentSelector: '#articleContent',
+            headingsOffset: -($(window).height() * 0.4 - 45),
+            // headingsOffset: -205,
+            headingSelector: 'h1, h2, h3, h4'
+        });
+
+        // modify the toc link href to support Chinese.
+        let i = 0;
+        let tocHeading = 'toc-heading-';
+        $('#toc-content a').each(function () {
+            $(this).attr('href', '#' + tocHeading + (++i));
+        });
+
+        // modify the heading title id to support Chinese.
+        i = 0;
+        $('#articleContent').children('h1, h2, h3, h4').each(function () {
+            $(this).attr('id', tocHeading + (++i));
+        });
+
+        // Set scroll toc fixed.
+        let tocHeight = parseInt($(window).height() * 0.4 - 64);
+        let $tocWidget = $('.toc-widget');
+        $(window).scroll(function () {
+            let scroll = $(window).scrollTop();
+            /* add post toc fixed. */
+            if (scroll > tocHeight) {
+                $tocWidget.addClass('toc-fixed');
+            } else {
+                $tocWidget.removeClass('toc-fixed');
+            }
+        });
+
+        
+        /* 修复文章卡片 div 的宽度. */
+        let fixPostCardWidth = function (srcId, targetId) {
+            let srcDiv = $('#' + srcId);
+            if (srcDiv.length === 0) {
+                return;
+            }
+
+            let w = srcDiv.width();
+            if (w >= 450) {
+                w = w + 21;
+            } else if (w >= 350 && w < 450) {
+                w = w + 18;
+            } else if (w >= 300 && w < 350) {
+                w = w + 16;
+            } else {
+                w = w + 14;
+            }
+            $('#' + targetId).width(w);
+        };
+
+        // 切换TOC目录展开收缩的相关操作.
+        const expandedClass = 'expanded';
+        let $tocAside = $('#toc-aside');
+        let $mainContent = $('#main-content');
+        $('#floating-toc-btn .btn-floating').click(function () {
+            if ($tocAside.hasClass(expandedClass)) {
+                $tocAside.removeClass(expandedClass).slideUp(500);
+                $mainContent.removeClass('l9');
+            } else {
+                $tocAside.addClass(expandedClass).slideDown(500);
+                $mainContent.addClass('l9');
+            }
+            fixPostCardWidth('artDetail', 'prenext-posts');
+        });
+        
+    });
+</script>
+    
+
+</main>
+
+
+<script src="https://cdn.bootcss.com/mathjax/2.7.5/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
+<script>
+    MathJax.Hub.Config({
+        tex2jax: {inlineMath: [['$', '$'], ['\(', '\)']]}
+    });
+</script>
+
+<script type="text/javascript" src="/libs/codeBlock/codeBlockFuction.js"></script>
+<!-- 代码语言 -->
+<script type="text/javascript" src="/libs/codeBlock/codeLang.js"></script>
+<!-- 代码块复制 -->
+<script type="text/javascript" src="/libs/codeBlock/codeCopy.js"></script>
+<script type="text/javascript" src="/libs/codeBlock/clipboard.min.js"></script>
+<!-- 代码块收缩 -->
+<script type="text/javascript" src="/libs/codeBlock/codeShrink.js"></script> 
+<!-- 代码块折行 -->
+<style type="text/css">code[class*="language-"], pre[class*="language-"] { white-space: pre !important; }</style>
+
+
+    <footer class="page-footer bg-color">
+    <div class="container row center-align">
+       <div class="Copy-right">
+            &copy; 2020 Ji. All Rights Reserved.
+
+                    
+           <!--<a href="/sitemap.xml" target="_blank">站点地图</a>丨-->
+           
+            &nbsp;<i class="fa fa-area-chart"></i>&nbsp;站点总字数:&nbsp;
+            <span class="white-color">20k
+             丨            
+          
+
+            <span id="sitetime"></span>
+
+            
+            
+            
+            
+            <span id="busuanzi_container_site_pv" style='display:none'>
+                <i class="fa fa-users"></i>
+                本站总访问量 <span id="busuanzi_value_site_pv" class="red-color"></span>
+            </span>
+            
+            
+            <span id="busuanzi_container_site_uv" style='display:none'>
+               人次,&nbsp;<i class="fa fa-user"></i>访客数 <span id="busuanzi_value_site_uv" class="blue-color"></span> 人.
+            </span>
+            
+            
+        </div>        
+        <div class="social-link social-statis">
+    <a href="https://github.com/jiyongg-code" class="tooltipped" target="_blank" data-tooltip="访问我的GitHub" data-position="top" data-delay="50">
+        <i class="fa fa-github"></i>
+    </a>
+
+
+
+    <a href="https://www.csdn.net/无" class="tooltipped" target="_blank" data-tooltip="访问我的CSDN主页" data-position="top" data-delay="50">
+        <i class="fa fa-codiepie"></i>
+    </a>
+
+
+
+    <a href="https://www.zhihu.com/无" class="tooltipped" target="_blank" data-tooltip="访问我的知乎" data-position="top" data-delay="50">
+        <i class="fa fa-inverse">知</i>
+    </a>
+
+
+
+    <a href="https://user.qzone.qq.com/1320159539" class="tooltipped" target="_blank" data-tooltip="访问我的QQ空间" data-position="top" data-delay="50">
+        <i class="fa fa-qq"></i>
+    </a>
+
+
+
+    <a href="mailto:1320159539@qq.com" class="tooltipped" target="_blank" data-tooltip="邮件联系我" data-position="top" data-delay="50">
+        <i class="fa fa-envelope-open"></i>
+    </a>
+
+
+
+    <a href="/atom.xml" class="tooltipped" target="_blank" data-tooltip="RSS 订阅" data-position="top" data-delay="50">
+        <i class="fa fa-rss"></i>
+    </a>
+</div>
+    </div>
+    <div class="container row center-align">
+    <div class="github-badge">
+      <a style="color: #fff" rel="license" href="https://hexo.io/" target="_blank" title="由 Hexo 强力驱动">
+      <span class="badge-subject">Powered</span><span class="badge-value bg-blue">Hexo</span></a>
+    </div>
+    <div class="github-badge">
+      <a style="color: #fff" rel="license" href="https://github.com/" target="_blank" title="静态网页托管于 GitHub Pages 和 Coding Pages">
+      <span class="badge-subject">Hosted</span><span class="badge-value bg-brightgreen">GitHub & Coding</span></a>
+    </div>
+    <div class="github-badge">
+      <a style="color: #fff" rel="license" href="https://www.cloud.tencent.com/" target="_blank" title="腾讯云提供域名相关服务">
+      <span class="badge-subject">DNS</span><span class="badge-value bg-blueviolet">Tencent cloud</span></a>
+    </div>
+    <div class="github-badge">
+      <a style="color: #fff" rel="license" href="https://www.jsdelivr.com/" target="_blank" title="jsDelivr 提供 CDN 加速服务">
+      <span class="badge-subject">CDN</span><span class="badge-value bg-orange">jsDelivr</span></a>
+    </div>
+    <div class="github-badge">
+        <a style="color: #fff" rel="license" href="https://github.com/blinkfox/hexo-theme-matery/" target="_blank" title="站点使用 Matery 主题">
+      <span class="badge-subject">Theme</span><span class="badge-value bg-blue">Matery</span></a>
+    </div>
+    <div class="github-badge">
+      <a style="color: #fff" rel="license" href="http://creativecommons.org/licenses/by-nc-sa/4.0/" target="_blank" title="本站点采用知识共享署名-非商业性使用-相同方式共享 4.0 国际许可协议进行许可">
+      <span class="badge-subject"><i class="fa fa-copyright"></i></span><span class="badge-value bg-lightgrey">BY-NC-SA 4.0</span></a>
+    </div>
+    <div class="github-badge">
+      <a style="color: #fff" rel="license" href="https://996.icu/" target="_blank" title="支持 996.ICU">
+      <span class="badge-subject">Link</span><span class="badge-value bg-red">996.ICU</span></a>
+    </div>
+    <div class="github-badge">
+      <span class="badge-subject">UV</span><span class="badge-value bg-orange" id="busuanzi_value_site_uv"></span>
+    </div>
+    <div class="github-badge">
+      <span class="badge-subject">PV</span><span class="badge-value bg-brightgreen" id="busuanzi_value_site_pv"></span>
+    </div>
+    <div class="github-badge">
+      <span class="badge-subject">WordCount</span><span class="badge-value bg-blueviolet">20k</span>
+    </div>
+</footer>
+
+<div class="progress-bar"></div>
+
+<!-- 不蒜子计数初始值纠正 -->
+<script>
+    $(document).ready(function () {
+
+        var int = setInterval(fixCount, 50);
+        var pvcountOffset = 80000;
+        var uvcountOffset = 20000;
+
+        function fixCount() {
+            if (document.getElementById("busuanzi_container_site_pv").style.display != "none") {
+                $("#busuanzi_value_site_pv").html(parseInt($("#busuanzi_value_site_pv").html()) + pvcountOffset);
+                clearInterval(int);
+            }
+            if ($("#busuanzi_container_site_pv").css("display") != "none") {
+                $("#busuanzi_value_site_uv").html(parseInt($("#busuanzi_value_site_uv").html()) + uvcountOffset); // 加上初始数据 
+                clearInterval(int);
+            }
+        }
+    });
+</script>
+
+<script language=javascript>
+    function siteTime() {
+        window.setTimeout("siteTime()", 1000);
+        var seconds = 1000;
+        var minutes = seconds * 60;
+        var hours = minutes * 60;
+        var days = hours * 24;
+        var years = days * 365;
+        var today = new Date();
+        var todayYear = today.getFullYear();
+        var todayMonth = today.getMonth() + 1;
+        var todayDate = today.getDate();
+        var todayHour = today.getHours();
+        var todayMinute = today.getMinutes();
+        var todaySecond = today.getSeconds();
+        /* Date.UTC() -- 返回date对象距世界标准时间(UTC)1970年1月1日午夜之间的毫秒数(时间戳)
+        year - 作为date对象的年份，为4位年份值
+        month - 0-11之间的整数，做为date对象的月份
+        day - 1-31之间的整数，做为date对象的天数
+        hours - 0(午夜24点)-23之间的整数，做为date对象的小时数
+        minutes - 0-59之间的整数，做为date对象的分钟数
+        seconds - 0-59之间的整数，做为date对象的秒数
+        microseconds - 0-999之间的整数，做为date对象的毫秒数 */
+        var t1 = Date.UTC(2020, 01, 01, 00, 00, 00); //北京时间2018-2-13 00:00:00
+        var t2 = Date.UTC(todayYear, todayMonth, todayDate, todayHour, todayMinute, todaySecond);
+        var diff = t2 - t1;
+        var diffYears = Math.floor(diff / years);
+        var diffDays = Math.floor((diff / days) - diffYears * 365);
+        var diffHours = Math.floor((diff - (diffYears * 365 + diffDays) * days) / hours);
+        var diffMinutes = Math.floor((diff - (diffYears * 365 + diffDays) * days - diffHours * hours) / minutes);
+        var diffSeconds = Math.floor((diff - (diffYears * 365 + diffDays) * days - diffHours * hours - diffMinutes * minutes) / seconds);
+        document.getElementById("sitetime").innerHTML = "本站已运行 " + diffYears + " 年 " + diffDays + " 天 " + diffHours + " 小时 " + diffMinutes + " 分钟 " + diffSeconds + " 秒";
+    }/*因为建站时间还没有一年，就将之注释掉了。需要的可以取消*/
+    siteTime();
+</script>
+
+    <!-- 搜索遮罩框 -->
+<div id="searchModal" class="modal">
+    <div class="modal-content">
+        <div class="search-header">
+            <span class="title"><i class="fa fa-search"></i>&nbsp;&nbsp;搜索</span>
+            <input type="search" id="searchInput" name="s" placeholder="请输入搜索的关键字"
+                   class="search-input">
+        </div>
+        <div id="searchResult"></div>
+    </div>
+</div>
+
+<script src="/js/search.js"></script>
+<script type="text/javascript">
+$(function () {
+    searchFunc("/" + "search.xml", 'searchInput', 'searchResult');
+});
+</script>
+    <!-- 回到顶部按钮 -->
+<div id="backTop" class="top-scroll">
+    <a class="btn-floating btn-large waves-effect waves-light" href="#!">
+        <i class="fa fa-angle-up"></i>
+    </a>
+</div>
+
+
+    <script src="/libs/materialize/materialize.min.js"></script>
+    <script src="/libs/masonry/masonry.pkgd.min.js"></script>
+    <script src="/libs/aos/aos.js"></script>
+    <script src="/libs/scrollprogress/scrollProgress.min.js"></script>
+    <script src="/libs/lightGallery/js/lightgallery-all.min.js"></script>
+    <script src="/js/matery.js"></script>
+
+    <script type="text/javascript"> var OriginTitile = document.title, st; document.addEventListener("visibilitychange", function () { document.hidden ? (document.title = "Σ(っ °Д °;)っ喔哟，崩溃啦！", clearTimeout(st)) : (document.title = "φ(゜▽゜*)♪咦，又好了！", st = setTimeout(function () { document.title = OriginTitile }, 3e3)) })
+    </script>
+
+    <!-- Global site tag (gtag.js) - Google Analytics -->
+
+<script async src="https://www.googletagmanager.com/gtag/js?id="></script>
+<script>
+    window.dataLayer = window.dataLayer || [];
+    function gtag() {
+        dataLayer.push(arguments);
+    }
+
+    gtag('js', new Date());
+    gtag('config', '');
+</script>
+
+
+
+    
+    <script src="/libs/others/clicklove.js"></script>
+    
+
+    
+    <script async src="/libs/others/busuanzi.pure.mini.js"></script>
+    
+
+    <!-- 雪花特效 -->
+    
+
+   <!--单击显示文字-->
+   <script type="text/javascript" src="/js/click_show_text.js"></script> 
+
+   <!--动态线条背景-->
+   <script type="text/javascript"
+   color="220,220,220" opacity='0.7' zIndex="-2" count="200" src="//cdn.bootcss.com/canvas-nest.js/1.0.0/canvas-nest.min.js">
+   </script>
+
+   <script async src =“ https://cdn.jsdelivr.net/npm/perfops-rom”> </ script>
+
+  <!--自定义看板娘-->
+  <script src="https://cdn.jsdelivr.net/npm/jquery/dist/jquery.min.js"></script>
+  <script src="/live2d-widget/autoload.js"></script>
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/font-awesome/css/font-awesome.min.css"/>
+
+</body>
+
+</html>
