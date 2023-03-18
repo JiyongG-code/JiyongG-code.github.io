@@ -6,7 +6,7 @@
   <link href="/atom.xml" rel="self"/>
   
   <link href="https://jiyongg-code.github.io/"/>
-  <updated>2023-03-18T06:20:06.705Z</updated>
+  <updated>2023-03-18T06:24:35.578Z</updated>
   <id>https://jiyongg-code.github.io/</id>
   
   <author>
@@ -17,33 +17,11 @@
   <generator uri="http://hexo.io/">Hexo</generator>
   
   <entry>
-    <title>test</title>
-    <link href="https://jiyongg-code.github.io/test.html"/>
-    <id>https://jiyongg-code.github.io/test.html</id>
-    <published>2023-03-18T06:19:44.000Z</published>
-    <updated>2023-03-18T06:20:06.705Z</updated>
-    
-    <summary type="html">
-    
-      
-      
-        
-        
-          &lt;p&gt;&lt;img src=&quot;/test/image-20230318142001821.png&quot;
-        
-      
-    
-    </summary>
-    
-    
-  </entry>
-  
-  <entry>
     <title>Mysql-01</title>
-    <link href="https://jiyongg-code.github.io/mysql01.html"/>
-    <id>https://jiyongg-code.github.io/mysql01.html</id>
-    <published>2023-03-17T10:59:16.000Z</published>
-    <updated>2023-03-18T05:56:30.912Z</updated>
+    <link href="https://jiyongg-code.github.io/mysql-01.html"/>
+    <id>https://jiyongg-code.github.io/mysql-01.html</id>
+    <published>2023-03-18T06:23:15.000Z</published>
+    <updated>2023-03-18T06:24:35.578Z</updated>
     
     <summary type="html">
     

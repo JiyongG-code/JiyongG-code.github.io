@@ -1,2 +1,1 @@
-https://jiyongg-code.github.io/test.html
-https://jiyongg-code.github.io/mysql01.html
+https://jiyongg-code.github.io/mysql-01.html
