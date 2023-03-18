@@ -844,11 +844,11 @@ DataBase Management Syst">
 -u : MySQL数据库用户名
 -p ： MySQL数据库用户名对应的密码</code></pre><p>[]内为可选参数，如果需要连接远程的MySQL，需要加上这两个参数来指定远程主机IP、端口，如果 连接本地的MySQL，则无需指定这两个参数。</p>
 <h3 id="1-1-2-数据模型"><a href="#1-1-2-数据模型" class="headerlink" title="1.1.2 数据模型"></a>1.1.2 数据模型</h3><p>1). 关系型数据库（RDBMS） 概念：建立在关系模型基础上，由多张相互连接的二维表组成的数据库。 而所谓二维表，指的是由行和列组成的表，如下图（就类似于Excel表格数据，有表头、有列、有行， 还可以通过一列关联另外一个表格中的某一列数据）。MySQL、Oracle、DB2、 SQLServer这些都是属于关系型数据库，里面都是基于二维表存储数据的。简单说，基于二维表存储 数据的数据库就成为关系型数据库，不是基于二维表存储数据的数据库，就是非关系型数据库。</p>
-<p><img src="Mysql01/image-20230317200345320.png" alt="image-20230317200345320"></p>
+<p><img src="/mysql01/image-20230317200345320.png" alt="image-20230317200345320"></p>
 <p>特点： A. 使用表存储数据，格式统一，便于维护。 </p>
 <p>​            B. 使用SQL语言操作，标准统一，使用方便。</p>
 <p>2). 数据模型 MySQL是关系型数据库，是基于二维表进行数据存储的，具体的结构图下:</p>
-<p><img src="Mysql01/image-20230317200415240.png" alt="image-20230317200415240"></p>
+<p><img src="/mysql01/image-20230317200415240.png" alt="image-20230317200415240"></p>
 <p>可以通过MySQL客户端连接数据库管理系统DBMS，然后通过DBMS操作数据库。 </p>
 <p>可以使用SQL语句，通过数据库管理系统操作数据库，以及操作数据库中的表结构及数据。 一个数据库服务器中可以创建多个数据库，一个数据库中也可以包含多张表，而一张表中又可以包 含多行记录。</p>
 <h1 id="2-SQL"><a href="#2-SQL" class="headerlink" title="2.SQL"></a>2.SQL</h1><p>全称 Structured Query Language，结构化查询语言。操作关系型数据库的编程语言，定义了 一套操作关系型数据库统一标准 。</p>
@@ -917,7 +917,7 @@ DataBase Management Syst">
 ) [ COMMENT 表注释 ] ;<span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span><span></span></span></code></pre>
 <p>注意: […] 内为可选参数，最后一个字段后面没有逗号</p>
 <p>比如，创建一张表 tb_user ，对应的结构如下，那么建表语句为：</p>
-<p><img src="Mysql01/image-20230318122920257.png" alt="image-20230318122920257"></p>
+<p><img src="/mysql01/image-20230318122920257.png" alt="image-20230318122920257"></p>
 <pre class="line-numbers language-mysql"><code class="language-mysql">create table tb_user(
 id int comment '编号',
 name varchar(50) comment '姓名',
@@ -1631,50 +1631,34 @@ createtime datetime</code></pre><p>2.3.2.3 表操作-案例 设计一张员工�
 <article id="prenext-posts" class="prev-next articles">
     <div class="row article-row">
         
-        <div class="article col s12 m6" data-aos="fade-up" data-aos="fade-up">
+        <div class="article col s12 m6" data-aos="fade-up">
             <div class="article-badge left-badge text-color">
-                <i class="fa fa-dot-circle-o"></i>&nbsp;本篇
-            </div>
+                <i class="fa fa-chevron-left"></i>&nbsp;上一篇</div>
             <div class="card">
-                <a href="/mysql01.html">
+                <a href="/test.html">
                     <div class="card-image">
                         
                         
-                        <img src="/medias/featureimages/10.jpg" class="responsive-img" alt="Mysql-01">
+                        <img src="/medias/featureimages/16.jpg" class="responsive-img" alt="test">
                         
-                        <span class="card-title">Mysql-01</span>
+                        <span class="card-title">test</span>
                     </div>
                 </a>
                 <div class="card-content article-content">
                     <div class="summary block-with-text">
                         
-                            这是学习Mysql的记录上篇
+                            
+
                         
                     </div>
                     <div class="publish-info">
-                            <span class="publish-date">
-                                <i class="fa fa-clock-o fa-fw icon-date"></i>2023-03-17
-                            </span>
+                        <span class="publish-date">
+                            <i class="fa fa-clock-o fa-fw icon-date"></i>2023-03-18
+                        </span>
                         <span class="publish-author">
-                            
-                            <i class="fa fa-bookmark fa-fw icon-category"></i>
-                            
-                            <a href="/categories/DataBase/" class="post-category" target="_blank">
-                                    DataBase
-                                </a>
-                            
                             
                         </span>
                     </div>
-                </div>
-
-                
-                <div class="card-action article-tags">
-                    
-                    <a href="/tags/Mysql/" target="_blank">
-                        <span class="chip bg-color">Mysql</span>
-                    </a>
-                    
                 </div>
                 
             </div>
