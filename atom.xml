@@ -6,7 +6,7 @@
   <link href="/atom.xml" rel="self"/>
   
   <link href="https://jiyongg-code.github.io/"/>
-  <updated>2023-03-19T15:34:09.669Z</updated>
+  <updated>2023-03-20T09:23:18.742Z</updated>
   <id>https://jiyongg-code.github.io/</id>
   
   <author>
@@ -17,11 +17,37 @@
   <generator uri="http://hexo.io/">Hexo</generator>
   
   <entry>
+    <title>Mysql-03</title>
+    <link href="https://jiyongg-code.github.io/mysql-03.html"/>
+    <id>https://jiyongg-code.github.io/mysql-03.html</id>
+    <published>2023-03-20T06:02:51.000Z</published>
+    <updated>2023-03-20T09:23:18.742Z</updated>
+    
+    <summary type="html">
+    
+      
+      
+        
+        
+          &lt;h1 id=&quot;1-日志&quot;&gt;&lt;a href=&quot;#1-日志&quot; class=&quot;headerlink&quot; title=&quot;1.日志&quot;&gt;&lt;/a&gt;1.日志&lt;/h1&gt;&lt;h2 id=&quot;1-1-错误日志&quot;&gt;&lt;a href=&quot;#1-1-错误日志&quot; class=&quot;headerlink&quot;
+        
+      
+    
+    </summary>
+    
+      <category term="DataBase" scheme="https://jiyongg-code.github.io/categories/DataBase/"/>
+    
+    
+      <category term="Mysql" scheme="https://jiyongg-code.github.io/tags/Mysql/"/>
+    
+  </entry>
+  
+  <entry>
     <title>Mysql-02</title>
     <link href="https://jiyongg-code.github.io/mysql-02.html"/>
     <id>https://jiyongg-code.github.io/mysql-02.html</id>
     <published>2023-03-18T10:11:22.000Z</published>
-    <updated>2023-03-19T15:34:09.669Z</updated>
+    <updated>2023-03-20T06:04:57.606Z</updated>
     
     <summary type="html">
     
