@@ -6,7 +6,7 @@
   <link href="/atom.xml" rel="self"/>
   
   <link href="https://jiyongg-code.github.io/"/>
-  <updated>2023-03-20T09:23:18.742Z</updated>
+  <updated>2023-03-23T13:47:22.312Z</updated>
   <id>https://jiyongg-code.github.io/</id>
   
   <author>
@@ -15,6 +15,253 @@
   </author>
   
   <generator uri="http://hexo.io/">Hexo</generator>
+  
+  <entry>
+    <title>Feign</title>
+    <link href="https://jiyongg-code.github.io/feign.html"/>
+    <id>https://jiyongg-code.github.io/feign.html</id>
+    <published>2023-03-23T13:40:54.000Z</published>
+    <updated>2023-03-23T13:47:22.312Z</updated>
+    
+    <summary type="html">
+    
+      
+      
+        
+        
+          &lt;h1 id=&quot;Feign远程调用&quot;&gt;&lt;a href=&quot;#Feign远程调用&quot; class=&quot;headerlink&quot; title=&quot;Feign远程调用&quot;&gt;&lt;/a&gt;Feign远程调用&lt;/h1&gt;&lt;p&gt;以前利用RestTemplate发起远程调用的代码：&lt;/p&gt;
+&lt;p&gt;&lt;img
+        
+      
+    
+    </summary>
+    
+    
+      <category term="SpringCloud" scheme="https://jiyongg-code.github.io/tags/SpringCloud/"/>
+    
+  </entry>
+  
+  <entry>
+    <title>Gateway</title>
+    <link href="https://jiyongg-code.github.io/gateway.html"/>
+    <id>https://jiyongg-code.github.io/gateway.html</id>
+    <published>2023-03-23T13:40:13.000Z</published>
+    <updated>2023-03-23T13:54:56.194Z</updated>
+    
+    <summary type="html">
+    
+      
+      
+        
+        
+          &lt;h1 id=&quot;Gateway服务网关&quot;&gt;&lt;a href=&quot;#Gateway服务网关&quot; class=&quot;headerlink&quot; title=&quot;Gateway服务网关&quot;&gt;&lt;/a&gt;Gateway服务网关&lt;/h1&gt;&lt;p&gt;Spring Cloud Gateway 是 Spring
+        
+      
+    
+    </summary>
+    
+    
+      <category term="SpringCloud" scheme="https://jiyongg-code.github.io/tags/SpringCloud/"/>
+    
+  </entry>
+  
+  <entry>
+    <title>Nacos</title>
+    <link href="https://jiyongg-code.github.io/nacos.html"/>
+    <id>https://jiyongg-code.github.io/nacos.html</id>
+    <published>2023-03-23T12:43:40.000Z</published>
+    <updated>2023-03-23T13:37:37.411Z</updated>
+    
+    <summary type="html">
+    
+      
+      
+        
+        
+          &lt;h1 id=&quot;Nacos注册中心&quot;&gt;&lt;a href=&quot;#Nacos注册中心&quot; class=&quot;headerlink&quot; title=&quot;Nacos注册中心&quot;&gt;&lt;/a&gt;Nacos注册中心&lt;/h1&gt;&lt;h2 id=&quot;认识和安装Nacos&quot;&gt;&lt;a href=&quot;#认识和安装Nacos&quot;
+        
+      
+    
+    </summary>
+    
+    
+      <category term="Springcloud" scheme="https://jiyongg-code.github.io/tags/Springcloud/"/>
+    
+  </entry>
+  
+  <entry>
+    <title>Ribbon-LoadBalance</title>
+    <link href="https://jiyongg-code.github.io/ribbon-loadbalance.html"/>
+    <id>https://jiyongg-code.github.io/ribbon-loadbalance.html</id>
+    <published>2023-03-23T12:24:28.000Z</published>
+    <updated>2023-03-23T12:43:10.719Z</updated>
+    
+    <summary type="html">
+    
+      
+      
+        
+        
+          &lt;h1 id=&quot;Ribbon负载均衡&quot;&gt;&lt;a href=&quot;#Ribbon负载均衡&quot; class=&quot;headerlink&quot; title=&quot;Ribbon负载均衡&quot;&gt;&lt;/a&gt;Ribbon负载均衡&lt;/h1&gt;&lt;h2 id=&quot;负载均衡原理&quot;&gt;&lt;a href=&quot;#负载均衡原理&quot;
+        
+      
+    
+    </summary>
+    
+    
+      <category term="SpringCloud" scheme="https://jiyongg-code.github.io/tags/SpringCloud/"/>
+    
+  </entry>
+  
+  <entry>
+    <title>Eureka注册中心</title>
+    <link href="https://jiyongg-code.github.io/eureka.html"/>
+    <id>https://jiyongg-code.github.io/eureka.html</id>
+    <published>2023-03-23T11:57:31.000Z</published>
+    <updated>2023-03-23T12:23:28.220Z</updated>
+    
+    <summary type="html">
+    
+      
+      
+        
+        
+          &lt;h1 id=&quot;Eureka的结构和作用&quot;&gt;&lt;a href=&quot;#Eureka的结构和作用&quot; class=&quot;headerlink&quot; title=&quot;Eureka的结构和作用&quot;&gt;&lt;/a&gt;Eureka的结构和作用&lt;/h1&gt;&lt;p&gt;&lt;img
+        
+      
+    
+    </summary>
+    
+      <category term="SpringCloud" scheme="https://jiyongg-code.github.io/categories/SpringCloud/"/>
+    
+    
+      <category term="Eureka" scheme="https://jiyongg-code.github.io/tags/Eureka/"/>
+    
+  </entry>
+  
+  <entry>
+    <title>SpringSecurity</title>
+    <link href="https://jiyongg-code.github.io/springsecurity.html"/>
+    <id>https://jiyongg-code.github.io/springsecurity.html</id>
+    <published>2023-03-22T12:20:31.000Z</published>
+    <updated>2023-03-23T11:54:21.553Z</updated>
+    
+    <summary type="html">
+    
+      
+      
+        
+        
+          &lt;h1 id=&quot;Spring-Security&quot;&gt;&lt;a href=&quot;#Spring-Security&quot; class=&quot;headerlink&quot; title=&quot;Spring Security&quot;&gt;&lt;/a&gt;Spring Security&lt;/h1&gt;&lt;p&gt;Spring Security 是
+        
+      
+    
+    </summary>
+    
+      <category term="Auth" scheme="https://jiyongg-code.github.io/categories/Auth/"/>
+    
+    
+      <category term="SpringSecuritt" scheme="https://jiyongg-code.github.io/tags/SpringSecuritt/"/>
+    
+  </entry>
+  
+  <entry>
+    <title>JWT</title>
+    <link href="https://jiyongg-code.github.io/jwt.html"/>
+    <id>https://jiyongg-code.github.io/jwt.html</id>
+    <published>2023-03-22T11:08:28.000Z</published>
+    <updated>2023-03-22T12:19:48.172Z</updated>
+    
+    <summary type="html">
+    
+      
+      
+        
+        
+          &lt;h1 id=&quot;JWT&quot;&gt;&lt;a href=&quot;#JWT&quot; class=&quot;headerlink&quot; title=&quot;JWT&quot;&gt;&lt;/a&gt;JWT&lt;/h1&gt;&lt;h2 id=&quot;JWT介绍&quot;&gt;&lt;a href=&quot;#JWT介绍&quot; class=&quot;headerlink&quot;
+        
+      
+    
+    </summary>
+    
+    
+  </entry>
+  
+  <entry>
+    <title>Oauth</title>
+    <link href="https://jiyongg-code.github.io/oauth.html"/>
+    <id>https://jiyongg-code.github.io/oauth.html</id>
+    <published>2023-03-21T15:59:53.000Z</published>
+    <updated>2023-03-22T11:07:04.144Z</updated>
+    
+    <summary type="html">
+    
+      
+      
+        
+        
+          &lt;h1 id=&quot;Oauth&quot;&gt;&lt;a href=&quot;#Oauth&quot; class=&quot;headerlink&quot; title=&quot;Oauth&quot;&gt;&lt;/a&gt;Oauth&lt;/h1&gt;&lt;h2 id=&quot;什么是OAuth&quot;&gt;&lt;a href=&quot;#什么是OAuth&quot; class=&quot;headerlink&quot;
+        
+      
+    
+    </summary>
+    
+      <category term="Auth" scheme="https://jiyongg-code.github.io/categories/Auth/"/>
+    
+    
+      <category term="Oauth" scheme="https://jiyongg-code.github.io/tags/Oauth/"/>
+    
+  </entry>
+  
+  <entry>
+    <title>用Controller实现Feign 简化代码</title>
+    <link href="https://jiyongg-code.github.io/feign-simplification.html"/>
+    <id>https://jiyongg-code.github.io/feign-simplification.html</id>
+    <published>2023-03-20T13:03:21.000Z</published>
+    <updated>2023-03-20T13:57:07.977Z</updated>
+    
+    <summary type="html">
+    
+      
+      
+        
+        
+          &lt;h1 id=&quot;Feign简化-feign的接口抽取成公共的api&quot;&gt;&lt;a href=&quot;#Feign简化-feign的接口抽取成公共的api&quot; class=&quot;headerlink&quot; title=&quot;Feign简化  feign的接口抽取成公共的api&quot;&gt;&lt;/a&gt;Feign简化 
+        
+      
+    
+    </summary>
+    
+    
+      <category term="SpringCloud" scheme="https://jiyongg-code.github.io/tags/SpringCloud/"/>
+    
+  </entry>
+  
+  <entry>
+    <title>community</title>
+    <link href="https://jiyongg-code.github.io/community.html"/>
+    <id>https://jiyongg-code.github.io/community.html</id>
+    <published>2023-03-20T11:34:33.000Z</published>
+    <updated>2023-03-20T14:50:51.884Z</updated>
+    
+    <summary type="html">
+    
+      
+      
+        
+        
+          &lt;h1 id=&quot;community项目&quot;&gt;&lt;a href=&quot;#community项目&quot; class=&quot;headerlink&quot;
+        
+      
+    
+    </summary>
+    
+      <category term="项目" scheme="https://jiyongg-code.github.io/categories/%E9%A1%B9%E7%9B%AE/"/>
+    
+    
+      <category term="社区项目" scheme="https://jiyongg-code.github.io/tags/%E7%A4%BE%E5%8C%BA%E9%A1%B9%E7%9B%AE/"/>
+    
+  </entry>
   
   <entry>
     <title>Mysql-03</title>
