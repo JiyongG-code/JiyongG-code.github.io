@@ -775,14 +775,14 @@ Feign是一个声明式的http客户端，官方地址：https://github.com/O">
                 
                 <div class="info-break-policy">
                     <i class="fa fa-file-word-o fa-fw"></i>文章字数:&nbsp;&nbsp;
-                    1.7k
+                    2.8k
                 </div>
                 
 
                 
                 <div class="info-break-policy">
                     <i class="fa fa-clock-o fa-fw"></i>阅读时长:&nbsp;&nbsp;
-                    6 分
+                    11 分
                 </div>
                 
                 
@@ -997,6 +997,148 @@ Feign是一个声明式的http客户端，官方地址：https://github.com/O">
 <p>方式二：</p>
 <p>指定需要加载的Client接口：</p>
 <pre class="line-numbers language-java"><code class="language-java"><span class="token annotation punctuation">@EnableFeignClients</span><span class="token punctuation">(</span>clients <span class="token operator">=</span> <span class="token punctuation">{</span>UserClient<span class="token punctuation">.</span><span class="token keyword">class</span><span class="token punctuation">}</span><span class="token punctuation">)</span><span aria-hidden="true" class="line-numbers-rows"><span></span></span></code></pre>
+<h1 id="Feign调用被保护的资源"><a href="#Feign调用被保护的资源" class="headerlink" title="Feign调用被保护的资源"></a>Feign调用被保护的资源</h1><p>Feign调用被Spring Security保护的资源的时候，需要加上token之类的规定的验证条件</p>
+<p>@Headers注解添加Authorization头信息，以便通过Spring Security的认证。</p>
+<pre><code>@FeignClient(name = &quot;service-provider&quot;)
+public interface UserFeignClient {
+    @RequestLine(&quot;GET /api/users/{id}&quot;)
+    @Headers(&quot;Authorization: {token}&quot;)
+    User getUserById(@Param(&quot;id&quot;) Long id, @Param(&quot;token&quot;) String token);
+}</code></pre><h1 id="OpenFeign——拦截器"><a href="#OpenFeign——拦截器" class="headerlink" title="OpenFeign——拦截器"></a>OpenFeign——拦截器</h1><pre><code>package feign;
+
+/**
+ * 可以配置零个或多个请求拦截器，可以用于例如给所有请求添加请求头信息.但是不能保证拦截器的应用顺 
+ * 序。一旦拦截器被应用，就会调用Target类中的apply(RequestTemplate)方法去创建不可变的http请 
+ * 求，该请求通过Client类中的execute(Request, feign.Request.Options)发送。
+ *
+ * 拦截器是在设置rest模板参数后才被应用的，因此不能再拦截器中添加参数，比如不能再    
+ * apply(RequestTemplate)方法中给/path/{foo}/bar中的foo设置参数。
+ * 这个类类似于RequestInterceptor.intercept()方法，可以实现读取、删除或以其他方式改变请求模板 
+ * 的任何部分。
+ */
+public interface RequestInterceptor {
+
+  /**
+   * 可以被每个请求调用。使用RequestTemplate提供的这个方法可以添加数据。
+   */
+  void apply(RequestTemplate template);
+}</code></pre><p>通过对该类及方法的注释可以了解到RequestInterceptor接口的apply方法可以对请求进行拦截，可以在该方法中添加请求头信息。</p>
+<pre><code>package com.example.rtbootconsumer.config.interceptor;
+
+import com.example.rtbootconsumer.common.utils.TraceIdUtil;
+import feign.Request;
+import feign.RequestInterceptor;
+import feign.RequestTemplate;
+import org.apache.commons.lang3.StringUtils;
+import org.springframework.context.annotation.Configuration;
+
+/**
+ * @Description Feign接口请求拦截器
+ **/
+@Configuration
+public class FeignRequestInterceptor implements RequestInterceptor {
+
+    /**
+     * @description: 将traceId设置到请求头
+     */
+    @Override
+    public void apply(RequestTemplate template) {
+        String traceId = TraceIdUtil.getTraceId();
+        if (StringUtils.isNotEmpty(traceId)) {
+            template.header(&quot;traceId&quot;, traceId);
+        }
+    }
+}</code></pre><p>创建自定义拦截器+配置@FeignClient注解的configuration属性</p>
+<pre><code>package com.example.rtbootconsumer.config.interceptor;
+
+import com.example.rtbootconsumer.common.utils.TraceIdUtil;
+import feign.Request;
+import feign.RequestInterceptor;
+import feign.RequestTemplate;
+import org.apache.commons.lang3.StringUtils;
+import org.springframework.context.annotation.Configuration;
+
+/**
+ * @Description Feign接口请求拦截器
+ **/
+public class FeignRequestInterceptor implements RequestInterceptor {
+
+    /**
+     * @description: 将traceId设置到请求头
+     */
+    @Override
+    public void apply(RequestTemplate template) {
+        String traceId = TraceIdUtil.getTraceId();
+        if (StringUtils.isNotEmpty(traceId)) {
+            template.header(&quot;traceId&quot;, traceId);
+        }
+    }
+}</code></pre><pre><code>package com.example.rtbootconsumer.feignservice;
+
+import com.example.rtbootconsumer.pojo.User;
+import com.example.rtbootconsumer.vo.ResultBody;
+import org.springframework.cloud.openfeign.FeignClient;
+import org.springframework.web.bind.annotation.*;
+
+import java.util.List;
+
+
+@FeignClient(name = &quot;service-provider&quot;, path = &quot;/testComm&quot;, url = &quot;${addr.url}&quot;,configuration = FeignRequestInterceptor.class)
+public interface UserFeignService {
+
+    @PostMapping(value = &quot;/getUser&quot;)
+    public ResultBody&lt;User&gt; getUser(@RequestBody User user);
+}
+</code></pre><h2 id="创建两个拦截器"><a href="#创建两个拦截器" class="headerlink" title="创建两个拦截器"></a>创建两个拦截器</h2><p>也可以同时创建多个拦截器实现拦截器链的功能。</p>
+<p>此时再创建一个拦截器FeignRequestInterceptor2，用于在请求头中设置属性名为test，值为lalala信息。</p>
+<p>方式一：同上</p>
+<pre><code>package com.example.rtbootconsumer.config.interceptor;
+
+import com.example.rtbootconsumer.common.utils.TraceIdUtil;
+import feign.Request;
+import feign.RequestInterceptor;
+import feign.RequestTemplate;
+import org.apache.commons.lang3.StringUtils;
+import org.springframework.context.annotation.Configuration;
+
+/**
+ * @Description Feign接口请求拦截器
+ **/
+@Configuration
+public class FeignRequestInterceptor2 implements RequestInterceptor {
+
+    /**
+     * @description: 将test设置到请求头
+     */
+    @Override
+    public void apply(RequestTemplate template) {
+        String traceId = TraceIdUtil.getTraceId();
+        if (StringUtils.isNotEmpty(traceId)) {
+            template.header(&quot;test&quot;, &quot;lalala&quot;);
+        }
+    }
+}</code></pre><p>方式二：同上，注意这里设置的@FeignClient注解的configuration属性值是两个拦截器的class数组。</p>
+<pre><code>package com.example.rtbootconsumer.feignservice;
+
+import com.example.rtbootconsumer.pojo.User;
+import com.example.rtbootconsumer.vo.ResultBody;
+import org.springframework.cloud.openfeign.FeignClient;
+import org.springframework.web.bind.annotation.*;
+
+import java.util.List;
+
+
+@FeignClient(name = &quot;service-provider&quot;, path = &quot;/testComm&quot;, url = &quot;${addr.url}&quot;,configuration = {FeignRequestInterceptor.class,FeignRequestInterceptor2.class})
+public interface UserFeignService {
+
+    @PostMapping(value = &quot;/getUser&quot;)
+    public ResultBody&lt;User&gt; getUser(@RequestBody User user);
+
+    @PostMapping(value = &quot;/testList&quot;)
+    public ResultBody&lt;List&lt;User&gt;&gt; testList(@RequestBody List&lt;User&gt; list);
+}
+</code></pre><p>三、注意<br>在创建并配置拦截器时有两点需要特别注意。</p>
+<p>在使用方式一去创建拦截器时，会拦截所有请求。用方式二时若@FeignClient注解的configuration属性未设置拦截器，那么并不会拦截该接口下所有方法的请求。拦截器只会拦截所有configuration属性值设置了拦截器的接口下所有方法的请求。因此使用方式二更灵活。<br>拦截器执行顺序。若使用方式一去创建多个拦截器时，正如前面注释所讲，不能保证拦截器的执行顺序。但是使用方式二则可以控制拦截器的执行顺序，拦截器的执行顺序和@FeignClient注解中configuration属性中拦截器的配置顺序有关。若配置为 {FeignRequestInterceptor.class,FeignRequestInterceptor2.class})，则会先执行FeignRequestInterceptor中的拦截，再执行FeignRequestInterceptor2中的拦截。若配置为 {FeignRequestInterceptor2.class,FeignRequestInterceptor.class})，则会先执行FeignRequestInterceptor2中的拦截，再执行FeignRequestInterceptor中的拦截。</p>
 
             </div>
             <hr />
@@ -1482,48 +1624,46 @@ Feign是一个声明式的http客户端，官方地址：https://github.com/O">
 <article id="prenext-posts" class="prev-next articles">
     <div class="row article-row">
         
-        <div class="article col s12 m6" data-aos="fade-up" data-aos="fade-up">
+        <div class="article col s12 m6" data-aos="fade-up">
             <div class="article-badge left-badge text-color">
-                <i class="fa fa-dot-circle-o"></i>&nbsp;本篇
-            </div>
+                <i class="fa fa-chevron-left"></i>&nbsp;上一篇</div>
             <div class="card">
-                <a href="/feign.html">
+                <a href="/kafka01-introductory.html">
                     <div class="card-image">
                         
                         
-                        <img src="/medias/featureimages/13.jpg" class="responsive-img" alt="Feign">
+                        <img src="/medias/featureimages/4.jpg" class="responsive-img" alt="Kafka介绍">
                         
-                        <span class="card-title">Feign</span>
+                        <span class="card-title">Kafka介绍</span>
                     </div>
                 </a>
                 <div class="card-content article-content">
                     <div class="summary block-with-text">
                         
-                            Feign
+                            Kafka入门
                         
                     </div>
                     <div class="publish-info">
-                            <span class="publish-date">
-                                <i class="fa fa-clock-o fa-fw icon-date"></i>2023-03-23
-                            </span>
+                        <span class="publish-date">
+                            <i class="fa fa-clock-o fa-fw icon-date"></i>2023-03-23
+                        </span>
                         <span class="publish-author">
                             
                             <i class="fa fa-bookmark fa-fw icon-category"></i>
                             
-                            <a href="/categories/SpringCloud/" class="post-category" target="_blank">
-                                    SpringCloud
+                            <a href="/categories/Message-Queue/" class="post-category" target="_blank">
+                                    Message Queue
                                 </a>
                             
                             
                         </span>
                     </div>
                 </div>
-
                 
                 <div class="card-action article-tags">
                     
-                    <a href="/tags/SpringCloud/" target="_blank">
-                        <span class="chip bg-color">SpringCloud</span>
+                    <a href="/tags/Kafka/" target="_blank">
+                        <span class="chip bg-color">Kafka</span>
                     </a>
                     
                 </div>
@@ -1748,7 +1888,7 @@ Feign是一个声明式的http客户端，官方地址：https://github.com/O">
            <!--<a href="/sitemap.xml" target="_blank">站点地图</a>丨-->
            
             &nbsp;<i class="fa fa-area-chart"></i>&nbsp;站点总字数:&nbsp;
-            <span class="white-color">67.6k
+            <span class="white-color">117.6k
              丨            
           
 
@@ -1842,7 +1982,7 @@ Feign是一个声明式的http客户端，官方地址：https://github.com/O">
       <span class="badge-subject">PV</span><span class="badge-value bg-brightgreen" id="busuanzi_value_site_pv"></span>
     </div>
     <div class="github-badge">
-      <span class="badge-subject">WordCount</span><span class="badge-value bg-blueviolet">67.6k</span>
+      <span class="badge-subject">WordCount</span><span class="badge-value bg-blueviolet">117.6k</span>
     </div>
 </footer>
 

@@ -6,7 +6,7 @@
   <link href="/atom.xml" rel="self"/>
   
   <link href="https://jiyongg-code.github.io/"/>
-  <updated>2023-03-23T14:04:45.856Z</updated>
+  <updated>2023-03-30T07:17:42.827Z</updated>
   <id>https://jiyongg-code.github.io/</id>
   
   <author>
@@ -17,11 +17,195 @@
   <generator uri="http://hexo.io/">Hexo</generator>
   
   <entry>
+    <title>RabbitMQ</title>
+    <link href="https://jiyongg-code.github.io/rabbitmq.html"/>
+    <id>https://jiyongg-code.github.io/rabbitmq.html</id>
+    <published>2023-03-29T10:06:32.000Z</published>
+    <updated>2023-03-30T07:17:42.827Z</updated>
+    
+    <summary type="html">
+    
+      RabbitMQ
+    
+    </summary>
+    
+      <category term="Message Queue" scheme="https://jiyongg-code.github.io/categories/Message-Queue/"/>
+    
+    
+      <category term="RabbitMQ" scheme="https://jiyongg-code.github.io/tags/RabbitMQ/"/>
+    
+  </entry>
+  
+  <entry>
+    <title>Xuecheng项目</title>
+    <link href="https://jiyongg-code.github.io/xuecheng.html"/>
+    <id>https://jiyongg-code.github.io/xuecheng.html</id>
+    <published>2023-03-27T08:42:14.000Z</published>
+    <updated>2023-03-29T15:26:53.518Z</updated>
+    
+    <summary type="html">
+    
+      学成在线项目
+    
+    </summary>
+    
+      <category term="项目" scheme="https://jiyongg-code.github.io/categories/%E9%A1%B9%E7%9B%AE/"/>
+    
+    
+      <category term="学成在线项目" scheme="https://jiyongg-code.github.io/tags/%E5%AD%A6%E6%88%90%E5%9C%A8%E7%BA%BF%E9%A1%B9%E7%9B%AE/"/>
+    
+  </entry>
+  
+  <entry>
+    <title>SpringSecurity-OAuth2</title>
+    <link href="https://jiyongg-code.github.io/springsecurity-oauth2.html"/>
+    <id>https://jiyongg-code.github.io/springsecurity-oauth2.html</id>
+    <published>2023-03-25T05:09:37.000Z</published>
+    <updated>2023-03-25T05:09:37.200Z</updated>
+    
+    <summary type="html">
+    
+    </summary>
+    
+    
+  </entry>
+  
+  <entry>
+    <title>Java反射</title>
+    <link href="https://jiyongg-code.github.io/java-reflection.html"/>
+    <id>https://jiyongg-code.github.io/java-reflection.html</id>
+    <published>2023-03-24T12:12:20.000Z</published>
+    <updated>2023-03-24T13:35:58.524Z</updated>
+    
+    <summary type="html">
+    
+      
+      
+        
+        
+          &lt;h2 id=&quot;反射机制是什么&quot;&gt;&lt;a href=&quot;#反射机制是什么&quot; class=&quot;headerlink&quot;
+        
+      
+    
+    </summary>
+    
+      <category term="Java" scheme="https://jiyongg-code.github.io/categories/Java/"/>
+    
+    
+      <category term="反射" scheme="https://jiyongg-code.github.io/tags/%E5%8F%8D%E5%B0%84/"/>
+    
+  </entry>
+  
+  <entry>
+    <title>Redis02分布式缓存</title>
+    <link href="https://jiyongg-code.github.io/redis02-distributed-caching.html"/>
+    <id>https://jiyongg-code.github.io/redis02-distributed-caching.html</id>
+    <published>2023-03-24T11:24:54.000Z</published>
+    <updated>2023-03-24T16:11:02.829Z</updated>
+    
+    <summary type="html">
+    
+      
+      
+        
+        
+          &lt;h1 id=&quot;分布式缓存&quot;&gt;&lt;a href=&quot;#分布式缓存&quot; class=&quot;headerlink&quot; title=&quot;分布式缓存&quot;&gt;&lt;/a&gt;分布式缓存&lt;/h1&gt;&lt;p&gt;–
+        
+      
+    
+    </summary>
+    
+      <category term="NoSql" scheme="https://jiyongg-code.github.io/categories/NoSql/"/>
+    
+    
+      <category term="Redis" scheme="https://jiyongg-code.github.io/tags/Redis/"/>
+    
+  </entry>
+  
+  <entry>
+    <title>Redis入门</title>
+    <link href="https://jiyongg-code.github.io/redis01-getting-started.html"/>
+    <id>https://jiyongg-code.github.io/redis01-getting-started.html</id>
+    <published>2023-03-24T10:52:05.000Z</published>
+    <updated>2023-03-24T11:15:44.718Z</updated>
+    
+    <summary type="html">
+    
+      
+      
+        
+        
+          &lt;h1 id=&quot;初识Redis&quot;&gt;&lt;a href=&quot;#初识Redis&quot; class=&quot;headerlink&quot;
+        
+      
+    
+    </summary>
+    
+      <category term="NoSql" scheme="https://jiyongg-code.github.io/categories/NoSql/"/>
+    
+    
+      <category term="Redis" scheme="https://jiyongg-code.github.io/tags/Redis/"/>
+    
+  </entry>
+  
+  <entry>
+    <title>Kafka架构</title>
+    <link href="https://jiyongg-code.github.io/kafka02-architecture.html"/>
+    <id>https://jiyongg-code.github.io/kafka02-architecture.html</id>
+    <published>2023-03-24T10:14:38.000Z</published>
+    <updated>2023-03-24T10:47:55.375Z</updated>
+    
+    <summary type="html">
+    
+      
+      
+        
+        
+          &lt;h1 id=&quot;Kafka架构&quot;&gt;&lt;a href=&quot;#Kafka架构&quot; class=&quot;headerlink&quot; title=&quot;Kafka架构&quot;&gt;&lt;/a&gt;Kafka架构&lt;/h1&gt;&lt;p&gt;&lt;img
+        
+      
+    
+    </summary>
+    
+      <category term="Message Queue" scheme="https://jiyongg-code.github.io/categories/Message-Queue/"/>
+    
+    
+      <category term="Kafka" scheme="https://jiyongg-code.github.io/tags/Kafka/"/>
+    
+  </entry>
+  
+  <entry>
+    <title>Kafka介绍</title>
+    <link href="https://jiyongg-code.github.io/kafka01-introductory.html"/>
+    <id>https://jiyongg-code.github.io/kafka01-introductory.html</id>
+    <published>2023-03-23T14:39:11.000Z</published>
+    <updated>2023-03-24T10:16:49.053Z</updated>
+    
+    <summary type="html">
+    
+      
+      
+        
+        
+          &lt;h1 id=&quot;什么是消息系统？&quot;&gt;&lt;a href=&quot;#什么是消息系统？&quot; class=&quot;headerlink&quot;
+        
+      
+    
+    </summary>
+    
+      <category term="Message Queue" scheme="https://jiyongg-code.github.io/categories/Message-Queue/"/>
+    
+    
+      <category term="Kafka" scheme="https://jiyongg-code.github.io/tags/Kafka/"/>
+    
+  </entry>
+  
+  <entry>
     <title>Feign</title>
     <link href="https://jiyongg-code.github.io/feign.html"/>
     <id>https://jiyongg-code.github.io/feign.html</id>
     <published>2023-03-23T13:40:54.000Z</published>
-    <updated>2023-03-23T14:04:45.856Z</updated>
+    <updated>2023-03-29T12:30:33.639Z</updated>
     
     <summary type="html">
     
@@ -152,7 +336,7 @@
     <link href="https://jiyongg-code.github.io/springsecurity.html"/>
     <id>https://jiyongg-code.github.io/springsecurity.html</id>
     <published>2023-03-22T12:20:31.000Z</published>
-    <updated>2023-03-23T11:54:21.553Z</updated>
+    <updated>2023-03-25T04:52:31.900Z</updated>
     
     <summary type="html">
     
@@ -252,11 +436,11 @@
   </entry>
   
   <entry>
-    <title>community</title>
+    <title>community项目</title>
     <link href="https://jiyongg-code.github.io/community.html"/>
     <id>https://jiyongg-code.github.io/community.html</id>
     <published>2023-03-20T11:34:33.000Z</published>
-    <updated>2023-03-20T14:50:51.884Z</updated>
+    <updated>2023-03-27T08:24:34.756Z</updated>
     
     <summary type="html">
     
@@ -264,7 +448,7 @@
       
         
         
-          &lt;h1 id=&quot;community项目&quot;&gt;&lt;a href=&quot;#community项目&quot; class=&quot;headerlink&quot;
+          &lt;h1 id=&quot;community项目&quot;&gt;&lt;a href=&quot;#community项目&quot; class=&quot;headerlink&quot; title=&quot;community项目&quot;&gt;&lt;/a&gt;community项目&lt;/h1&gt;&lt;h1 id=&quot;用到的框架&quot;&gt;&lt;a href=&quot;#用到的框架&quot;
         
       
     
@@ -317,32 +501,6 @@
         
         
           &lt;h1 id=&quot;1-存储引擎&quot;&gt;&lt;a href=&quot;#1-存储引擎&quot; class=&quot;headerlink&quot; title=&quot;1.存储引擎&quot;&gt;&lt;/a&gt;1.存储引擎&lt;/h1&gt;&lt;h2 id=&quot;1-1-MySQL体系结构&quot;&gt;&lt;a href=&quot;#1-1-MySQL体系结构&quot;
-        
-      
-    
-    </summary>
-    
-      <category term="DataBase" scheme="https://jiyongg-code.github.io/categories/DataBase/"/>
-    
-    
-      <category term="Mysql" scheme="https://jiyongg-code.github.io/tags/Mysql/"/>
-    
-  </entry>
-  
-  <entry>
-    <title>Mysql-01</title>
-    <link href="https://jiyongg-code.github.io/mysql-01.html"/>
-    <id>https://jiyongg-code.github.io/mysql-01.html</id>
-    <published>2023-03-18T06:23:15.000Z</published>
-    <updated>2023-03-18T10:12:11.132Z</updated>
-    
-    <summary type="html">
-    
-      
-      
-        
-        
-          &lt;h1 id=&quot;1-MySQL概述&quot;&gt;&lt;a href=&quot;#1-MySQL概述&quot; class=&quot;headerlink&quot; title=&quot;1.MySQL概述&quot;&gt;&lt;/a&gt;1.MySQL概述&lt;/h1&gt;&lt;h2 id=&quot;1-1-数据库相关概念&quot;&gt;&lt;a href=&quot;#1-1-数据库相关概念&quot;
         
       
     

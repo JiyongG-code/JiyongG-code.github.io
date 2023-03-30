@@ -770,14 +770,14 @@
                 
                 <div class="info-break-policy">
                     <i class="fa fa-file-word-o fa-fw"></i>文章字数:&nbsp;&nbsp;
-                    5.2k
+                    5.3k
                 </div>
                 
 
                 
                 <div class="info-break-policy">
                     <i class="fa fa-clock-o fa-fw"></i>阅读时长:&nbsp;&nbsp;
-                    19 分
+                    20 分
                 </div>
                 
                 
@@ -795,6 +795,10 @@
             <div id="articleContent">
                 <h1 id="Spring-Security"><a href="#Spring-Security" class="headerlink" title="Spring Security"></a>Spring Security</h1><p>Spring Security 是 Spring 家族中的一个安全管理框架，应用程序的两个主要区域是“认证”和“授权”（或者访问控制）。Spring Security是针对Spring项目的安全框架，也是Spring Boot底层安全模块默认的技术选型</p>
 <p>Spring Security 采用的是责任链的设计模式，它有一条很长的过滤器链。</p>
+<p>Spring Security对Web资源的保护是靠Filter实现的</p>
+<p>当初始化Spring Security时，会创建一个名为SpringSecurityFilterChain的Servlet过滤器，类型为 org.springframework.security.web.FilterChainProxy，它实现了javax.servlet.Filter，因此外部的请求会经过此类，<img src="/springsecurity/image-20230325122446975.png" alt="image-20230325122446975"></p>
+<p>FilterChainProxy是一个代理，真正起作用的是FilterChainProxy中SecurityFilterChain所包含的各个Filter，同时这些Filter作为Bean被Spring管理，它们是Spring Security核心，各有各的职责，但他们并不直接处理用户的<strong>认证</strong>，也不直接处理用户的<strong>授权</strong>，而是把它们交给了认证管理器（AuthenticationManager）和决策管理器（AccessDecisionManager）进行处理。</p>
+<p>spring Security功能的实现主要是由一系列过滤器链相互配合完成。</p>
 <h1 id="SpringSecurity执行流程图"><a href="#SpringSecurity执行流程图" class="headerlink" title="SpringSecurity执行流程图"></a>SpringSecurity执行流程图</h1><p><img src="/springsecurity/d359fe34bc7860c11a1b6e50bfd0e086.png" alt="img"></p>
 <ol>
 <li><p>WebAsyncManagerIntegrationFilter：将 Security 上下文与 Spring Web 中用于处理异步请求映射的 WebAsyncManager 进行集成。</p>
@@ -858,7 +862,7 @@
        <span class="token punctuation">.</span><span class="token function">permitAll</span><span class="token punctuation">(</span><span class="token punctuation">)</span>    
        <span class="token punctuation">.</span><span class="token function">and</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">.</span><span class="token function">authorizeRequests</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">.</span><span class="token function">antMatchers</span><span class="token punctuation">(</span><span class="token string">"/test"</span><span class="token punctuation">)</span><span class="token punctuation">.</span><span class="token function">hasRole</span><span class="token punctuation">(</span><span class="token string">"test"</span><span class="token punctuation">)</span>    <span class="token comment" spellcheck="true">//权限设置</span>
        <span class="token punctuation">.</span><span class="token function">anyRequest</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">.</span><span class="token function">authenticated</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">.</span><span class="token function">accessDecisionManager</span><span class="token punctuation">(</span><span class="token function">accessDecisionManager</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">)</span>    
-       <span class="token punctuation">.</span><span class="token function">and</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">.</span><span class="token function">logout</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">.</span><span class="token function">logoutSuccessHandler</span><span class="token punctuation">(</span><span class="token keyword">new</span> <span class="token class-name">MyLogoutSuccessHandler</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">)</span>    
+       <span class="token punctuation">.</span><span class="token function">and</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">.</span><span class="token function">logout</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">.</span><span class="token function">logoutUrl</span><span class="token punctuation">(</span><span class="token string">"/logout"</span><span class="token punctuation">)</span><span class="token punctuation">.</span><span class="token function">logoutSuccessHandler</span><span class="token punctuation">(</span><span class="token keyword">new</span> <span class="token class-name">MyLogoutSuccessHandler</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">)</span>    
        <span class="token punctuation">.</span><span class="token function">and</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">.</span><span class="token function">csrf</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">.</span><span class="token function">disable</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">;</span>    
        http<span class="token punctuation">.</span><span class="token function">addFilterAt</span><span class="token punctuation">(</span><span class="token function">getAuthenticationFilter</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">,</span>UsernamePasswordAuthenticationFilter<span class="token punctuation">.</span><span class="token keyword">class</span><span class="token punctuation">)</span><span class="token punctuation">;</span>    
        http<span class="token punctuation">.</span><span class="token function">exceptionHandling</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">.</span><span class="token function">accessDeniedHandler</span><span class="token punctuation">(</span><span class="token keyword">new</span> <span class="token class-name">MyAccessDeniedHandler</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">)</span><span class="token punctuation">;</span>    
@@ -1871,7 +1875,7 @@ SecurityContextHolder.getContext().setAuthentication(token);</code></pre><p>对�
            <!--<a href="/sitemap.xml" target="_blank">站点地图</a>丨-->
            
             &nbsp;<i class="fa fa-area-chart"></i>&nbsp;站点总字数:&nbsp;
-            <span class="white-color">67.6k
+            <span class="white-color">117.6k
              丨            
           
 
@@ -1965,7 +1969,7 @@ SecurityContextHolder.getContext().setAuthentication(token);</code></pre><p>对�
       <span class="badge-subject">PV</span><span class="badge-value bg-brightgreen" id="busuanzi_value_site_pv"></span>
     </div>
     <div class="github-badge">
-      <span class="badge-subject">WordCount</span><span class="badge-value bg-blueviolet">67.6k</span>
+      <span class="badge-subject">WordCount</span><span class="badge-value bg-blueviolet">117.6k</span>
     </div>
 </footer>
 

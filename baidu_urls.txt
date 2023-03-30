@@ -1,3 +1,11 @@
+https://jiyongg-code.github.io/rabbitmq.html
+https://jiyongg-code.github.io/xuecheng.html
+https://jiyongg-code.github.io/springsecurity-oauth2.html
+https://jiyongg-code.github.io/java-reflection.html
+https://jiyongg-code.github.io/redis02-distributed-caching.html
+https://jiyongg-code.github.io/redis01-getting-started.html
+https://jiyongg-code.github.io/kafka02-architecture.html
+https://jiyongg-code.github.io/kafka01-introductory.html
 https://jiyongg-code.github.io/feign.html
 https://jiyongg-code.github.io/gateway.html
 https://jiyongg-code.github.io/nacos.html

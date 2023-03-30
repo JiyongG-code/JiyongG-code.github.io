@@ -1,0 +1,2458 @@
+<!DOCTYPE HTML>
+<html lang="zh-CN">
+
+
+<head><meta name="generator" content="Hexo 3.9.0">
+    <meta charset="utf-8">
+    <meta name="keywords" content="Xuecheng项目, 记录">
+    <meta name="baidu-site-verification" content="fmlEuI34ir">
+    <meta name="google-site-verification" content="yCy2azpds5XSuGZvis6OuA-XIGF5GuGpYRAaGfD6o48">
+    <meta name="360-site-verification" content="b7c11a830ef90fd1464ad6206bb7b6e7">
+    <meta name="description" content="学成在线项目介绍本项目包括了用户端、机构端、运营端。 核心模块包括：内容管理、媒资管理、课程搜索、订单支付、选课管理、认证授权等。
+
+本项目采用前后端分离架构，后端采用SpringBoot、SpringCloud技术栈开发，数据库使用了My">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no">
+    <meta name="renderer" content="webkit|ie-stand|ie-comp">
+    <meta name="mobile-web-app-capable" content="yes">
+    <meta name="format-detection" content="telephone=no">
+    <meta name="apple-mobile-web-app-capable" content="yes">
+    <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+    <title>Xuecheng项目 | Ji`s Blog</title>
+    <link rel="icon" type="image/png" href="/favicon.png">
+
+    <link rel="stylesheet" type="text/css" href="/libs/awesome/css/font-awesome.min.css">
+    <link rel="stylesheet" type="text/css" href="/libs/materialize/materialize.min.css">
+    <link rel="stylesheet" type="text/css" href="/libs/aos/aos.css">
+    <link rel="stylesheet" type="text/css" href="/libs/animate/animate.min.css">
+    <link rel="stylesheet" type="text/css" href="/libs/lightGallery/css/lightgallery.min.css">
+    <link rel="stylesheet" type="text/css" href="/css/matery.css">
+    <link rel="stylesheet" type="text/css" href="/css/my.css">
+    <style type="text/css">
+        
+    </style>
+
+    <script src="/libs/jquery/jquery-2.2.0.min.js"></script>
+    <script src="https://sdk.jinrishici.com/v2/browser/jinrishici.js" charset="utf-8"></script>
+
+    <script>
+    var _hmt = _hmt || [];
+    (function() {
+    var hm = document.createElement("script");
+    hm.src = "https://hm.baidu.com/hm.js?4d1d73af45a62734730491a6b6c41da4";
+    var s = document.getElementsByTagName("script")[0]; 
+    s.parentNode.insertBefore(hm, s);
+    })();
+   </script>
+
+
+    <script>(function (i, s, o, g, r, a, m) {
+        i['DaoVoiceObject'] = r;
+        i[r] = i[r] ||
+          function () {
+            (i[r].q = i[r].q || []).push(arguments);
+          };
+        i[r].l = 1 * new Date();
+        a = s.createElement(o);
+        m = s.getElementsByTagName(o)[0];
+        a.async = 1;
+        a.src = g;
+        a.charset = 'utf-8';
+        m.parentNode.insertBefore(a, m);
+      })(window, document, 'script', ('https:' === document.location.protocol ? 'https:' : 'http:') + "//widget.daovoice.io/widget/xxx.js", 'daovoice');
+      daovoice('init', {
+        app_id: "xxx",
+      });
+      daovoice('update');
+    </script>
+  
+  
+
+
+    
+        <script>
+            (function(){
+                var bp = document.createElement('script');
+                var curProtocol = window.location.protocol.split(':')[0];
+                if (curProtocol === 'https') {
+                    bp.src = 'https://zz.bdstatic.com/linksubmit/push.js';        
+                }
+                else {
+                    bp.src = 'http://push.zhanzhang.baidu.com/push.js';
+                }
+                var s = document.getElementsByTagName("script")[0];
+                s.parentNode.insertBefore(bp, s);
+            })();
+        </script>
+    
+
+    <script>
+        (function(){
+        var src = "https://jspassport.ssl.qhimg.com/11.0.1.js?d182b3f28525f2db83acfaaf6e696dba";
+        document.write('<script src="' + src + '" id="sozz"><\/script>');
+        })();
+    </script>
+
+    <meta name="baidu-site-verification" content>
+
+
+
+
+<style type="text/css" lang="css">
+    #loading-container{
+        position: fixed;
+        top: 0;
+        left: 0;
+        min-height: 100vh;
+        width: 100vw;
+        z-index: 9999;
+        display: flex;
+        flex-direction: column;
+        justify-content: center;
+        align-items: center;
+        background: #FFF;
+        text-align: center;
+        /* loaderҳ����ʧ���ý����ķ�ʽ*/
+        -webkit-transition: opacity 1s ease;
+        -moz-transition: opacity 1s ease;
+        -o-transition: opacity 1s ease;
+        transition: opacity 1s ease;
+    }
+    .loading-image{
+        width: 120px;
+        height: 50px;
+        transform: translate(-50%);
+    }
+
+    .loading-image div:nth-child(2) {
+        -webkit-animation: pacman-balls 1s linear 0s infinite;
+        animation: pacman-balls 1s linear 0s infinite
+    }
+
+    .loading-image div:nth-child(3) {
+        -webkit-animation: pacman-balls 1s linear .33s infinite;
+        animation: pacman-balls 1s linear .33s infinite
+    }
+
+    .loading-image div:nth-child(4) {
+        -webkit-animation: pacman-balls 1s linear .66s infinite;
+        animation: pacman-balls 1s linear .66s infinite
+    }
+
+    .loading-image div:nth-child(5) {
+        -webkit-animation: pacman-balls 1s linear .99s infinite;
+        animation: pacman-balls 1s linear .99s infinite
+    }
+
+   .loading-image div:first-of-type {
+        width: 0;
+        height: 0;
+        border: 25px solid #49b1f5;
+        border-right-color: transparent;
+        border-radius: 25px;
+        -webkit-animation: rotate_pacman_half_up .5s 0s infinite;
+        animation: rotate_pacman_half_up .5s 0s infinite;
+    }
+    .loading-image div:nth-child(2) {
+        width: 0;
+        height: 0;
+        border: 25px solid #49b1f5;
+        border-right-color: transparent;
+        border-radius: 25px;
+        -webkit-animation: rotate_pacman_half_down .5s 0s infinite;
+        animation: rotate_pacman_half_down .5s 0s infinite;
+        margin-top: -50px;
+    }
+    @-webkit-keyframes rotate_pacman_half_up {0% {transform: rotate(270deg)}50% {transform: rotate(1turn)}to {transform: rotate(270deg)}}
+
+    @keyframes rotate_pacman_half_up {0% {transform: rotate(270deg)}50% {transform: rotate(1turn)}to {transform: rotate(270deg)}}
+
+    @-webkit-keyframes rotate_pacman_half_down {0% {transform: rotate(90deg)}50% {transform: rotate(0deg)}to {transform: rotate(90deg)}}
+
+    @keyframes rotate_pacman_half_down {0% {transform: rotate(90deg)}50% {transform: rotate(0deg)}to {transform: rotate(90deg)}}
+
+    @-webkit-keyframes pacman-balls {75% {opacity: .7}to {transform: translate(-100px, -6.25px)}}
+
+    @keyframes pacman-balls {75% {opacity: .7}to {transform: translate(-100px, -6.25px)}}
+
+
+    .loading-image div:nth-child(3),
+    .loading-image div:nth-child(4),
+    .loading-image div:nth-child(5),
+    .loading-image div:nth-child(6){
+        background-color: #49b1f5;
+        width: 15px;
+        height: 15px;
+        border-radius: 100%;
+        margin: 2px;
+        width: 10px;
+        height: 10px;
+        position: absolute;
+        transform: translateY(-6.25px);
+        top: 25px;
+        left: 100px;
+    }
+    .loading-text{
+        margin-bottom: 20vh;
+        text-align: center;
+        color: #2c3e50;
+        font-size: 2rem;
+        box-sizing: border-box;
+        padding: 0 10px;
+        text-shadow: 0 2px 10px rgba(0,0,0,0.2);
+    }
+    @media only screen and (max-width: 500px) {
+         .loading-text{
+            font-size: 1.5rem;
+         }
+    }
+    .fadeout {
+        opacity: 0;
+        filter: alpha(opacity=0);
+    }
+    /* logo���ֶ��� */
+    @-webkit-keyframes fadeInDown{0%{opacity:0;-webkit-transform:translate3d(0,-100%,0);transform:translate3d(0,-100%,0)}100%{opacity:1;-webkit-transform:none;transform:none}}
+    @keyframes fadeInDown{0%{opacity:0;-webkit-transform:translate3d(0,-100%,0);}}
+ </style>
+ <script>
+(function () {
+    const loaded = function(){
+       setTimeout(function(){
+            const loader = document.getElementById("loading-container");
+            loader.className="fadeout" ;//ʹ�ý����ķ�������loading page
+            // document.getElementById("body-wrap").style.display="flex";
+            setTimeout(function(){
+                loader.style.display="none";
+            },1000); 
+        },1000);//ǿ����ʾloading page 1s  
+    };
+    loaded();
+})()
+ </script><link rel="stylesheet" href="/css/prism-tomorrow.css" type="text/css">
+<link rel="stylesheet" href="/css/prism-line-numbers.css" type="text/css"><style type="text/css" lang="css">
+    #loading-container{
+        position: fixed;
+        top: 0;
+        left: 0;
+        min-height: 100vh;
+        width: 100vw;
+        z-index: 9999;
+        display: flex;
+        flex-direction: column;
+        justify-content: center;
+        align-items: center;
+        background: #FFF;
+        text-align: center;
+        /* loaderҳ����ʧ���ý����ķ�ʽ*/
+        -webkit-transition: opacity 1s ease;
+        -moz-transition: opacity 1s ease;
+        -o-transition: opacity 1s ease;
+        transition: opacity 1s ease;
+    }
+    .loading-image{
+        width: 120px;
+        height: 50px;
+        transform: translate(-50%);
+    }
+
+    .loading-image div:nth-child(2) {
+        -webkit-animation: pacman-balls 1s linear 0s infinite;
+        animation: pacman-balls 1s linear 0s infinite
+    }
+
+    .loading-image div:nth-child(3) {
+        -webkit-animation: pacman-balls 1s linear .33s infinite;
+        animation: pacman-balls 1s linear .33s infinite
+    }
+
+    .loading-image div:nth-child(4) {
+        -webkit-animation: pacman-balls 1s linear .66s infinite;
+        animation: pacman-balls 1s linear .66s infinite
+    }
+
+    .loading-image div:nth-child(5) {
+        -webkit-animation: pacman-balls 1s linear .99s infinite;
+        animation: pacman-balls 1s linear .99s infinite
+    }
+
+   .loading-image div:first-of-type {
+        width: 0;
+        height: 0;
+        border: 25px solid #49b1f5;
+        border-right-color: transparent;
+        border-radius: 25px;
+        -webkit-animation: rotate_pacman_half_up .5s 0s infinite;
+        animation: rotate_pacman_half_up .5s 0s infinite;
+    }
+    .loading-image div:nth-child(2) {
+        width: 0;
+        height: 0;
+        border: 25px solid #49b1f5;
+        border-right-color: transparent;
+        border-radius: 25px;
+        -webkit-animation: rotate_pacman_half_down .5s 0s infinite;
+        animation: rotate_pacman_half_down .5s 0s infinite;
+        margin-top: -50px;
+    }
+    @-webkit-keyframes rotate_pacman_half_up {0% {transform: rotate(270deg)}50% {transform: rotate(1turn)}to {transform: rotate(270deg)}}
+
+    @keyframes rotate_pacman_half_up {0% {transform: rotate(270deg)}50% {transform: rotate(1turn)}to {transform: rotate(270deg)}}
+
+    @-webkit-keyframes rotate_pacman_half_down {0% {transform: rotate(90deg)}50% {transform: rotate(0deg)}to {transform: rotate(90deg)}}
+
+    @keyframes rotate_pacman_half_down {0% {transform: rotate(90deg)}50% {transform: rotate(0deg)}to {transform: rotate(90deg)}}
+
+    @-webkit-keyframes pacman-balls {75% {opacity: .7}to {transform: translate(-100px, -6.25px)}}
+
+    @keyframes pacman-balls {75% {opacity: .7}to {transform: translate(-100px, -6.25px)}}
+
+
+    .loading-image div:nth-child(3),
+    .loading-image div:nth-child(4),
+    .loading-image div:nth-child(5),
+    .loading-image div:nth-child(6){
+        background-color: #49b1f5;
+        width: 15px;
+        height: 15px;
+        border-radius: 100%;
+        margin: 2px;
+        width: 10px;
+        height: 10px;
+        position: absolute;
+        transform: translateY(-6.25px);
+        top: 25px;
+        left: 100px;
+    }
+    .loading-text{
+        margin-bottom: 20vh;
+        text-align: center;
+        color: #2c3e50;
+        font-size: 2rem;
+        box-sizing: border-box;
+        padding: 0 10px;
+        text-shadow: 0 2px 10px rgba(0,0,0,0.2);
+    }
+    @media only screen and (max-width: 500px) {
+         .loading-text{
+            font-size: 1.5rem;
+         }
+    }
+    .fadeout {
+        opacity: 0;
+        filter: alpha(opacity=0);
+    }
+    /* logo���ֶ��� */
+    @-webkit-keyframes fadeInDown{0%{opacity:0;-webkit-transform:translate3d(0,-100%,0);transform:translate3d(0,-100%,0)}100%{opacity:1;-webkit-transform:none;transform:none}}
+    @keyframes fadeInDown{0%{opacity:0;-webkit-transform:translate3d(0,-100%,0);}}
+ </style>
+ <script>
+(function () {
+    const loaded = function(){
+       setTimeout(function(){
+            const loader = document.getElementById("loading-container");
+            loader.className="fadeout" ;//ʹ�ý����ķ�������loading page
+            // document.getElementById("body-wrap").style.display="flex";
+            setTimeout(function(){
+                loader.style.display="none";
+            },1000); 
+        },1000);//ǿ����ʾloading page 1s  
+    };
+    loaded();
+})()
+ </script></head>
+
+
+ <div id="loading-container">
+     <p class="loading-text"></p> 
+     <div class="loading-image">
+         <div></div>
+         <div></div>
+         <div></div>
+         <div></div> 
+         <div></div>
+     </div>
+ </div><body>
+
+    <header class="navbar-fixed">
+    <nav id="headNav" class="bg-color nav-transparent">
+        <div id="navContainer" class="nav-wrapper container">
+            <div class="brand-logo">
+                <a href="/" class="waves-effect waves-light">
+                    
+                    <img src="/medias/logo.png" class="logo-img" alt="LOGO">
+                    
+                    <span class="logo-span">Ji`s Blog</span>
+                </a>
+            </div>
+            
+
+<a href="#" data-target="mobile-nav" class="sidenav-trigger button-collapse"><i class="fa fa-navicon"></i></a>
+<ul class="right">
+    
+    <li class="hide-on-med-and-down">
+        <a href="/" class="waves-effect waves-light">
+            
+            <span>首页</span>
+        </a>
+    </li>
+    
+    <li class="hide-on-med-and-down">
+        <a href="/tags" class="waves-effect waves-light">
+            
+            <span>标签</span>
+        </a>
+    </li>
+    
+    <li class="hide-on-med-and-down">
+        <a href="/categories" class="waves-effect waves-light">
+            
+            <span>分类</span>
+        </a>
+    </li>
+    
+    <li class="hide-on-med-and-down">
+        <a href="/archives" class="waves-effect waves-light">
+            
+            <span>归档</span>
+        </a>
+    </li>
+    
+    <li class="hide-on-med-and-down">
+        <a href="/about" class="waves-effect waves-light">
+            
+            <span>关于</span>
+        </a>
+    </li>
+    
+    <li class="hide-on-med-and-down">
+        <a href="/friends" class="waves-effect waves-light">
+            
+            <span>友情链接</span>
+        </a>
+    </li>
+    
+    <li class="hide-on-med-and-down">
+        <a href="/contact" class="waves-effect waves-light">
+            
+            <span>留言板</span>
+        </a>
+    </li>
+    
+    <li>
+        <a href="#searchModal" class="modal-trigger waves-effect waves-light">
+            <i id="searchIcon" class="fa fa-search" title="搜索"></i>
+        </a>
+    </li>
+</ul>
+
+<div id="mobile-nav" class="side-nav sidenav">
+
+    <div class="mobile-head bg-color">
+        
+        <img src="/medias/logo.png" class="logo-img circle responsive-img">
+        
+        <div class="logo-name">Ji`s Blog</div>
+        <div class="logo-desc">
+            
+            Java | Spring | Redis
+            
+        </div>
+    </div>
+
+    
+
+    <ul class="menu-list mobile-menu-list">
+        
+        <li>
+            <a href="/" class="waves-effect waves-light">
+                
+                <i class="fa fa-fw fa-link"></i>
+                
+                首页
+            </a>
+        </li>
+        
+        <li>
+            <a href="/tags" class="waves-effect waves-light">
+                
+                <i class="fa fa-fw fa-link"></i>
+                
+                标签
+            </a>
+        </li>
+        
+        <li>
+            <a href="/categories" class="waves-effect waves-light">
+                
+                <i class="fa fa-fw fa-link"></i>
+                
+                分类
+            </a>
+        </li>
+        
+        <li>
+            <a href="/archives" class="waves-effect waves-light">
+                
+                <i class="fa fa-fw fa-link"></i>
+                
+                归档
+            </a>
+        </li>
+        
+        <li>
+            <a href="/about" class="waves-effect waves-light">
+                
+                <i class="fa fa-fw fa-link"></i>
+                
+                关于
+            </a>
+        </li>
+        
+        <li>
+            <a href="/friends" class="waves-effect waves-light">
+                
+                <i class="fa fa-fw fa-link"></i>
+                
+                友情链接
+            </a>
+        </li>
+        
+        <li>
+            <a href="/contact" class="waves-effect waves-light">
+                
+                <i class="fa fa-fw fa-link"></i>
+                
+                留言板
+            </a>
+        </li>
+        
+        
+        <li><div class="divider"></div></li>
+        <li>
+            <a href="https://github.com/jiyongg-code" class="waves-effect waves-light" target="_blank">
+                <i class="fa fa-github-square fa-fw"></i>Fork Me
+            </a>
+        </li>
+        
+    </ul>
+</div>
+
+        </div>
+
+        
+            <style>
+    .nav-transparent .github-corner {
+        display: none !important;
+    }
+
+    .github-corner {
+        position: absolute;
+        z-index: 10;
+        top: 0;
+        right: 0;
+        border: 0;
+        transform: scale(1.1);
+    }
+
+    .github-corner svg {
+        color: #0f9d58;
+        fill: #fff;
+        height: 64px;
+        width: 64px;
+    }
+
+    .github-corner:hover .octo-arm {
+        animation: a 0.56s ease-in-out;
+    }
+
+    .github-corner .octo-arm {
+        animation: none;
+    }
+
+    @keyframes a {
+        0%,
+        to {
+            transform: rotate(0);
+        }
+        20%,
+        60% {
+            transform: rotate(-25deg);
+        }
+        40%,
+        80% {
+            transform: rotate(10deg);
+        }
+    }
+</style>
+
+<a href="https://github.com/jiyongg-code" class="github-corner tooltipped hide-on-med-and-down" target="_blank"
+   data-tooltip="Fork Me" data-position="left" data-delay="50">
+    <svg viewBox="0 0 250 250" aria-hidden="true">
+        <path d="M0,0 L115,115 L130,115 L142,142 L250,250 L250,0 Z"></path>
+        <path d="M128.3,109.0 C113.8,99.7 119.0,89.6 119.0,89.6 C122.0,82.7 120.5,78.6 120.5,78.6 C119.2,72.0 123.4,76.3 123.4,76.3 C127.3,80.9 125.5,87.3 125.5,87.3 C122.9,97.6 130.6,101.9 134.4,103.2"
+              fill="currentColor" style="transform-origin: 130px 106px;" class="octo-arm"></path>
+        <path d="M115.0,115.0 C114.9,115.1 118.7,116.5 119.8,115.4 L133.7,101.6 C136.9,99.2 139.9,98.4 142.2,98.6 C133.8,88.0 127.5,74.4 143.8,58.0 C148.5,53.4 154.0,51.2 159.7,51.0 C160.3,49.4 163.2,43.6 171.4,40.1 C171.4,40.1 176.1,42.5 178.8,56.2 C183.1,58.6 187.2,61.8 190.9,65.4 C194.5,69.0 197.7,73.2 200.1,77.6 C213.8,80.2 216.3,84.9 216.3,84.9 C212.7,93.1 206.9,96.0 205.4,96.6 C205.1,102.4 203.0,107.8 198.3,112.5 C181.9,128.9 168.3,122.5 157.7,114.1 C157.9,116.9 156.7,120.9 152.7,124.9 L141.0,136.5 C139.8,137.7 141.6,141.9 141.8,141.8 Z"
+              fill="currentColor" class="octo-body"></path>
+    </svg>
+</a>
+        
+    </nav>
+
+</header>
+
+    
+<script src="/libs/cryptojs/crypto-js.min.js"></script>
+<script>
+    (function() {
+        let pwd = '';
+        if (pwd && pwd.length > 0) {
+            if (pwd !== CryptoJS.SHA256(prompt('请输入访问本文章的密码')).toString(CryptoJS.enc.Hex)) {
+                alert('密码错误，将返回主页！');
+                location.href = '/';
+            }
+        }
+    })();
+</script>
+
+
+
+
+<div class="bg-cover pd-header post-cover" style="background-image: url('/medias/featureimages/14.jpg')">
+    <div class="container">
+        <div class="row">
+            <div class="col s12 m12 l12">
+                <div class="brand">
+                    <div class="description center-align post-title">
+                        Xuecheng项目
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+
+
+<main class="post-container content">
+
+    
+    <link rel="stylesheet" href="/libs/tocbot/tocbot.css">
+<style>
+    #articleContent h1::before,
+    #articleContent h2::before,
+    #articleContent h3::before,
+    #articleContent h4::before,
+    #articleContent h5::before,
+    #articleContent h6::before {
+        display: block;
+        content: " ";
+        height: 100px;
+        margin-top: -100px;
+        visibility: hidden;
+    }
+
+    #articleContent :focus {
+        outline: none;
+    }
+
+    .toc-fixed {
+        position: fixed;
+        top: 64px;
+    }
+
+    .toc-widget {
+        padding-left: 20px;
+    }
+
+    .toc-widget .toc-title {
+        margin: 35px 0 15px 0;
+        padding-left: 17px;
+        font-size: 1.5rem;
+        font-weight: bold;
+        line-height: 1.5rem;
+    }
+
+    .toc-widget ol {
+        padding: 0;
+        list-style: none;
+    }
+
+    #toc-content ol {
+        padding-left: 10px;
+    }
+
+    #toc-content ol li {
+        padding-left: 10px;
+    }
+
+    #toc-content .toc-link:hover {
+        color: #42b983;
+        font-weight: 700;
+        text-decoration: underline;
+    }
+
+    #toc-content .toc-link::before {
+        background-color: transparent;
+        max-height: 25px;
+    }
+
+    #toc-content .is-active-link {
+        color: #42b983;
+    }
+
+    #toc-content .is-active-link::before {
+        background-color: #42b983;
+    }
+
+    #floating-toc-btn {
+        position: fixed;
+        right: 20px;
+        bottom: 76px;
+        padding-top: 15px;
+        margin-bottom: 0;
+        z-index: 998;
+    }
+
+    #floating-toc-btn .btn-floating {
+        width: 48px;
+        height: 48px;
+    }
+
+    #floating-toc-btn .btn-floating i {
+        line-height: 48px;
+        font-size: 1.4rem;
+    }
+</style>
+<div class="row">
+    <div id="main-content" class="col s12 m12 l9">
+        <!-- 文章内容详情 -->
+<div id="artDetail">
+    <div class="card">
+        <div class="card-content article-info">
+            <div class="row tag-cate">
+                <div class="col s7">
+                    
+                    <div class="article-tag">
+                        
+                        <a href="/tags/学成在线项目/" target="_blank">
+                            <span class="chip bg-color">学成在线项目</span>
+                        </a>
+                        
+                    </div>
+                    
+                </div>
+                <div class="col s5 right-align">
+                    
+                    <div class="post-cate">
+                        <i class="fa fa-bookmark fa-fw icon-category"></i>
+                        
+                        <a href="/categories/项目/" class="post-category" target="_blank">
+                            项目
+                        </a>
+                        
+                    </div>
+                    
+                </div>
+            </div>
+
+            <div class="post-info">
+                <div class="post-date info-break-policy">
+                    <i class="fa fa-calendar-minus-o fa-fw"></i>发布日期:&nbsp;&nbsp;
+                    2023-03-27
+                </div>
+
+                <div class="post-author info-break-policy">
+                    <i class="fa fa-user-o fa-fw"></i>作者:&nbsp;&nbsp;
+                    
+                    jiyonggang
+                    
+                </div>
+
+                
+                
+                <div class="info-break-policy">
+                    <i class="fa fa-file-word-o fa-fw"></i>文章字数:&nbsp;&nbsp;
+                    8.2k
+                </div>
+                
+
+                
+                <div class="info-break-policy">
+                    <i class="fa fa-clock-o fa-fw"></i>阅读时长:&nbsp;&nbsp;
+                    32 分
+                </div>
+                
+                
+
+                
+                <div id="busuanzi_container_page_pv" class="info-break-policy">
+                    <i class="fa fa-eye fa-fw"></i>阅读次数:&nbsp;&nbsp;
+                    <span id="busuanzi_value_page_pv"></span>
+                </div>
+                
+            </div>
+        </div>
+        <hr class="clearfix">
+        <div class="card-content article-card-content">
+            <div id="articleContent">
+                <h1 id="学成在线"><a href="#学成在线" class="headerlink" title="学成在线"></a>学成在线</h1><h1 id="项目介绍"><a href="#项目介绍" class="headerlink" title="项目介绍"></a>项目介绍</h1><p>本项目包括了用户端、机构端、运营端。 核心模块包括：内容管理、媒资管理、课程搜索、订单支付、选课管理、认证授权等。</p>
+<p><img src="/xuecheng/image-20230327170609556.png" alt="image-20230327170609556"></p>
+<p>本项目采用前后端分离架构，后端采用SpringBoot、SpringCloud技术栈开发，数据库使用了MySQL， 还使用的Redis、消息队列、分布式文件系统、Elasticsearch等中间件系统。 划分的微服务包括：内容管理服务、媒资管理服务、搜索服务、订单支付服务、 学习中心服务、系统管 理服务、认证授权服务、网关服务、注册中心服务、配置中心服务等。</p>
+<h1 id="项目的技术架构"><a href="#项目的技术架构" class="headerlink" title="项目的技术架构"></a>项目的技术架构</h1><h2 id="项目技术架构"><a href="#项目技术架构" class="headerlink" title="项目技术架构"></a>项目技术架构</h2><p>学成在线项目采用当前流行的前后端分离架构开发，由以下流程来构成：用户层、CDN内容分发和加 速、负载均衡、UI层、微服务层、数据层。</p>
+<p><img src="/xuecheng/image-20230327170755746.png" alt="image-20230327170755746"></p>
+<p>技术架构列表</p>
+<table>
+<thead>
+<tr>
+<th>序号</th>
+<th>名称</th>
+<th>功能描述</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>1</td>
+<td>用户层</td>
+<td>用户层描述了本系统所支持的用户类型包括：pc用户、app用户、h5用户。pc用 户通过浏览器访问系统、app用户通过android、ios手机访问系统，H5用户通过 h5页面访问系统。</td>
+</tr>
+<tr>
+<td>2</td>
+<td>CDN</td>
+<td>CDN全称Content Delivery Network，即内容分发网络，本系统所有静态资源全 部通过CDN加速来提高访问速度。系统静态资源包括：html页面、js文件、css文 件、image图片、pdf和ppt及doc教学文档、video视频等。</td>
+</tr>
+<tr>
+<td>3</td>
+<td>负载均衡</td>
+<td>系统的CDN层、UI层、服务层及数据层均设置了负载均衡服务，上图仅在UI层前 边标注了负载均衡。 每一层的负载均衡会根据系统的需求来确定负载均衡器的类 型，系统支持4层负载均衡+7层负载均衡结合的方式，4层负载均衡是指在网络传 输层进行流程转发，根据IP和端口进行转发，7层负载均衡完成HTTP协议负载均 衡及反向代理的功能，根据url进行请求转发。</td>
+</tr>
+<tr>
+<td>4</td>
+<td>UI层</td>
+<td>UI层描述了系统向pc用户、app用户、h5用户提供的产品界面。根据系统功能模 块特点确定了UI层包括如下产品界面类型： 1）面向pc用户的门户系统、学习中 心系统、教学管理系统、系统管理中心。 2）面向h5用户的门户系统、学习中心 系统。 3）面向app用户的门户系统、学习中心系统。</td>
+</tr>
+<tr>
+<td>5</td>
+<td>微服务层</td>
+<td>微服务层将系统服务分类三类：业务服务、基础服务、第三方代理服务。 业务服 务：主要为学成在线核心业务提供服务，并与数据层进行交互获得数据。 基础服 务：主要管理学成在线系统运行所需的配置、日志、任务调度、短信等系统级别 的服务。 第三方代理服务：系统接入第三方服务完成业务的对接，例如认证、支 付、视频点播/直播、用户认证和授权。</td>
+</tr>
+<tr>
+<td>6</td>
+<td>数据层</td>
+<td>数据层描述了系统的数据存储的内容类型，关系性数据库：持久化的业务数据使 用MySQL。 消息队列：存储系统服务间通信的消息，本身提供消息存取服务，与 微服务层的系统服务连接。 索引库：存储课程信息的索引信息，本身提供索引维 护及搜索的服务，与微服务层的系统服务连接。 缓存：作为系统的缓存服务，作 为微服务的缓存数据便于查询。 文件存储：提供系统静态资源文件的分布式存储 服务，文件存储服务器作为CDN服务器的数据来源，CDN上的静态资源将最终在 文件存储服务器上保存多份。</td>
+</tr>
+</tbody></table>
+<ol>
+<li>用户可以通过pc、手机等客户端访问系统进行在线学习。 </li>
+<li>系统应用CDN技术，对一些图片、CSS、视频等资源从CDN调度访问。</li>
+<li>所有的请求全部经过负载均衡器。 </li>
+<li>对于PC、H5等客户端请求，首先请求UI层，渲染用户界面。 5</li>
+<li>客户端UI请求服务层获取进行具体的业务操作。 6. 服务层将数据持久化到数据库。</li>
+</ol>
+<h2 id="项目技术栈"><a href="#项目技术栈" class="headerlink" title="项目技术栈"></a>项目技术栈</h2><p><img src="/xuecheng/image-20230327172852937.png" alt="image-20230327172852937"></p>
+<h1 id="支付模块"><a href="#支付模块" class="headerlink" title="支付模块"></a>支付模块</h1><p><strong>需求分析</strong></p>
+<p><strong>执行流程</strong></p>
+<p><img src="/xuecheng/image-20230327182211044.png" alt="image-20230327182211044"></p>
+<p>1，请求学习中心服务创建选课记录</p>
+<p>2、请求订单服务创建商品订单、生成支付二维码。</p>
+<p>3、用户扫码请求订单支付服务，订单支付服务请求第三方支付平台生成支付订单。</p>
+<p>4、前端唤起支付客户端，用户输入密码完成支付。</p>
+<p>5、第三方支付平台支付完成发起支付通知。</p>
+<p>6、订单支付服务接收支付通知结果。</p>
+<p>7、用户在前端查询支付结果，请求订单支付服务查询支付结果，如果订单支付服务还没有收到支付结果则请求学习中心查询支付结果。</p>
+<p>8、订单支付服务向学习中心服务通知支付结果。</p>
+<p>9、学习中心服务收到支付结果，如果支付成功则更新选课记录，并添加到我的课程表。</p>
+<h2 id="通用订单服务设计"><a href="#通用订单服务设计" class="headerlink" title="通用订单服务设计"></a><strong>通用订单服务设计</strong></h2><p>在本项目中不仅选课需要下单、购买学习资料、老师一对一答疑等所以收费项目都需要下单支付。</p>
+<p>所以本项目设计通用的订单服务，通用的订单服务承接各业务模块的收费支付需求，当用户需要交费时统一生成商品订单并进行支付。</p>
+<p><img src="/xuecheng/image-20230327182419131.png" alt="image-20230327182419131"></p>
+<p>所有收费业务最终转换为商品订单记录在订单服务的商品订单表。</p>
+<p><img src="/xuecheng/image-20230327182429645.png" alt="image-20230327182429645">****</p>
+<p>以选课为例，选课记录表的ID记录在商品订单表的out_business_id字段。</p>
+<p><img src="/xuecheng/image-20230327182445545.png" alt="image-20230327182445545"></p>
+<h2 id="支付接口调研"><a href="#支付接口调研" class="headerlink" title="支付接口调研"></a><strong>支付接口调研</strong></h2><p><strong>支付宝接口调研</strong></p>
+<p>文档：<a href="https://b.alipay.com/signing/productSetV2.htm" target="_blank" rel="noopener">https://b.alipay.com/signing/productSetV2.htm</a></p>
+<p>本项目选择的手机网站支付接口</p>
+<p>手机网站支付</p>
+<p>用户在商家手机网站消费，通过浏览器自动跳转支付宝APP或支付宝网页完成付款。 轻松实现和APP支付相同的支付体验。</p>
+<p><img src="/xuecheng/image-20230327182641670.png" alt="image-20230327182641670"></p>
+<p>对比两种支付方式：手机网站支付方式可以在H5网页唤起支付宝，手机扫码支付可以使用手机网站支付方式来完成，相比电脑网站支付形式更灵活。</p>
+<p>本项目选择手机网站支付方式。</p>
+<p>文档：<a href="https://opendocs.alipay.com/open/02ivbt" target="_blank" rel="noopener">https://opendocs.alipay.com/open/02ivbt</a></p>
+<p>如何开通支付宝手机网站支付接口？</p>
+<p>进入网址：</p>
+<p><a href="https://b.alipay.com/signing/productDetailV2.htm?productId=I1011000290000001001" target="_blank" rel="noopener">https://b.alipay.com/signing/productDetailV2.htm?productId=I1011000290000001001</a></p>
+<h2 id="开发环境"><a href="#开发环境" class="headerlink" title="开发环境"></a><strong>开发环境</strong></h2><p>第三方支付接口流程大同小异，考虑开发及教学的方便性，支付宝提供支付宝沙箱环境开发支付接口，在教学中接入支付宝手机网站支付接口。</p>
+<h3 id="配置沙箱环境"><a href="#配置沙箱环境" class="headerlink" title="配置沙箱环境"></a>配置沙箱环境</h3><p>沙箱环境是支付宝开放平台为开发者提供的与生产环境完全隔离的联调测试环境，开发者在沙箱环境中完成的接口调用不会对生产环境中的数据造成任何影响。</p>
+<p>接入手机网站支付需要具备如下条件：</p>
+<p>•    申请前必须拥有经过实名认证的支付宝账户；</p>
+<p>•    企业或个体工商户可申请；</p>
+<p>•    需提供真实有效的营业执照，且支付宝账户名称需与营业执照主体一致；</p>
+<p>•    网站能正常访问且页面显示完整，网站需要明确经营内容且有完整的商品信息；</p>
+<p>•    网站必须通过ICP备案。如为个体工商户，网站备案主体需要与支付宝账户主体名称一致；</p>
+<p>•    如为个体工商户，则团购不开放，且古玩、珠宝等奢侈品、投资类行业无法申请本产品。</p>
+<p>详细参见：<a href="https://docs.open.alipay.com/203" target="_blank" rel="noopener">https://docs.open.alipay.com/203</a></p>
+<p>我是使用支付宝沙箱进行开发测试，这里主要介绍支付宝沙箱环境配置。</p>
+<p>详细参见：<a href="https://docs.open.alipay.com/200/105311/" target="_blank" rel="noopener">https://docs.open.alipay.com/200/105311/</a></p>
+<h3 id="内网穿透"><a href="#内网穿透" class="headerlink" title="内网穿透"></a>内网穿透</h3><p><a href="https://natapp.cn/" target="_blank" rel="noopener">NATAPP-内网穿透 基于ngrok的国内高速内网映射工具</a></p>
+<p>因为我没有服务器所以用的是本地，需要用到内网穿透。</p>
+<h3 id="模拟器"><a href="#模拟器" class="headerlink" title="模拟器"></a>模拟器</h3><p>用手机模拟器扫自己生成的二维码，访问自己本地的地址再下单发给支付宝，然后再请求模拟器上的支付宝。</p>
+<p>在模拟器上登录沙盒应用的买家账号<a href="https://open.alipay.com/develop/sandbox/app" target="_blank" rel="noopener">支付宝开放平台 (alipay.com)</a></p>
+<h2 id="订单服务"><a href="#订单服务" class="headerlink" title="订单服务"></a>订单服务</h2><p><img src="/xuecheng/image-20230327183903663.png" alt="image-20230327183903663"></p>
+<h2 id="支付接口的测试"><a href="#支付接口的测试" class="headerlink" title="支付接口的测试"></a>支付接口的测试</h2><h2 id="阅读接口定义"><a href="#阅读接口定义" class="headerlink" title="阅读接口定义"></a>阅读接口定义</h2><p><a href="https://docs.open.alipay.com/203/105285/" target="_blank" rel="noopener">https://docs.open.alipay.com/203/105285/</a></p>
+<h2 id="支付流程"><a href="#支付流程" class="headerlink" title="支付流程"></a>支付流程</h2><h2 id="系统交互流程"><a href="#系统交互流程" class="headerlink" title="系统交互流程"></a>系统交互流程</h2><p><img src="/xuecheng/1668414529588-da8c06d7-41da-49b2-a967-00d05d01ff33.png" alt="1667801727425_手机网站支付-支付及消息部分.png"></p>
+<p><img src="/xuecheng/image-20230327194735434.png" alt="image-20230327194735434"></p>
+<p>1）用户在商户的H5网站下单支付后，商户系统按照<a href="https://docs.open.alipay.com/203/107090" target="_blank" rel="noopener">手机网站支付接口alipay.trade.wap.pay</a>API的参数规范生成订单数据</p>
+<p>2）前端页面通过Form表单的形式请求到支付宝。此时支付宝会自动将页面跳转至支付宝H5收银台页面，如果用户手机上安装了支付宝APP，则自动唤起支付宝APP。</p>
+<p>3）输入支付密码完成支付。</p>
+<p>4）用户在支付宝APP或H5收银台完成支付后，会根据商户在手机网站支付API中传入的前台回跳地址return_url自动跳转回商户页面，同时在URL请求中以Query String的形式附带上支付结果参数，详细回跳参数见“手机网站支付接口alipay.trade.wap.pay”<a href="https://docs.open.alipay.com/203/107090#s2" target="_blank" rel="noopener">前台回跳参数</a>。</p>
+<p>5）支付宝还会根据原始支付API中传入的异步通知地址notify_url，通过POST请求的形式将支付结果作为参数通知到商户系统，详情见<a href="https://docs.open.alipay.com/203/105286" target="_blank" rel="noopener">支付结果异步通知</a>。</p>
+<h2 id="测试"><a href="#测试" class="headerlink" title="测试"></a>测试</h2><p>2、接口定义</p>
+<p>文档：<a href="https://opendocs.alipay.com/open/203/107090" target="_blank" rel="noopener">https://opendocs.alipay.com/open/203/107090</a></p>
+<p>接口定义：外部商户请求支付宝创建订单并支付</p>
+<p>公共参数</p>
+<p><strong>请求地址</strong>：</p>
+<p>开发中使用沙箱地址：<a href="https://openapi.alipaydev.com/gateway.do" target="_blank" rel="noopener">https://openapi.alipaydev.com/gateway.do</a></p>
+<p>请求参数：</p>
+<p>详细查阅<a href="https://opendocs.alipay.com/open/203/107090" target="_blank" rel="noopener">https://opendocs.alipay.com/open/203/107090</a></p>
+<p>一部分由sdk设置，一部分需要编写程序时指定。</p>
+<p><img src="/xuecheng/image-20230327195544696.png" alt="image-20230327195544696"></p>
+<p><img src="/xuecheng/image-20230327195550516.png" alt="image-20230327195550516"></p>
+<h3 id="支付宝的sdk"><a href="#支付宝的sdk" class="headerlink" title="支付宝的sdk"></a>支付宝的sdk</h3><pre><code>&lt;!-- 支付宝SDK --&gt;
+&lt;dependency&gt;
+    &lt;groupId&gt;com.alipay.sdk&lt;/groupId&gt;
+    &lt;artifactId&gt;alipay-sdk-java&lt;/artifactId&gt;
+    &lt;version&gt;3.7.73.ALL&lt;/version&gt;
+&lt;/dependency&gt;
+
+&lt;!-- 支付宝SDK依赖的日志 --&gt;
+&lt;dependency&gt;
+    &lt;groupId&gt;commons-logging&lt;/groupId&gt;
+    &lt;artifactId&gt;commons-logging&lt;/artifactId&gt;
+    &lt;version&gt;1.2&lt;/version&gt;
+&lt;/dependency&gt;
+</code></pre><h3 id="创建订单并调用支付宝"><a href="#创建订单并调用支付宝" class="headerlink" title="创建订单并调用支付宝"></a>创建订单并调用支付宝</h3><p>就是用支付宝的sdk，在DefaultAlipayClient装支付宝的url,给的id，key,返回格式，字符类型，公钥，加密格式。</p>
+<p>然后AlipayTradeWapPayRequest()中添加回调到自己访问的url和通知地址，和商品的信息也就是业务参数，</p>
+<p>然后调用alipayClient.pageExecute()传入上面AlipayTradeWapPayRequest()生成表单。</p>
+<p>然后用httpResponss江完整的表单html输出到页面。</p>
+<pre><code>Java
+public void doPost(HttpServletRequest httpRequest,HttpServletResponse httpResponse) throws ServletException, IOException {
+    AlipayClient alipayClient = ... //获得初始化的AlipayClient
+    AlipayTradeWapPayRequest alipayRequest = new AlipayTradeWapPayRequest();//创建API对应的request
+    alipayRequest.setReturnUrl(&quot;http://domain.com/CallBack/return_url.jsp&quot;);
+    alipayRequest.setNotifyUrl(&quot;http://domain.com/CallBack/notify_url.jsp&quot;);//在公共参数中设置回跳和通知地址
+    alipayRequest.setBizContent(&quot;{&quot; +
+            &quot;    \&quot;out_trade_no\&quot;:\&quot;20150320010101002\&quot;,&quot; +
+            &quot;    \&quot;total_amount\&quot;:88.88,&quot; +
+            &quot;    \&quot;subject\&quot;:\&quot;Iphone6 16G\&quot;,&quot; +
+            &quot;    \&quot;product_code\&quot;:\&quot;QUICK_WAP_WAY\&quot;&quot; +
+            &quot;  }&quot;);//填充业务参数
+    String form = alipayClient.pageExecute(alipayRequest).getBody(); //调用SDK生成表单
+    httpResponse.setContentType(&quot;text/html;charset=&quot; + AlipayServiceEnvConstants.CHARSET);
+    httpResponse.getWriter().write(form);//直接将完整的表单html输出到页面
+    httpResponse.getWriter().flush();
+}
+</code></pre><h3 id="接受支付宝返回的信息"><a href="#接受支付宝返回的信息" class="headerlink" title="接受支付宝返回的信息"></a>接受支付宝返回的信息</h3><p>根据在 alipayRequest.setNotifyUrl中的通知地址，接受支付宝的的通知结果</p>
+<pre><code> //支付结果通知
+    @PostMapping(&quot;/paynotifytest&quot;)
+    public void paynotify(HttpServletRequest request,HttpServletResponse response) throws IOException, AlipayApiException {
+
+        //获取支付宝POST过来反馈信息
+        Map&lt;String,String&gt; params = new HashMap&lt;String,String&gt;();
+        Map requestParams = request.getParameterMap();
+        for (Iterator iter = requestParams.keySet().iterator(); iter.hasNext();) {
+            String name = (String) iter.next();
+            String[] values = (String[]) requestParams.get(name);
+            String valueStr = &quot;&quot;;
+            for (int i = 0; i &lt; values.length; i++) {
+                valueStr = (i == values.length - 1) ? valueStr + values[i]
+                        : valueStr + values[i] + &quot;,&quot;;
+            }
+            //乱码解决，这段代码在出现乱码时使用。如果mysign和sign不相等也可以使用这段代码转化
+            //valueStr = new String(valueStr.getBytes(&quot;ISO-8859-1&quot;), &quot;gbk&quot;);
+            params.put(name, valueStr);
+        }
+        //获取支付宝的通知返回参数，可参考技术文档中页面跳转同步通知参数列表(以下仅供参考)//
+
+        //获取支付宝的通知返回参数，可参考技术文档中页面跳转同步通知参数列表(以上仅供参考)//
+        //计算得出通知验证结果
+        //boolean AlipaySignature.rsaCheckV1(Map&lt;String, String&gt; params, String publicKey, String charset, String sign_type)
+        boolean verify_result = AlipaySignature.rsaCheckV1(params, ALIPAY_PUBLIC_KEY, AlipayConfig.CHARSET, &quot;RSA2&quot;);
+
+        if(verify_result){//验证成功
+            //////////////////////////////////////////////////////////////////////////////////////////
+            //请在这里加上商户的业务逻辑程序代码
+            //商户订单号
+
+            String out_trade_no = new String(request.getParameter(&quot;out_trade_no&quot;).getBytes(&quot;ISO-8859-1&quot;),&quot;UTF-8&quot;);
+            //支付宝交易号
+
+            String trade_no = new String(request.getParameter(&quot;trade_no&quot;).getBytes(&quot;ISO-8859-1&quot;),&quot;UTF-8&quot;);
+
+            //交易状态
+            String trade_status = new String(request.getParameter(&quot;trade_status&quot;).getBytes(&quot;ISO-8859-1&quot;),&quot;UTF-8&quot;);
+
+
+            //——请根据您的业务逻辑来编写程序（以下代码仅作参考）——
+
+            if(trade_status.equals(&quot;TRADE_FINISHED&quot;)){
+                //判断该笔订单是否在商户网站中已经做过处理
+                //如果没有做过处理，根据订单号（out_trade_no）在商户网站的订单系统中查到该笔订单的详细，并执行商户的业务程序
+                //请务必判断请求时的total_fee、seller_id与通知时获取的total_fee、seller_id为一致的
+                //如果有做过处理，不执行商户的业务程序
+
+                //注意：
+                //如果签约的是可退款协议，退款日期超过可退款期限后（如三个月可退款），支付宝系统发送该交易状态通知
+                //如果没有签约可退款协议，那么付款完成后，支付宝系统发送该交易状态通知。
+            } else if (trade_status.equals(&quot;TRADE_SUCCESS&quot;)){
+                //判断该笔订单是否在商户网站中已经做过处理
+                //如果没有做过处理，根据订单号（out_trade_no）在商户网站的订单系统中查到该笔订单的详细，并执行商户的业务程序
+                //请务必判断请求时的total_fee、seller_id与通知时获取的total_fee、seller_id为一致的
+                //如果有做过处理，不执行商户的业务程序
+                System.out.println(trade_status);
+                //注意：
+                //如果签约的是可退款协议，那么付款完成后，支付宝系统发送该交易状态通知。
+            }
+
+            //——请根据您的业务逻辑来编写程序（以上代码仅作参考）——
+            response.getWriter().write(&quot;success&quot;);
+
+            //////////////////////////////////////////////////////////////////////////////////////////
+        }else{//验证失败
+            response.getWriter().write(&quot;fail&quot;);
+        }
+
+
+    }</code></pre><h3 id="支付结果查询接口"><a href="#支付结果查询接口" class="headerlink" title="支付结果查询接口"></a>支付结果查询接口</h3><p>支付完成可以调用第三方支付平台的支付结果查询接口 查询支付结果。</p>
+<p>文档：<a href="https://opendocs.alipay.com/open/02ivbt" target="_blank" rel="noopener">https://opendocs.alipay.com/open/02ivbt</a></p>
+<p>刚才订单付款成功，可以使用out_trade_no商品订单号或支付宝的交易流水号trade_no去查询支付结果。</p>
+<p>out_trade_no商品订单号: 是在下单请求时指定的商品订单号。</p>
+<p>支付宝的交易流水号trade_no：是支付完成后支付宝通知支付结果时发送的trade_no</p>
+<pre><code>Java
+AlipayClient alipayClient = new DefaultAlipayClient(&quot;https://openapi.alipay.com/gateway.do&quot;,&quot;app_id&quot;,&quot;your private_key&quot;,&quot;json&quot;,&quot;GBK&quot;,&quot;alipay_public_key&quot;,&quot;RSA2&quot;);
+
+AlipayTradeQueryRequest request = new AlipayTradeQueryRequest();
+JSONObject bizContent = new JSONObject();
+
+bizContent.put(&quot;out_trade_no&quot;, &quot;20150320010101001&quot;);//订单号
+//bizContent.put(&quot;trade_no&quot;, &quot;2014112611001004680073956707&quot;);//支付宝流水号
+request.setBizContent(bizContent.toString());
+AlipayTradeQueryResponse response = alipayClient.execute(request);
+if(response.isSuccess()){
+    System.out.println(&quot;调用成功&quot;);
+} else {
+    System.out.println(&quot;调用失败&quot;);
+}
+</code></pre><h2 id="生成支付二维码"><a href="#生成支付二维码" class="headerlink" title="生成支付二维码"></a>生成支付二维码</h2><h4 id="需求分析"><a href="#需求分析" class="headerlink" title="需求分析"></a>需求分析</h4><p>再次打开课程支付引导界面，点击“支付宝支付”按钮系统该如何处理？</p>
+<p>点击“支付宝支付”此时打开支付二维码，用户扫码支付。</p>
+<p>所以首先需要生成支付二维码，用户扫描二维码开始请求支付宝下单，在向支付宝下单前需要添加选课记录、创建商品订单、生成支付交易记录。</p>
+<p>生成二维码执行流程如下：</p>
+<p><img src="/xuecheng/image-20230328152932751.png" alt="image-20230328152932751"></p>
+<p>用户扫码支付流程如下：</p>
+<p>数据模型</p>
+<p>订单支付模式的核心由三张表组成：订单表、订单明细表、支付交易记录表。</p>
+<p><img src="/xuecheng/image-20230328153239142.png" alt="image-20230328153239142"></p>
+<p>订单表：记录订单信息</p>
+<p><img src="/xuecheng/clip_image002.gif" alt="img"></p>
+<p>订单明细表记录订单的详细信息</p>
+<p><img src="/xuecheng/clip_image004.gif" alt="img"></p>
+<p>支付交易记录表记录与支付平台的交易明细</p>
+<p><img src="/xuecheng/clip_image006.gif" alt="img"></p>
+<p>订单号注意唯一性、安全性、尽量短等特点，生成方案常用的如下：</p>
+<p>1、时间戳+随机数</p>
+<p>年月日时分秒毫秒+随机数</p>
+<p>2、高并发场景</p>
+<p>年月日时分秒毫秒+随机数+redis自增序列</p>
+<p>3、订单号中加上业务标识</p>
+<p>订单号加上业务标识方便客服，比如：第10位是业务类型，第11位是用户类型等。</p>
+<h4 id="使用雪花算法生成订单id"><a href="#使用雪花算法生成订单id" class="headerlink" title="使用雪花算法生成订单id"></a>使用雪花算法生成订单id</h4><p>雪花算法是推特内部使用的分布式环境下的唯一ID生成算法，它基于时间戳生成，保证有序递增，加以入计算机硬件等元素，可以满足高并发环境下ID不重复。</p>
+<p>本项目订单号生成采用雪花算法。</p>
+<h4 id="接口实现"><a href="#接口实现" class="headerlink" title="接口实现"></a>接口实现</h4><h5 id="生成支付二维码接口"><a href="#生成支付二维码接口" class="headerlink" title="生成支付二维码接口"></a>生成支付二维码接口</h5><p>生成的二维码url消息包括</p>
+<p>在订单服务中定义生成支付二维码接口。</p>
+<p>订单服务也需要获取用户的身份信息，需要在订单服务中集成认证授权</p>
+<p>集成过程参考内容管理服务。</p>
+<p>1、添加依赖</p>
+<p>2、配置资源服务、令牌配置。</p>
+<p>3、拷贝SecurityUtil，用来获取spring security中SecurityContextHolder的用户信息</p>
+<p>保存商品订单</p>
+<p>商品订单的数据来源于选课记录，在订单表需要存入选课记录的ID，这里需要作好幂等处理。</p>
+<pre><code>public interface OrderService {
+
+
+   /**
+ * @description 创建商品订单
+ * @param addOrderDto 订单信息
+ * @return PayRecordDto 支付交易记录(包括二维码)
+*/
+public PayRecordDto createOrder(String userId,AddOrderDto addOrderDto);
+</code></pre><p>在保存订单接口中需要做创建商品订单、创建支付交易记录</p>
+<p>用前端传来的信息，构建订单信息。订单表的out_business_id就是选课的id</p>
+<pre><code>Java
+@Transactional
+@Override
+public PayRecordDto createOrder(String userId,AddOrderDto addOrderDto) {
+
+        //插入订单表,订单主表，订单明细表，保存订单信息
+        XcOrders xcOrders = saveXcOrders(userId, addOrderDto);
+
+        //插入支付记录
+        XcPayRecord payRecord = createPayRecord(xcOrders);
+        Long payNo = payRecord.getPayNo();
+
+        //生成二维码
+        QRCodeUtil qrCodeUtil = new QRCodeUtil();
+        //支付二维码的url
+        String url = String.format(qrcodeurl, payNo);
+        //二维码图片
+        String qrCode = null;
+        try {
+            qrCode = qrCodeUtil.createQRCode(url, 200, 200);
+        } catch (IOException e) {
+            XueChengPlusException.cast(&quot;生成二维码出错&quot;);
+        }
+
+        PayRecordDto payRecordDto = new PayRecordDto();
+        BeanUtils.copyProperties(payRecord,payRecordDto);
+        payRecordDto.setQrcode(qrCode);
+
+        return payRecordDto;
+}
+
+
+    //添加支付交易记录
+
+
+     /**
+     * 保存订单信息
+     * @param userId
+     * @param addOrderDto
+     * @return
+     */
+     //流程：用选课服务传给前端的选课id也就是添加订单实体类的outbusinessid，避免重复下单一个选课记录只能有一个订单，然后用雪花算法生成订单id,封装数据到订单实体，用订单实体的id，和addOrderDto中的订单详情信息添加到订单明细表。
+    public XcOrders saveXcOrders(String userId, AddOrderDto addOrderDto){
+        //插入订单表,订单主表，订单明细表
+        //进行幂等性判断，同一个选课记录只能有一个订单
+        //getOrderByBusinessId ,根据业务id查询订单 ,业务id是选课记录表中的主键
+        XcOrders xcOrders = getOrderByBusinessId(addOrderDto.getOutBusinessId());
+        if(xcOrders!=null){
+            return xcOrders;
+        }
+
+        //插入订单主表
+        xcOrders = new XcOrders();
+        //使用雪花算法生成订单号
+        xcOrders.setId(IdWorkerUtils.getInstance().nextId());
+        xcOrders.setTotalPrice(addOrderDto.getTotalPrice());
+        xcOrders.setCreateDate(LocalDateTime.now());
+        xcOrders.setStatus(&quot;600001&quot;);//未支付
+        xcOrders.setUserId(userId);
+        xcOrders.setOrderType(&quot;60201&quot;);//订单类型
+        xcOrders.setOrderName(addOrderDto.getOrderName());
+        xcOrders.setOrderDescrip(addOrderDto.getOrderDescrip());
+        xcOrders.setOrderDetail(addOrderDto.getOrderDetail());
+        xcOrders.setOutBusinessId(addOrderDto.getOutBusinessId());//如果是选课这里记录选课表的id
+        int insert = ordersMapper.insert(xcOrders);
+        if(insert&lt;=0){
+            XueChengPlusException.cast(&quot;添加订单失败&quot;);
+        }
+        //订单id
+        Long orderId = xcOrders.getId();
+        //插入订单明细表
+        //将前端传入的明细json串转成List
+        String orderDetailJson = addOrderDto.getOrderDetail();
+        List&lt;XcOrdersGoods&gt; xcOrdersGoods = JSON.parseArray(orderDetailJson, XcOrdersGoods.class);
+        //遍历xcOrdersGoods插入订单明细表
+        xcOrdersGoods.forEach(goods-&gt;{
+
+            goods.setOrderId(orderId);
+            //插入订单明细表
+            int insert1 = ordersGoodsMapper.insert(goods);
+
+        });
+        return xcOrders;
+
+    }
+
+      /**
+     * 保存支付记录
+     * @param orders
+     * @return
+     */
+     //用订单表的中订单的id
+    public XcPayRecord createPayRecord(XcOrders orders){
+        //订单id
+        Long orderId = orders.getId();
+        XcOrders xcOrders = ordersMapper.selectById(orderId);
+        //如果此订单不存在不能添加支付记录
+        if(xcOrders == null){
+            XueChengPlusException.cast(&quot;订单不存在&quot;);
+        }
+        //订单状态
+        String status = xcOrders.getStatus();
+        //如果此订单支付结果为成功，不再添加支付记录，避免重复支付
+        if(&quot;601002&quot;.equals(status)){//支付成功
+            XueChengPlusException.cast(&quot;此订单已支付&quot;);
+        }
+        //添加支付记录
+        XcPayRecord xcPayRecord = new XcPayRecord();
+        xcPayRecord.setPayNo(IdWorkerUtils.getInstance().nextId());//支付记录号，将来要传给支付宝
+        xcPayRecord.setOrderId(orderId);
+        xcPayRecord.setOrderName(xcOrders.getOrderName());
+        xcPayRecord.setTotalPrice(xcOrders.getTotalPrice());
+        xcPayRecord.setCurrency(&quot;CNY&quot;);
+        xcPayRecord.setCreateDate(LocalDateTime.now());
+        xcPayRecord.setStatus(&quot;601001&quot;);//未支付
+        xcPayRecord.setUserId(xcOrders.getUserId());
+        int insert = payRecordMapper.insert(xcPayRecord);
+        if(insert&lt;=0){
+            XueChengPlusException.cast(&quot;插入支付记录失败&quot;);
+        }
+        return xcPayRecord;
+    }
+
+
+}
+</code></pre><h5 id="扫码下单接口"><a href="#扫码下单接口" class="headerlink" title="扫码下单接口"></a>扫码下单接口</h5><p>生的支付二维码中地址的转跳就是这个接口的网址，</p>
+<p>用户扫码请求第三方支付平台下单、支付。</p>
+<p>定义查询支付交易记录的Service接口与实现方法</p>
+<pre><code>public XcPayRecord getPayRecordByPayno(String payNo);</code></pre><p>接口实现</p>
+<p>用本系统的支付记录号判断支付记录是否存在，查看支付结果的状体，然后就是用支付宝的sdk把需要的参数装进去，和填充业务参数。然后用alipayClient.pageExecute(填入业务信息的那个类).getbody获得表单信息，</p>
+<p>设置返回前端的表头的编码，然后返回表单给前端。</p>
+<pre><code>  @ApiOperation(&quot;扫码下单接口&quot;)
+    @GetMapping(&quot;/requestpay&quot;)
+    public void requestpay(String payNo, HttpServletResponse httpResponse) throws IOException, AlipayApiException {
+
+        //传入本系统支付记录号，判断支付记录号是否存在
+        XcPayRecord payRecordByPayno = orderService.getPayRecordByPayno(payNo);
+        if (payRecordByPayno==null){
+            XueChengPlusException.cast(&quot;支付记录不存在&quot;);
+        }
+        //支付结果
+        String status = payRecordByPayno.getStatus();
+        if (&quot;601002&quot;.equals(status)){
+            XueChengPlusException.cast(&quot;已支付,无需重复支付&quot;);
+        }
+        DefaultAlipayClient alipayClient = new DefaultAlipayClient(AlipayConfig.URL, APP_ID, APP_PRIVATE_KEY, AlipayConfig.FORMAT, AlipayConfig.CHARSET, ALIPAY_PUBLIC_KEY, AlipayConfig.SIGNTYPE);
+        AlipayTradeWapPayRequest alipayRequest = new AlipayTradeWapPayRequest();//创建API对对应的request
+        //        alipayRequest.setReturnUrl(&quot;http://domain.com/CallBack/return_url.jsp&quot;);
+        alipayRequest.setNotifyUrl(&quot;http://funeeu.natappfree.cc/orders/paynotify&quot;);//在公共参数中设置回跳和通知地址
+//        alipayRequest.setNotifyUrl(&quot;http://7ig2hh.natappfree.cc/xuecheng/orders/paynotify&quot;);//在公共参数中设置回跳和通知地址
+        alipayRequest.setBizContent(&quot;{&quot; +
+                &quot;    \&quot;out_trade_no\&quot;:\&quot;&quot;+payNo+&quot;\&quot;,&quot; +
+                &quot;    \&quot;total_amount\&quot;:&quot;+payRecordByPayno.getTotalPrice()+&quot;,&quot; +
+                &quot;    \&quot;subject\&quot;:\&quot;&quot;+payRecordByPayno.getOrderName()+&quot;\&quot;,&quot; +
+                &quot;    \&quot;product_code\&quot;:\&quot;QUICK_WAP_WAY\&quot;&quot; +
+                &quot;  }&quot;);//填充业务参数
+        String form = alipayClient.pageExecute(alipayRequest).getBody();
+        httpResponse.setContentType(&quot;text/html;charset=&quot; + AlipayConfig.CHARSET);
+        httpResponse.getWriter().write(form);//直接将完整的表单html输出到页面
+        httpResponse.getWriter().flush();
+    }</code></pre><h2 id="主动查询支付结果"><a href="#主动查询支付结果" class="headerlink" title="主动查询支付结果"></a>主动查询支付结果</h2><p>就是用本系统的订单号调用支付宝的sdk去支付宝查询。</p>
+<p>接收生成支付二维码接口给前端的本项目的<strong>商户网站唯一订单号</strong>，<strong>在商户端唯一，每个商户订单号会对应一个支付宝订单号</strong>。去支付宝查询（还是调用支付宝的sdk拼接url,appid 之类的），用AlipayTradeQueryRequest() 设置商户网站唯一订单号，用alipayClient.execute（设置了商户网站唯一订单号的那个类）去支付宝查。然后支付宝返回一个AlipayTradeQueryResponse 用支付宝自带的isSuccess判断是不是成功，并且里面会带有订单详细信息，然后封装到PayStatusDto.用支付宝查到的结果也就是PayStatusDto去更新支付记录表和订单表的支付状态。</p>
+<p>也就是用商户网站唯一订单号去支付记录表查是否有相关的支付记录表。拿到相关联的订单id去（订单表）查有没有相关的订单。查询支付状态，从支付宝查询到的支付结果更新支付记录表支付宝编号，支付时间之列的信息和订单表的订单状态</p>
+<h3 id="Controller层"><a href="#Controller层" class="headerlink" title="Controller层"></a>Controller层</h3><p>前端传入本系统的订单号</p>
+<pre><code>   @ApiOperation(&quot;查询支付结果&quot;)
+    @GetMapping(&quot;/payresult&quot;)
+    @ResponseBody
+    public PayRecordDto payresult(String payNo) {
+        //查询支付结果
+        PayRecordDto payRecordDto = orderService.queryPayResult(payNo);
+        return payRecordDto;
+    }
+</code></pre><h3 id="Service层"><a href="#Service层" class="headerlink" title="Service层"></a>Service层</h3><pre><code> /**
+  * 请求支付宝查询支付结果
+  * @param payNo 支付记录id
+  * @return 支付记录信息
+  */
+ public PayRecordDto queryPayResult(String payNo);</code></pre><pre><code>  @Override
+    public PayRecordDto queryPayResult(String payNo) {
+
+        //调用支付宝的接口查询支付结果
+        PayStatusDto payStatusDto = queryPayResultFromAlipay(payNo);
+        System.out.println(payStatusDto);
+
+        //拿到支付结果更新支付记录表和订单表的支付状态
+        currentProxy.saveAliPayStatus(payStatusDto);
+
+
+        //要返回最新的支付记录信息
+        XcPayRecord payRecordByPayno = getPayRecordByPayno(payNo);
+        PayRecordDto payRecordDto = new PayRecordDto();
+        BeanUtils.copyProperties(payRecordByPayno,payRecordDto);
+
+        return payRecordDto;
+    }
+
+
+
+
+    /**
+     * 请求支付宝查询支付结果
+     * @param payNo 支付交易号
+     * @return 支付结果
+     */
+    public PayStatusDto queryPayResultFromAlipay(String payNo){
+
+        DefaultAlipayClient defaultAlipayClient = new DefaultAlipayClient(AlipayConfig.URL, APP_ID, APP_PRIVATE_KEY, AlipayConfig.FORMAT, AlipayConfig.CHARSET, ALIPAY_PUBLIC_KEY, AlipayConfig.SIGNTYPE);
+
+        AlipayTradeQueryRequest alipayTradeQueryRequest = new AlipayTradeQueryRequest();
+        JSONObject bizContent = new JSONObject();
+        bizContent.put(&quot;out_trade_no&quot;,payNo);
+        alipayTradeQueryRequest.setBizContent(bizContent.toString());
+        //支付宝返回的信息
+        String body =null;
+        try {
+            AlipayTradeQueryResponse execute = defaultAlipayClient.execute(alipayTradeQueryRequest);//通过alipayClient调用API，获取对应的responsel类
+            if (!execute.isSuccess()){
+                XueChengPlusException.cast(&quot;请求支付宝查询支付结果失败&quot;);
+            }
+            body =execute.getBody();
+        }catch (AlipayApiException e){
+            e.printStackTrace();
+            XueChengPlusException.cast(&quot;请求支付查询支付结果异常&quot;);
+        }
+        Map bodyMap = JSON.parseObject(body, Map.class);
+        Map alipay_trade_query_response = (Map) bodyMap.get(&quot;alipay_trade_query_response&quot;);
+        String trade_no= (String) alipay_trade_query_response.get(&quot;trade_no&quot;);
+        String trade_status = (String) alipay_trade_query_response.get(&quot;trade_status&quot;);
+        String total_amount = (String) alipay_trade_query_response.get(&quot;total_amount&quot;);
+        PayStatusDto payStatusDto = new PayStatusDto();
+        payStatusDto.setOut_trade_no(payNo);
+        payStatusDto.setTrade_no(trade_no);//支付宝的交易号
+        payStatusDto.setTrade_status(trade_status);//交易状态
+        payStatusDto.setApp_id(APP_ID);
+        payStatusDto.setTotal_amount(total_amount);//总金额
+        return payStatusDto;
+    }
+
+
+
+    /**
+     * @description 保存支付宝支付结果
+     * @param payStatusDto  支付结果信息 从支付宝查询到的信息
+     * @return void
+     * @author Mr.M
+     * @date 2022/10/4 16:52
+     */
+    @Transactional
+    @Override
+    public void saveAliPayStatus(PayStatusDto payStatusDto){
+
+        String payNo = payStatusDto.getOut_trade_no();
+        XcPayRecord payRecordByPayno = getPayRecordByPayno(payNo);
+        if(payRecordByPayno == null){
+            XueChengPlusException.cast(&quot;找不到相关的支付记录&quot;);
+        }
+        //拿到相关联的订单id
+        Long orderId = payRecordByPayno.getOrderId();
+        XcOrders xcOrders = ordersMapper.selectById(orderId);
+        if(xcOrders == null){
+            XueChengPlusException.cast(&quot;找不到相关联的订单&quot;);
+        }
+        //支付状态
+        String statusFromDb = payRecordByPayno.getStatus();
+
+        //如果数据库支付的状态已经是成功了，不再处理了
+        if(&quot;601002&quot;.equals(statusFromDb)){
+            return ;
+        }
+        //如果支付成功
+        String trade_status = payStatusDto.getTrade_status();//从支付宝查询到的支付结果
+        if (trade_status.equals(&quot;TRADE_SUCCESS&quot;)){//支付宝返回的信息为支付成功
+            //更新支付纪律表的状态为支付成功
+            payRecordByPayno.setStatus(&quot;601002&quot;);
+            //支付宝的订单号
+            payRecordByPayno.setOutPayNo(payStatusDto.getTrade_no());
+
+            //第三方支付渠道编号
+            payRecordByPayno.setOutPayChannel(&quot;Alipay&quot;);
+            //支付成功时间
+            payRecordByPayno.setPaySuccessTime(LocalDateTime.now());
+            payRecordMapper.updateById(payRecordByPayno);
+
+            //更新订单表的状态和支付成功
+            xcOrders.setStatus(&quot;600002&quot;);//订单状态为交易成功
+            ordersMapper.updateById(xcOrders);
+
+
+            //将消息写道数据库
+            MqMessage mqMessage = mqMessageService.addMessage(&quot;payresult_notify&quot;, xcOrders.getOutBusinessId(), xcOrders.getOrderType(), null);
+            //发送消息
+            notifyPayResult(mqMessage);
+
+        }
+
+</code></pre><h4 id="PayStatusDto-实体类"><a href="#PayStatusDto-实体类" class="headerlink" title="PayStatusDto 实体类"></a>PayStatusDto 实体类</h4><pre><code>public class PayStatusDto {
+
+    //商户订单号
+    String out_trade_no;
+    //支付宝交易号
+    String trade_no;
+    //交易状态
+    String trade_status;
+    //appid
+    String app_id;
+    //total_amount
+    String total_amount;
+}
+</code></pre><h2 id="被动接受支付通知"><a href="#被动接受支付通知" class="headerlink" title="被动接受支付通知"></a>被动接受支付通知</h2><h3 id="接口定义"><a href="#接口定义" class="headerlink" title="接口定义"></a>接口定义</h3><p>支付完成第三方支付系统会主动通知支付结果，要实现主动通知需要在请求支付系统下单时传入NotifyUrl，这里有两个url：NotifyUrl和ReturnUrl，ReturnUrl是支付完成后支付系统携带支付结果重定向到ReturnUrl地址，NotifyUrl是支付完成后支付系统在后台定时去通知，使用NotifyUrl比使用ReturnUrl有保证。</p>
+<p>根据接口描述：<a href="https://opendocs.alipay.com/open/203/105286的内容下边在订单服务定义接收支付结果通知的接口。" target="_blank" rel="noopener">https://opendocs.alipay.com/open/203/105286的内容下边在订单服务定义接收支付结果通知的接口。</a></p>
+<p>支付宝回调是用的post</p>
+<p>首先在下单时指定NotifyUrl:</p>
+<p>就是弄内网穿透的时候的地址+接口</p>
+<pre><code> alipayRequest.setNotifyUrl(&quot;http://funeeu.natappfree.cc/orders/paynotify&quot;);//在公共参数中设置回跳和通知地址</code></pre><h3 id="Controller层-1"><a href="#Controller层-1" class="headerlink" title="Controller层"></a>Controller层</h3><pre><code> @PostMapping(&quot;/paynotify&quot;)
+    public void paynotify(HttpServletRequest request,HttpServletResponse response) throws AlipayApiException, IOException {
+        //获取支付宝post过来反馈信息
+        HashMap&lt;String, String&gt; params = new HashMap&lt;&gt;();
+        Map requestParams = request.getParameterMap();
+        //for循环每个参数都可以省略但是分号不能省略
+        for (Iterator iter =requestParams.keySet().iterator(); iter.hasNext(); ){
+            String name = (String) iter.next();
+            String valueStr = &quot;&quot;;
+            String[] values = (String[]) requestParams.get(name);
+            for (int i = 0; i &lt; values.length; i++) {
+                valueStr=(i== values.length-1)?valueStr+values[i]
+                :valueStr+values[i]+&quot;,&quot;;
+            }
+            params.put(name,valueStr);
+        }
+        boolean verify_result = AlipaySignature.rsaCheckV1(params, ALIPAY_PUBLIC_KEY, AlipayConfig.CHARSET, &quot;RSA2&quot;);
+
+        if (verify_result){//验证成功
+            //商户订单号
+            String out_trade_no = new String(request.getParameter(&quot;out_trade_no&quot;).getBytes(&quot;ISO-8859-1&quot;));
+            //支付宝交易号
+            String trade_no = new String(request.getParameter(&quot;trade_no&quot;).getBytes(&quot;ISO-8859-1&quot;),&quot;UTF-8&quot;);
+            //交易金额
+            String total_amount = new String(request.getParameter(&quot;total_amount&quot;).getBytes(&quot;ISO-8859-1&quot;),&quot;UTF-8&quot;);
+            //交易状态
+            String trade_status = new String(request.getParameter(&quot;trade_status&quot;).getBytes(&quot;ISO-8859-1&quot;),&quot;UTF-8&quot;);
+            if (trade_status.equals(&quot;TRADE_SUCCESS&quot;)){
+                //更新支付记录表的支付状态为成功，订单表的状态为成功
+                PayStatusDto payStatusDto = new PayStatusDto();
+                payStatusDto.setTrade_status(trade_status);
+                payStatusDto.setTrade_no(trade_no);
+                payStatusDto.setOut_trade_no(out_trade_no);
+                payStatusDto.setTotal_amount(total_amount);
+                payStatusDto.setApp_id(APP_ID);
+                orderService.saveAliPayStatus(payStatusDto);
+            }
+            response.getWriter().write(&quot;success&quot;);
+        }else {
+            response.getWriter().write(&quot;fail&quot;);
+        }
+
+    }
+
+</code></pre><h2 id="通知支付结果"><a href="#通知支付结果" class="headerlink" title="通知支付结果"></a>通知支付结果</h2><h3 id="消息通知方式"><a href="#消息通知方式" class="headerlink" title="消息通知方式"></a><strong>消息通知方式</strong></h3><p>订单服务作为通用服务在订单支付成功后需要将支付结果通知给与订单服务对接的其它微服务。</p>
+<p>为了保证通知过程的简便还要保证消息全部到达消费服务，采用发布订阅的方式通知支付结果。</p>
+<p><img src="/xuecheng/image-20230328220611686.png" alt="image-20230328220611686"></p>
+<p>学习中心服务：对收费课程选课需要支付，与订单服务对接完成支付。</p>
+<p>学习资源服务：对收费的学习资料需要购买后下载，与订单服务对接完成支付。</p>
+<p>订单服务完成支付后将支付结果发给每一个与订单服务对接的微服务，订单服务将消息发给交换机，由交换机广播消息，每个订阅消息的微服务都可以接收到支付结果，根据支付结果的内容去更新自己的业务数据。</p>
+<p>学习中心等微服务收到消息并处理完成通过消息队列回复订单服务。</p>
+<h3 id="分布式事务问题"><a href="#分布式事务问题" class="headerlink" title="分布式事务问题"></a>分布式事务问题</h3><p>订单服务收到第三方支付系统的通知更新支付结果，订单服务将支付结果通知给其它微服务，订单服务需要保证更新支付结果成功并且向其它微服务通知支付结果也成功，两件事跨多个微服务并且需要保证一致性，存在分布式事务控制的需求。</p>
+<p>针对该业务场景如何控制分布式事务？</p>
+<p>根据需求可知，订单服务先将支付结果更新成功后再将支付结果通知给其它微服务，只要保证最终将支付结果通知到微服务保证最终一致性即可，可以采用课程发布模块的技术方案，先通过本地事务更新支付结果的同时添加一条消息表记录，再由任务调度去定时调度将支付结果通知给其它微服务。</p>
+<p><img src="/xuecheng/image-20230328221153237.png" alt="image-20230328221153237"></p>
+<h3 id="集成消息队列"><a href="#集成消息队列" class="headerlink" title="集成消息队列"></a>集成消息队列</h3><h4 id="支付结果通知队列"><a href="#支付结果通知队列" class="headerlink" title="支付结果通知队列"></a>支付结果通知队列</h4><p>订单服务通过消息队列将支付结果发给学习中心服务，消息队列采用发布订阅模式。</p>
+<p>1、订单服务创建支付结果通知交换机。</p>
+<p>2、学习中心服务绑定队列到交换机。</p>
+<p>项目使用RabbitMQ作为消息队列，在课前下发的虚拟上已经安装了RabbitMQ.</p>
+<p>执行docker start rabbitmq 启动RabbitMQ。访问：<a href="http://192.168.101.65:15672/" target="_blank" rel="noopener">http://192.168.101.65:15672/</a> </p>
+<p>账户密码：guest/guest</p>
+<p>交换机Fanout广播模式。</p>
+<p>首先在订单服务添加消息队列依赖</p>
+<pre><code>&lt;dependency&gt;
+    &lt;groupId&gt;org.springframework.boot&lt;/groupId&gt;
+    &lt;artifactId&gt;spring-boot-starter-amqp&lt;/artifactId&gt;
+&lt;/dependency&gt;
+</code></pre><p>在nacos配置rabbitmq-dev.yaml为通用配置文件</p>
+<pre><code>spring:
+  rabbitmq:
+    host: 192.168.101.65
+    port: 5672
+    username: guest
+    password: guest
+    virtual-host: /
+    publisher-confirm-type: correlated #correlated 异步回调，定义ConfirmCallback，MQ返回结果时会回调这个ConfirmCallback
+    publisher-returns: false #开启publish-return功能，同样是基于callback机制，需要定义ReturnCallback
+    template:
+      mandatory: false #定义消息路由失败时的策略。true，则调用ReturnCallback；false：则直接丢弃消息
+    listener:
+      simple:
+        acknowledge-mode: none #出现异常时返回unack，消息回滚到mq；没有异常，返回ack ,manual:手动控制,none:丢弃消息，不回滚到mq
+        retry:
+          enabled: true #开启消费者失败重试
+          initial-interval: 1000ms #初识的失败等待时长为1秒
+          multiplier: 1 #失败的等待时长倍数，下次等待时长 = multiplier * last-interval
+          max-attempts: 3 #最大重试次数
+          stateless: true #true无状态；false有状态。如果业务中包含事务，这里改为false
+</code></pre>
+            </div>
+            <hr />
+
+            
+            <style>
+    #reward {
+        margin: 40px 0;
+        text-align: center;
+    }
+
+    #reward .reward-link {
+        font-size: 1.88rem;
+    }
+
+    #reward .btn-floating:hover {
+        box-shadow: 0 6px 12px rgba(0, 0, 0, 0.2), 0 5px 15px rgba(0, 0, 0, 0.2);
+    }
+
+    #rewardModal {
+        width: 320px;
+        height: 350px;
+    }
+
+    #rewardModal .reward-title {
+        margin: 15px auto;
+        padding-bottom: 5px;
+    }
+
+    #rewardModal .modal-content {
+        padding: 10px;
+    }
+
+    #rewardModal .close {
+        position: absolute;
+        right: 15px;
+        top: 15px;
+        color: rgba(0, 0, 0, 0.5);
+        font-size: 1.3rem;
+        line-height: 20px;
+        cursor: pointer;
+    }
+
+    #rewardModal .close:hover {
+        color: #ef5350;
+        transform: scale(1.3);
+        -moz-transform:scale(1.3);
+        -webkit-transform:scale(1.3);
+        -o-transform:scale(1.3);
+    }
+
+    #rewardModal .reward-tabs {
+        margin: 0 auto;
+        width: 210px;
+    }
+
+    .reward-tabs .tabs {
+        height: 38px;
+        margin: 10px auto;
+        padding-left: 0;
+    }
+
+    .reward-content ul {
+        padding-left: 0 !important;
+    }
+
+    .reward-tabs .tabs .tab {
+        height: 38px;
+        line-height: 38px;
+    }
+
+    .reward-tabs .tab a {
+        color: #fff;
+        background-color: #ccc;
+    }
+
+    .reward-tabs .tab a:hover {
+        background-color: #ccc;
+        color: #fff;
+    }
+
+    .reward-tabs .wechat-tab .active {
+        color: #fff !important;
+        background-color: #22AB38 !important;
+    }
+
+    .reward-tabs .alipay-tab .active {
+        color: #fff !important;
+        background-color: #019FE8 !important;
+    }
+
+    .reward-tabs .reward-img {
+        width: 210px;
+        height: 210px;
+    }
+</style>
+
+<div id="reward">
+    <a href="#rewardModal" class="reward-link modal-trigger btn-floating btn-large waves-effect waves-light red">赏</a>
+
+    <!-- Modal Structure -->
+    <div id="rewardModal" class="modal">
+        <div class="modal-content">
+            <a class="close modal-close"><i class="fa fa-close"></i></a>
+            <h4 class="reward-title">写作不易，客官能否打赏一杯奶茶？</h4>
+            <div class="reward-content">
+                <div class="reward-tabs">
+                    <ul class="tabs row">
+                        <li class="tab col s6 alipay-tab waves-effect waves-light"><a href="#alipay">支付宝</a></li>
+                        <li class="tab col s6 wechat-tab waves-effect waves-light"><a href="#wechat">微 信</a></li>
+                    </ul>
+                    <div id="alipay">
+                        <img src="/medias/reward/alipay.jpg" class="reward-img" alt="支付宝打赏二维码">
+                    </div>
+                    <div id="wechat">
+                        <img src="/medias/reward/wechat.png" class="reward-img" alt="微信打赏二维码">
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<script>
+    $(function () {
+        $('.tabs').tabs();
+    });
+</script>
+            
+
+            <link rel="stylesheet" type="text/css" href="/libs/share/css/share.min.css">
+
+<div id="article-share">
+    
+    <div class="social-share" data-disabled="qzone" data-wechat-qrcode-helper="<p>微信里点“发现”->“扫一扫”二维码便可查看分享。</p>"></div>
+    
+</div>
+
+<script src="/libs/share/js/social-share.min.js"></script>
+
+            
+
+    <div class="reprint" id="reprint-statement">
+        <p class="reprint-tip">
+            <i class="fa fa-exclamation-triangle"></i>&nbsp;&nbsp;
+            <span>转载规则</span>
+        </p>
+        
+            <div class="center-align">
+                <a rel="license" href="https://creativecommons.org/licenses/by/4.0/deed.zh">
+                    <img alt=""
+                         style="border-width:0"
+                         src="https://i.creativecommons.org/l/by/4.0/88x31.png"/>
+                </a>
+            </div>
+            <br/>
+            <span xmlns:dct="http://purl.org/dc/terms/" href="http://purl.org/dc/dcmitype/Text"
+                  property="dct:title" rel="dct:type">
+                    《Xuecheng项目》
+                </span> 由
+            <a xmlns:cc="http://creativecommons.org/ns#" href="/xuecheng.html" property="cc:attributionName"
+               rel="cc:attributionURL">
+                jiyonggang
+            </a> 采用
+            <a rel="license" href="https://creativecommons.org/licenses/by/4.0/deed.zh">
+                知识共享署名 4.0 国际许可协议
+            </a>进行许可。
+        
+    </div>
+
+    <script async defer>
+      document.addEventListener("copy", function (e) {
+        let toastHTML = '<span>复制成功，请遵循本文的转载规则</span><button class="btn-flat toast-action" onclick="navToReprintStatement()" style="font-size: smaller">查看</a>';
+        M.toast({html: toastHTML})
+      });
+
+      function navToReprintStatement() {
+        $("html, body").animate({scrollTop: $("#reprint-statement").offset().top - 80}, 800);
+      }
+    </script>
+
+
+        </div>
+    </div>
+
+    
+    <link rel="stylesheet" href="/libs/gitalk/gitalk.css">
+<link rel="stylesheet" href="/css/my-gitalk.css">
+
+<div class="card gitalk-card" data-aos="fade-up">
+    <div id="gitalk-container" class="card-content"></div>
+</div>
+
+<script src="/libs/gitalk/gitalk.min.js"></script>
+<script>
+    let gitalk = new Gitalk({
+        clientID: '',
+        clientSecret: '',
+        repo: 'jiyongg-code.github.io',
+        owner: 'jiyongg-code',
+        admin: "jiyongg-code",
+        id: 'xuecheng.html',
+        distractionFreeMode: false  // Facebook-like distraction free mode
+    });
+
+    gitalk.render('gitalk-container');
+</script>
+    
+
+    
+
+    
+
+    
+
+    
+    <style>
+    .valine-card {
+        margin: 1.5rem auto;
+    }
+
+    .valine-card .card-content {
+        padding: 20px 20px 5px 20px;
+    }
+
+    #vcomments input[type=text],
+    #vcomments input[type=email],
+    #vcomments input[type=url],
+    #vcomments textarea {
+        box-sizing: border-box;
+    }
+
+    #vcomments p {
+        margin: 2px 2px 10px;
+        font-size: 1.05rem;
+        line-height: 1.78rem;
+    }
+
+    #vcomments blockquote p {
+        text-indent: 0.2rem;
+    }
+
+    #vcomments a {
+        padding: 0 2px;
+        color: #42b983;
+        font-weight: 500;
+        text-decoration: underline;
+    }
+
+    #vcomments img {
+        max-width: 100%;
+        height: auto;
+        cursor: pointer;
+    }
+
+    #vcomments ol li {
+        list-style-type: decimal;
+    }
+
+    #vcomments ol,
+    ul {
+        display: block;
+        padding-left: 2em;
+        word-spacing: 0.05rem;
+    }
+
+    #vcomments ul li,
+    ol li {
+        display: list-item;
+        line-height: 1.8rem;
+        font-size: 1rem;
+    }
+
+    #vcomments ul li {
+        list-style-type: disc;
+    }
+
+    #vcomments ul ul li {
+        list-style-type: circle;
+    }
+
+    #vcomments table, th, td {
+        padding: 12px 13px;
+        border: 1px solid #dfe2e5;
+    }
+
+    #vcomments table, th, td {
+        border: 0;
+    }
+
+    table tr:nth-child(2n), thead {
+        background-color: #fafafa;
+    }
+
+    #vcomments table th {
+        background-color: #f2f2f2;
+        min-width: 80px;
+    }
+
+    #vcomments table td {
+        min-width: 80px;
+    }
+
+    #vcomments h1 {
+        font-size: 1.85rem;
+        font-weight: bold;
+        line-height: 2.2rem;
+    }
+
+    #vcomments h2 {
+        font-size: 1.65rem;
+        font-weight: bold;
+        line-height: 1.9rem;
+    }
+
+    #vcomments h3 {
+        font-size: 1.45rem;
+        font-weight: bold;
+        line-height: 1.7rem;
+    }
+
+    #vcomments h4 {
+        font-size: 1.25rem;
+        font-weight: bold;
+        line-height: 1.5rem;
+    }
+
+    #vcomments h5 {
+        font-size: 1.1rem;
+        font-weight: bold;
+        line-height: 1.4rem;
+    }
+
+    #vcomments h6 {
+        font-size: 1rem;
+        line-height: 1.3rem;
+    }
+
+    #vcomments p {
+        font-size: 1rem;
+        line-height: 1.5rem;
+    }
+
+    #vcomments hr {
+        margin: 12px 0;
+        border: 0;
+        border-top: 1px solid #ccc;
+    }
+
+    #vcomments blockquote {
+        margin: 15px 0;
+        border-left: 5px solid #42b983;
+        padding: 1rem 0.8rem 0.3rem 0.8rem;
+        color: #666;
+        background-color: rgba(66, 185, 131, .1);
+    }
+
+    #vcomments pre {
+        font-family: monospace, monospace;
+        padding: 1.2em;
+        margin: .5em 0;
+        background: #272822;
+        overflow: auto;
+        border-radius: 0.3em;
+        tab-size: 4;
+    }
+
+    #vcomments code {
+        font-family: monospace, monospace;
+        padding: 1px 3px;
+        font-size: 0.92rem;
+        color: #e96900;
+        background-color: #f8f8f8;
+        border-radius: 2px;
+    }
+
+    #vcomments pre code {
+        font-family: monospace, monospace;
+        padding: 0;
+        color: #e8eaf6;
+        background-color: #272822;
+    }
+
+    #vcomments pre[class*="language-"] {
+        padding: 1.2em;
+        margin: .5em 0;
+    }
+
+    #vcomments code[class*="language-"],
+    pre[class*="language-"] {
+        color: #e8eaf6;
+    }
+
+    #vcomments [type="checkbox"]:not(:checked), [type="checkbox"]:checked {
+        position: inherit;
+        margin-left: -1.3rem;
+        margin-right: 0.4rem;
+        margin-top: -1px;
+        vertical-align: middle;
+        left: unset;
+        visibility: visible;
+    }
+
+    #vcomments b,
+    strong {
+        font-weight: bold;
+    }
+
+    #vcomments dfn {
+        font-style: italic;
+    }
+
+    #vcomments small {
+        font-size: 85%;
+    }
+
+    #vcomments cite {
+        font-style: normal;
+    }
+
+    #vcomments mark {
+        background-color: #fcf8e3;
+        padding: .2em;
+    }
+
+    #vcomments table, th, td {
+        padding: 12px 13px;
+        border: 1px solid #dfe2e5;
+    }
+
+    table tr:nth-child(2n), thead {
+        background-color: #fafafa;
+    }
+
+    #vcomments table th {
+        background-color: #f2f2f2;
+        min-width: 80px;
+    }
+
+    #vcomments table td {
+        min-width: 80px;
+    }
+
+    #vcomments [type="checkbox"]:not(:checked), [type="checkbox"]:checked {
+        position: inherit;
+        margin-left: -1.3rem;
+        margin-right: 0.4rem;
+        margin-top: -1px;
+        vertical-align: middle;
+        left: unset;
+        visibility: visible;
+    }
+</style>
+
+<div class="card valine-card" data-aos="fade-up">
+    <div id="vcomments" class="card-content"></div>
+</div>
+
+<script src="//code.bdstatic.com/npm/leancloud-storage@4.12.2/dist/av-min.js"></script>
+<!-- <script src="/libs/valine/av-min.js"></script> -->
+<!-- <script src="/libs/valine/Valine.min.js"></script> -->
+<script src="//unpkg.com/valine@latest/dist/Valine.min.js"></script> 
+
+<script>
+    new Valine({
+        el: '#vcomments',
+        appId: '',
+        appKey: '',
+        notify: 'true' === 'true',
+        verify: 'false' === 'true',
+        visitor: 'false' === 'true',
+        avatar: 'wavatar',
+        pageSize: '10',
+        lang: 'zh-cn',
+        placeholder: '如果你没有GitHub账号，还可以在这里评论啦！'
+    });
+</script>
+
+    
+
+    
+
+<article id="prenext-posts" class="prev-next articles">
+    <div class="row article-row">
+        
+        <div class="article col s12 m6" data-aos="fade-up">
+            <div class="article-badge left-badge text-color">
+                <i class="fa fa-chevron-left"></i>&nbsp;上一篇</div>
+            <div class="card">
+                <a href="/rabbitmq.html">
+                    <div class="card-image">
+                        
+                        
+                        <img src="/medias/featureimages/22.jpg" class="responsive-img" alt="RabbitMQ">
+                        
+                        <span class="card-title">RabbitMQ</span>
+                    </div>
+                </a>
+                <div class="card-content article-content">
+                    <div class="summary block-with-text">
+                        
+                            RabbitMQ
+                        
+                    </div>
+                    <div class="publish-info">
+                        <span class="publish-date">
+                            <i class="fa fa-clock-o fa-fw icon-date"></i>2023-03-29
+                        </span>
+                        <span class="publish-author">
+                            
+                            <i class="fa fa-bookmark fa-fw icon-category"></i>
+                            
+                            <a href="/categories/Message-Queue/" class="post-category" target="_blank">
+                                    Message Queue
+                                </a>
+                            
+                            
+                        </span>
+                    </div>
+                </div>
+                
+                <div class="card-action article-tags">
+                    
+                    <a href="/tags/RabbitMQ/" target="_blank">
+                        <span class="chip bg-color">RabbitMQ</span>
+                    </a>
+                    
+                </div>
+                
+            </div>
+        </div>
+        
+        
+        <div class="article col s12 m6" data-aos="fade-up">
+            <div class="article-badge right-badge text-color">
+                下一篇&nbsp;<i class="fa fa-chevron-right"></i>
+            </div>
+            <div class="card">
+                <a href="/springsecurity-oauth2.html">
+                    <div class="card-image">
+                        
+                        
+                        <img src="/medias/featureimages/9.jpg" class="responsive-img" alt="SpringSecurity-OAuth2">
+                        
+                        <span class="card-title">SpringSecurity-OAuth2</span>
+                    </div>
+                </a>
+                <div class="card-content article-content">
+                    <div class="summary block-with-text">
+                        
+                            
+                        
+                    </div>
+                    <div class="publish-info">
+                            <span class="publish-date">
+                                <i class="fa fa-clock-o fa-fw icon-date"></i>2023-03-25
+                            </span>
+                        <span class="publish-author">
+                            
+                        </span>
+                    </div>
+                </div>
+                
+            </div>
+        </div>
+        
+    </div>
+</article>
+</div>
+
+
+<script>
+    $('#articleContent').on('copy', function (e) {
+        // IE8 or earlier browser is 'undefined'
+        if (typeof window.getSelection === 'undefined') return;
+
+        var selection = window.getSelection();
+        // if the selection is short let's not annoy our users.
+        if (('' + selection).length < Number.parseInt('120')) {
+            return;
+        }
+
+        // create a div outside of the visible area and fill it with the selected text.
+        var bodyElement = document.getElementsByTagName('body')[0];
+        var newdiv = document.createElement('div');
+        newdiv.style.position = 'absolute';
+        newdiv.style.left = '-99999px';
+        bodyElement.appendChild(newdiv);
+        newdiv.appendChild(selection.getRangeAt(0).cloneContents());
+
+        // we need a <pre> tag workaround.
+        // otherwise the text inside "pre" loses all the line breaks!
+        if (selection.getRangeAt(0).commonAncestorContainer.nodeName === 'PRE') {
+            newdiv.innerHTML = "<pre>" + newdiv.innerHTML + "</pre>";
+        }
+
+        var url = document.location.href;
+        newdiv.innerHTML += '<br />'
+            + '来源: Ji`s Blog<br />'
+            + '作者: jiyonggang<br />'
+            + '链接: <a href="' + url + '">' + url + '</a><br />'
+            + '本文章著作权归作者所有，任何形式的转载都请注明出处。';
+
+        selection.selectAllChildren(newdiv);
+        window.setTimeout(function () { bodyElement.removeChild(newdiv); }, 200);
+    });
+</script>
+
+    </div>
+    <div id="toc-aside" class="expanded col l3 hide-on-med-and-down">
+        <div class="toc-widget">
+            <div class="toc-title"><i class="fa fa-list-alt"></i>&nbsp;&nbsp;目录</div>
+            <div id="toc-content"></div>
+        </div>
+    </div>
+</div>
+
+<!-- TOC 悬浮按钮. -->
+
+<div id="floating-toc-btn" class="hide-on-med-and-down">
+    <a class="btn-floating btn-large bg-color">
+        <i class="fa fa-list"></i>
+    </a>
+</div>
+
+
+<script src="/libs/tocbot/tocbot.min.js"></script>
+<script>
+    $(function () {
+        tocbot.init({
+            tocSelector: '#toc-content',
+            contentSelector: '#articleContent',
+            headingsOffset: -($(window).height() * 0.4 - 45),
+            // headingsOffset: -205,
+            headingSelector: 'h1, h2, h3, h4'
+        });
+
+        // modify the toc link href to support Chinese.
+        let i = 0;
+        let tocHeading = 'toc-heading-';
+        $('#toc-content a').each(function () {
+            $(this).attr('href', '#' + tocHeading + (++i));
+        });
+
+        // modify the heading title id to support Chinese.
+        i = 0;
+        $('#articleContent').children('h1, h2, h3, h4').each(function () {
+            $(this).attr('id', tocHeading + (++i));
+        });
+
+        // Set scroll toc fixed.
+        let tocHeight = parseInt($(window).height() * 0.4 - 64);
+        let $tocWidget = $('.toc-widget');
+        $(window).scroll(function () {
+            let scroll = $(window).scrollTop();
+            /* add post toc fixed. */
+            if (scroll > tocHeight) {
+                $tocWidget.addClass('toc-fixed');
+            } else {
+                $tocWidget.removeClass('toc-fixed');
+            }
+        });
+
+        
+        /* 修复文章卡片 div 的宽度. */
+        let fixPostCardWidth = function (srcId, targetId) {
+            let srcDiv = $('#' + srcId);
+            if (srcDiv.length === 0) {
+                return;
+            }
+
+            let w = srcDiv.width();
+            if (w >= 450) {
+                w = w + 21;
+            } else if (w >= 350 && w < 450) {
+                w = w + 18;
+            } else if (w >= 300 && w < 350) {
+                w = w + 16;
+            } else {
+                w = w + 14;
+            }
+            $('#' + targetId).width(w);
+        };
+
+        // 切换TOC目录展开收缩的相关操作.
+        const expandedClass = 'expanded';
+        let $tocAside = $('#toc-aside');
+        let $mainContent = $('#main-content');
+        $('#floating-toc-btn .btn-floating').click(function () {
+            if ($tocAside.hasClass(expandedClass)) {
+                $tocAside.removeClass(expandedClass).slideUp(500);
+                $mainContent.removeClass('l9');
+            } else {
+                $tocAside.addClass(expandedClass).slideDown(500);
+                $mainContent.addClass('l9');
+            }
+            fixPostCardWidth('artDetail', 'prenext-posts');
+        });
+        
+    });
+</script>
+    
+
+</main>
+
+
+<script src="https://cdn.bootcss.com/mathjax/2.7.5/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
+<script>
+    MathJax.Hub.Config({
+        tex2jax: {inlineMath: [['$', '$'], ['\(', '\)']]}
+    });
+</script>
+
+<script type="text/javascript" src="/libs/codeBlock/codeBlockFuction.js"></script>
+<!-- 代码语言 -->
+<script type="text/javascript" src="/libs/codeBlock/codeLang.js"></script>
+<!-- 代码块复制 -->
+<script type="text/javascript" src="/libs/codeBlock/codeCopy.js"></script>
+<script type="text/javascript" src="/libs/codeBlock/clipboard.min.js"></script>
+<!-- 代码块收缩 -->
+<script type="text/javascript" src="/libs/codeBlock/codeShrink.js"></script> 
+<!-- 代码块折行 -->
+<style type="text/css">code[class*="language-"], pre[class*="language-"] { white-space: pre !important; }</style>
+
+
+    <footer class="page-footer bg-color">
+    <div class="container row center-align">
+       <div class="Copy-right">
+            &copy; 2020 Ji. All Rights Reserved.
+
+                    
+           <!--<a href="/sitemap.xml" target="_blank">站点地图</a>丨-->
+           
+            &nbsp;<i class="fa fa-area-chart"></i>&nbsp;站点总字数:&nbsp;
+            <span class="white-color">117.6k
+             丨            
+          
+
+            <span id="sitetime"></span>
+
+            
+            
+            
+            
+            <span id="busuanzi_container_site_pv" style='display:none'>
+                <i class="fa fa-users"></i>
+                本站总访问量 <span id="busuanzi_value_site_pv" class="red-color"></span>
+            </span>
+            
+            
+            <span id="busuanzi_container_site_uv" style='display:none'>
+               人次,&nbsp;<i class="fa fa-user"></i>访客数 <span id="busuanzi_value_site_uv" class="blue-color"></span> 人.
+            </span>
+            
+            
+        </div>        
+        <div class="social-link social-statis">
+    <a href="https://github.com/jiyongg-code" class="tooltipped" target="_blank" data-tooltip="访问我的GitHub" data-position="top" data-delay="50">
+        <i class="fa fa-github"></i>
+    </a>
+
+
+
+    <a href="https://www.csdn.net/无" class="tooltipped" target="_blank" data-tooltip="访问我的CSDN主页" data-position="top" data-delay="50">
+        <i class="fa fa-codiepie"></i>
+    </a>
+
+
+
+    <a href="https://www.zhihu.com/无" class="tooltipped" target="_blank" data-tooltip="访问我的知乎" data-position="top" data-delay="50">
+        <i class="fa fa-inverse">知</i>
+    </a>
+
+
+
+    <a href="https://user.qzone.qq.com/1320159539" class="tooltipped" target="_blank" data-tooltip="访问我的QQ空间" data-position="top" data-delay="50">
+        <i class="fa fa-qq"></i>
+    </a>
+
+
+
+    <a href="mailto:1320159539@qq.com" class="tooltipped" target="_blank" data-tooltip="邮件联系我" data-position="top" data-delay="50">
+        <i class="fa fa-envelope-open"></i>
+    </a>
+
+
+
+    <a href="/atom.xml" class="tooltipped" target="_blank" data-tooltip="RSS 订阅" data-position="top" data-delay="50">
+        <i class="fa fa-rss"></i>
+    </a>
+</div>
+    </div>
+    <div class="container row center-align">
+    <div class="github-badge">
+      <a style="color: #fff" rel="license" href="https://hexo.io/" target="_blank" title="由 Hexo 强力驱动">
+      <span class="badge-subject">Powered</span><span class="badge-value bg-blue">Hexo</span></a>
+    </div>
+    <div class="github-badge">
+      <a style="color: #fff" rel="license" href="https://github.com/" target="_blank" title="静态网页托管于 GitHub Pages 和 Coding Pages">
+      <span class="badge-subject">Hosted</span><span class="badge-value bg-brightgreen">GitHub & Coding</span></a>
+    </div>
+    <div class="github-badge">
+      <a style="color: #fff" rel="license" href="https://www.cloud.tencent.com/" target="_blank" title="腾讯云提供域名相关服务">
+      <span class="badge-subject">DNS</span><span class="badge-value bg-blueviolet">Tencent cloud</span></a>
+    </div>
+    <div class="github-badge">
+      <a style="color: #fff" rel="license" href="https://www.jsdelivr.com/" target="_blank" title="jsDelivr 提供 CDN 加速服务">
+      <span class="badge-subject">CDN</span><span class="badge-value bg-orange">jsDelivr</span></a>
+    </div>
+    <div class="github-badge">
+        <a style="color: #fff" rel="license" href="https://github.com/blinkfox/hexo-theme-matery/" target="_blank" title="站点使用 Matery 主题">
+      <span class="badge-subject">Theme</span><span class="badge-value bg-blue">Matery</span></a>
+    </div>
+    <div class="github-badge">
+      <a style="color: #fff" rel="license" href="http://creativecommons.org/licenses/by-nc-sa/4.0/" target="_blank" title="本站点采用知识共享署名-非商业性使用-相同方式共享 4.0 国际许可协议进行许可">
+      <span class="badge-subject"><i class="fa fa-copyright"></i></span><span class="badge-value bg-lightgrey">BY-NC-SA 4.0</span></a>
+    </div>
+    <div class="github-badge">
+      <a style="color: #fff" rel="license" href="https://996.icu/" target="_blank" title="支持 996.ICU">
+      <span class="badge-subject">Link</span><span class="badge-value bg-red">996.ICU</span></a>
+    </div>
+    <div class="github-badge">
+      <span class="badge-subject">UV</span><span class="badge-value bg-orange" id="busuanzi_value_site_uv"></span>
+    </div>
+    <div class="github-badge">
+      <span class="badge-subject">PV</span><span class="badge-value bg-brightgreen" id="busuanzi_value_site_pv"></span>
+    </div>
+    <div class="github-badge">
+      <span class="badge-subject">WordCount</span><span class="badge-value bg-blueviolet">117.6k</span>
+    </div>
+</footer>
+
+<div class="progress-bar"></div>
+
+<!-- 不蒜子计数初始值纠正 -->
+<script>
+    $(document).ready(function () {
+
+        var int = setInterval(fixCount, 50);
+        var pvcountOffset = 80000;
+        var uvcountOffset = 20000;
+
+        function fixCount() {
+            if (document.getElementById("busuanzi_container_site_pv").style.display != "none") {
+                $("#busuanzi_value_site_pv").html(parseInt($("#busuanzi_value_site_pv").html()) + pvcountOffset);
+                clearInterval(int);
+            }
+            if ($("#busuanzi_container_site_pv").css("display") != "none") {
+                $("#busuanzi_value_site_uv").html(parseInt($("#busuanzi_value_site_uv").html()) + uvcountOffset); // 加上初始数据 
+                clearInterval(int);
+            }
+        }
+    });
+</script>
+
+<script language=javascript>
+    function siteTime() {
+        window.setTimeout("siteTime()", 1000);
+        var seconds = 1000;
+        var minutes = seconds * 60;
+        var hours = minutes * 60;
+        var days = hours * 24;
+        var years = days * 365;
+        var today = new Date();
+        var todayYear = today.getFullYear();
+        var todayMonth = today.getMonth() + 1;
+        var todayDate = today.getDate();
+        var todayHour = today.getHours();
+        var todayMinute = today.getMinutes();
+        var todaySecond = today.getSeconds();
+        /* Date.UTC() -- 返回date对象距世界标准时间(UTC)1970年1月1日午夜之间的毫秒数(时间戳)
+        year - 作为date对象的年份，为4位年份值
+        month - 0-11之间的整数，做为date对象的月份
+        day - 1-31之间的整数，做为date对象的天数
+        hours - 0(午夜24点)-23之间的整数，做为date对象的小时数
+        minutes - 0-59之间的整数，做为date对象的分钟数
+        seconds - 0-59之间的整数，做为date对象的秒数
+        microseconds - 0-999之间的整数，做为date对象的毫秒数 */
+        var t1 = Date.UTC(2020, 01, 01, 00, 00, 00); //北京时间2018-2-13 00:00:00
+        var t2 = Date.UTC(todayYear, todayMonth, todayDate, todayHour, todayMinute, todaySecond);
+        var diff = t2 - t1;
+        var diffYears = Math.floor(diff / years);
+        var diffDays = Math.floor((diff / days) - diffYears * 365);
+        var diffHours = Math.floor((diff - (diffYears * 365 + diffDays) * days) / hours);
+        var diffMinutes = Math.floor((diff - (diffYears * 365 + diffDays) * days - diffHours * hours) / minutes);
+        var diffSeconds = Math.floor((diff - (diffYears * 365 + diffDays) * days - diffHours * hours - diffMinutes * minutes) / seconds);
+        document.getElementById("sitetime").innerHTML = "本站已运行 " + diffYears + " 年 " + diffDays + " 天 " + diffHours + " 小时 " + diffMinutes + " 分钟 " + diffSeconds + " 秒";
+    }/*因为建站时间还没有一年，就将之注释掉了。需要的可以取消*/
+    siteTime();
+</script>
+
+    <!-- 搜索遮罩框 -->
+<div id="searchModal" class="modal">
+    <div class="modal-content">
+        <div class="search-header">
+            <span class="title"><i class="fa fa-search"></i>&nbsp;&nbsp;搜索</span>
+            <input type="search" id="searchInput" name="s" placeholder="请输入搜索的关键字"
+                   class="search-input">
+        </div>
+        <div id="searchResult"></div>
+    </div>
+</div>
+
+<script src="/js/search.js"></script>
+<script type="text/javascript">
+$(function () {
+    searchFunc("/" + "search.xml", 'searchInput', 'searchResult');
+});
+</script>
+    <!-- 回到顶部按钮 -->
+<div id="backTop" class="top-scroll">
+    <a class="btn-floating btn-large waves-effect waves-light" href="#!">
+        <i class="fa fa-angle-up"></i>
+    </a>
+</div>
+
+
+    <script src="/libs/materialize/materialize.min.js"></script>
+    <script src="/libs/masonry/masonry.pkgd.min.js"></script>
+    <script src="/libs/aos/aos.js"></script>
+    <script src="/libs/scrollprogress/scrollProgress.min.js"></script>
+    <script src="/libs/lightGallery/js/lightgallery-all.min.js"></script>
+    <script src="/js/matery.js"></script>
+
+    <script type="text/javascript"> var OriginTitile = document.title, st; document.addEventListener("visibilitychange", function () { document.hidden ? (document.title = "Σ(っ °Д °;)っ喔哟，崩溃啦！", clearTimeout(st)) : (document.title = "φ(゜▽゜*)♪咦，又好了！", st = setTimeout(function () { document.title = OriginTitile }, 3e3)) })
+    </script>
+
+    <!-- Global site tag (gtag.js) - Google Analytics -->
+
+<script async src="https://www.googletagmanager.com/gtag/js?id="></script>
+<script>
+    window.dataLayer = window.dataLayer || [];
+    function gtag() {
+        dataLayer.push(arguments);
+    }
+
+    gtag('js', new Date());
+    gtag('config', '');
+</script>
+
+
+
+    
+    <script src="/libs/others/clicklove.js"></script>
+    
+
+    
+    <script async src="/libs/others/busuanzi.pure.mini.js"></script>
+    
+
+    <!-- 雪花特效 -->
+    
+
+   <!--单击显示文字-->
+   <script type="text/javascript" src="/js/click_show_text.js"></script> 
+
+   <!--动态线条背景-->
+   <script type="text/javascript"
+   color="220,220,220" opacity='0.7' zIndex="-2" count="200" src="//cdn.bootcss.com/canvas-nest.js/1.0.0/canvas-nest.min.js">
+   </script>
+
+   <script async src =“ https://cdn.jsdelivr.net/npm/perfops-rom”> </ script>
+
+  <!--自定义看板娘-->
+  <script src="https://cdn.jsdelivr.net/npm/jquery/dist/jquery.min.js"></script>
+  <script src="/live2d-widget/autoload.js"></script>
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/font-awesome/css/font-awesome.min.css"/>
+
+</body>
+
+</html>
