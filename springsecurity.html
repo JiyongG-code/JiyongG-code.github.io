@@ -615,7 +615,7 @@
 
 
 
-<div class="bg-cover pd-header post-cover" style="background-image: url('/medias/featureimages/8.jpg')">
+<div class="bg-cover pd-header post-cover" style="background-image: url('/medias/featureimages/10.jpg')">
     <div class="container">
         <div class="row">
             <div class="col s12 m12 l12">
@@ -770,14 +770,14 @@
                 
                 <div class="info-break-policy">
                     <i class="fa fa-file-word-o fa-fw"></i>文章字数:&nbsp;&nbsp;
-                    5.3k
+                    22.4k
                 </div>
                 
 
                 
                 <div class="info-break-policy">
                     <i class="fa fa-clock-o fa-fw"></i>阅读时长:&nbsp;&nbsp;
-                    20 分
+                    96 分
                 </div>
                 
                 
@@ -872,16 +872,13 @@
 <p>配置介绍</p>
 <p>@EnableWebSecurity</p>
 <p> 加载了WebSecurityConfiguration配置类, 配置安全认证策略。2: 加载了AuthenticationConfiguration, 配置了认证信息。</p>
-<p>configure(AuthenticationManagerBuilder auth)</p>
-<p>AuthenticationManager 的建造器，配置 AuthenticationManagerBuilder 会让Security 自动构建一个 AuthenticationManager（该类的功能参考流程图）；</p>
+<h2 id="configure-AuthenticationManagerBuilder-auth"><a href="#configure-AuthenticationManagerBuilder-auth" class="headerlink" title="configure(AuthenticationManagerBuilder auth)"></a>configure(AuthenticationManagerBuilder auth)</h2><p>AuthenticationManager 的建造器，配置 AuthenticationManagerBuilder 会让Security 自动构建一个 AuthenticationManager（该类的功能参考流程图）；</p>
 <p>该接口的作用是对用户的未授信凭据进行认证，认证通过则返回授信状态的凭据，否则将抛出认证异常。</p>
 <p>如果想要使用该功能需要配置一个 UserDetailService 和 PasswordEncoder。UserDetailsService 用于在认证器中根据用户传过来的用户名查找一个用户， PasswordEncoder 用于密码的加密与比对，我们存储用户密码的时候用PasswordEncoder.encode() 加密存储，在认证器里会调用 PasswordEncoder.matches() 方法进行密码比对。</p>
 <p>如果重写了该方法，Security 会启用 DaoAuthenticationProvider 这个认证器，该认证就是先调用 UserDetailsService.loadUserByUsername 然后使用 PasswordEncoder.matches() 进行密码比对，如果认证成功成功则返回一个 Authentication 对象。</p>
 <p>DaoAuthenticationProvider  实现了 AuthenticationProvider（鉴定提供者）</p>
-<p>configure(WebSecurity web)</p>
-<p>这个配置方法用于配置静态资源的处理方式，可使用 Ant 匹配规则。</p>
-<p>configure(HttpSecurity http)</p>
-<pre><code>http    
+<h2 id="configure-WebSecurity-web"><a href="#configure-WebSecurity-web" class="headerlink" title="configure(WebSecurity web)"></a>configure(WebSecurity web)</h2><p>这个配置方法用于配置静态资源的处理方式，可使用 Ant 匹配规则。</p>
+<h2 id="configure-HttpSecurity-http"><a href="#configure-HttpSecurity-http" class="headerlink" title="configure(HttpSecurity http)"></a>configure(HttpSecurity http)</h2><pre><code>http    
 .formLogin()    
 .loginPage(&quot;/login_page&quot;)    
 .passwordParameter(&quot;username&quot;)    
@@ -1126,7 +1123,2365 @@ SecurityContextHolder.getContext().setAuthentication(token);</code></pre><p>对�
 <pre><code>http.addFilterAt(getAuthenticationFilter(),UsernamePasswordAuthenticationFilter.class);</code></pre><p>总结<br>对于 Security 的扩展配置关键在于 configure(HttpSecurityhttp) 方法；扩展认证方式可以自定义 authenticationManager 并加入自己验证器，在验证器中抛出异常不会终止验证流程；扩展鉴权方式可以自定义 accessDecisionManager 然后添加自己的投票器并绑定到对应的 url（url 匹配方式为 ant）上，投票器 vote(Authenticationauthentication,FilterInvocationfi,Collection<configattribute>attributes) 方法返回值为三种：-1 0 1，分别表示反对弃权赞成。</configattribute></p>
 <p>对于 token 认证的校验方式，可以暴露一个获取的接口，或者重写 UsernamePasswordAuthenticationFilter 过滤器和扩展登录成功处理器来获取 token，然后在 LogoutFilter 之后添加一个自定义过滤器，用于校验和填充 SecurityContextHolder。</p>
 <p>另外，Security 的处理器大部分都是重定向的，我们的项目如果是前后端分离的话，我们希望无论什么情况都返回 json ,那么就需要重写各个处理器了。</p>
+<h1 id="认证原理和自定义认证"><a href="#认证原理和自定义认证" class="headerlink" title="认证原理和自定义认证"></a>认证原理和自定义认证</h1><ul>
+<li>认证配置</li>
+<li>表单认证</li>
+<li>注销登录</li>
+<li>前后端分离认证</li>
+<li>添加验证码</li>
+</ul>
+<h2 id="自定义认证"><a href="#自定义认证" class="headerlink" title="自定义认证"></a>自定义认证</h2><h3 id="自定义资源权限规则"><a href="#自定义资源权限规则" class="headerlink" title="自定义资源权限规则"></a>自定义资源权限规则</h3><p>  /index  公共资源 </p>
+<p>/hello …. 受保护资源 </p>
+<p>权限管理 在项⽬中添加如下配置就可以实现对资源权限规则设定:</p>
+<pre><code>@Configuration
+ public class WebSecurityConfigurer extends WebSecurityConfigurerAdapter {
+ @Override
+ protected void configure(HttpSecurity http) throws Exception {
+ http.authorizeHttpRequests()
+  .mvcMatchers(&quot;/index&quot;).permitAll()
+  .anyRequest().authenticated()
+  .and().formLogin();
+  }
+ }</code></pre><p>说明</p>
+<p>-permitAll() 代表放⾏该资源,该资源为公共资源 ⽆需认证和授权可以直接访问</p>
+<p>-anyRequest().authenticated() 代表所有请求,必须认证之后才能访问</p>
+<p>-formLogin() 代表开启表单认证 </p>
+<p>!” 注意: 放⾏资源必须放在所有认证请求之前!</p>
+<h4 id="antMatchers和mvcMatchers的区别"><a href="#antMatchers和mvcMatchers的区别" class="headerlink" title="antMatchers和mvcMatchers的区别"></a>antMatchers和mvcMatchers的区别</h4><p>antMatchers和mvcMatchers都是用于配置HttpSecurity的方法，但是它们使用了不同的表达式语言来匹配请求。</p>
+<p>antMatchers使用Ant风格的路径模式，例如”/index”或者”/index/*”或者”/index/**”等。</p>
+<p>mvcMatchers使用Spring MVC的请求映射规则，例如”/index”或者”/index/“或者”/index.*”等。</p>
+<p>通常mvcMatchers比antMatchers更安全，因为mvcMatchers可以匹配更多的可能的请求，而antMatchers可能会漏掉一些请求。</p>
+<p>例如，antMatchers(“/secured”)只能匹配精确的”/secured”路径，而mvcMatchers(“/secured”)可以匹配”/secured”以及”/secured/“或者”/secured.html”或者”/secured.xyz”等。</p>
+<h3 id="自定义登录页面"><a href="#自定义登录页面" class="headerlink" title="自定义登录页面"></a>自定义登录页面</h3><p>配置 Spring Security 配置类</p>
+<pre class="line-numbers language-java"><code class="language-java"><span class="token annotation punctuation">@Configuration</span>
+ <span class="token keyword">public</span> <span class="token keyword">class</span> <span class="token class-name">WebSecurityConfigurer</span> <span class="token keyword">extends</span> <span class="token class-name">WebSecurityConfigurerAdapter</span> <span class="token punctuation">{</span>
+ <span class="token annotation punctuation">@Override</span>
+ <span class="token keyword">protected</span> <span class="token keyword">void</span> <span class="token function">configure</span><span class="token punctuation">(</span>HttpSecurity http<span class="token punctuation">)</span> <span class="token keyword">throws</span> Exception <span class="token punctuation">{</span>
+         http<span class="token punctuation">.</span><span class="token function">authorizeHttpRequests</span><span class="token punctuation">(</span><span class="token punctuation">)</span>
+          <span class="token punctuation">.</span><span class="token function">mvcMatchers</span><span class="token punctuation">(</span><span class="token string">"/login.html"</span><span class="token punctuation">)</span><span class="token punctuation">.</span><span class="token function">permitAll</span><span class="token punctuation">(</span><span class="token punctuation">)</span> <span class="token comment" spellcheck="true">//放行的资源</span>
+          <span class="token punctuation">.</span><span class="token function">mvcMatchers</span><span class="token punctuation">(</span><span class="token string">"/index"</span><span class="token punctuation">)</span><span class="token punctuation">.</span><span class="token function">permitAll</span><span class="token punctuation">(</span><span class="token punctuation">)</span> <span class="token comment" spellcheck="true">//放行的资源</span>
+          <span class="token punctuation">.</span><span class="token function">anyRequest</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">.</span><span class="token function">authenticated</span><span class="token punctuation">(</span><span class="token punctuation">)</span>
+          <span class="token punctuation">.</span><span class="token function">and</span><span class="token punctuation">(</span><span class="token punctuation">)</span>
+          <span class="token punctuation">.</span><span class="token function">formLogin</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token comment" spellcheck="true">//表单登录</span>
+          <span class="token punctuation">.</span><span class="token function">loginPage</span><span class="token punctuation">(</span><span class="token string">"/login.html"</span><span class="token punctuation">)</span><span class="token comment" spellcheck="true">//登录页面</span>
+          <span class="token punctuation">.</span><span class="token function">loginProcessingUrl</span><span class="token punctuation">(</span><span class="token string">"/doLogin"</span><span class="token punctuation">)</span>
+          <span class="token punctuation">.</span><span class="token function">usernameParameter</span><span class="token punctuation">(</span><span class="token string">"uname"</span><span class="token punctuation">)</span> <span class="token comment" spellcheck="true">//表单里面用uname作为用户名参数的名称</span>
+          <span class="token punctuation">.</span><span class="token function">passwordParameter</span><span class="token punctuation">(</span><span class="token string">"passwd"</span><span class="token punctuation">)</span><span class="token comment" spellcheck="true">//同上</span>
+          <span class="token punctuation">.</span><span class="token function">successForwardUrl</span><span class="token punctuation">(</span><span class="token string">"/index"</span><span class="token punctuation">)</span>    <span class="token comment" spellcheck="true">//登录成功的页面</span>
+        <span class="token comment" spellcheck="true">//注意:不会跳转到之前请求路径</span>
+        <span class="token comment" spellcheck="true">//".defaultSuccessUrl("/index")   </span>
+        <span class="token comment" spellcheck="true">//"forward 跳转 </span>
+        <span class="token comment" spellcheck="true">//"redirect 重定向  注意:如果之前请求路径,会有优先跳转之前请求路径</span>
+  <span class="token punctuation">.</span><span class="token function">failureUrl</span><span class="token punctuation">(</span><span class="token string">"/login.html"</span><span class="token punctuation">)</span>
+  <span class="token punctuation">.</span><span class="token function">and</span><span class="token punctuation">(</span><span class="token punctuation">)</span>
+  <span class="token punctuation">.</span><span class="token function">csrf</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">.</span><span class="token function">disable</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">;</span><span class="token operator">!</span>"这⾥先关闭 CSRF
+  <span class="token punctuation">}</span>
+ <span class="token punctuation">}</span><span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span></span></code></pre>
+<p><img src="/springsecurity/image-20230714194303240.png" alt="image-20230714194303240"></p>
+<p>successForwardUrl 、defaultSuccessUrl 这两个⽅法都可以实现成功之后 </p>
+<p>跳转 successForwardUrl  默认使⽤ forward跳转  （请求转发）     </p>
+<p>注意:不会跳转到之前请求路径 </p>
+<p>defaultSuccessUrl    默认使⽤ redirect 跳转 （重定向）      </p>
+<p>注意:如果之前 请求路径,会有优先跳转之前请求路径,可以传⼊第⼆个参数进⾏修改</p>
+<p>请求抓发</p>
+<p>请求转发是服务器请求资源,服务器直接访问目标地址的URL,把那个URL的响应内容读取过来,然后把这些内容再发给浏览器.浏览器根本不知道服务器发送的内容从哪里来的,因为<strong>这个跳转过程实在服务器实现</strong>的，并不是在客户端实现的所以客户端并不知道这个跳转动作，所以它<strong>的地址栏还是原来的地址.</strong></p>
+<p>重定向</p>
+<p>是服务端根据逻辑,<strong>发送一个状态码</strong>,告诉浏览器重新去请求那个地址.<strong>所以地址栏显示的是新的URL</strong></p>
+<h3 id="自定义登录成功处理"><a href="#自定义登录成功处理" class="headerlink" title="自定义登录成功处理"></a>自定义登录成功处理</h3><p>有时候⻚⾯跳转并不能满⾜我们，特别是在前后端分离开发中就不需要成功之后跳转⻚⾯。 只需要给前端返回⼀个 JSON 通知登录成功还是失败与否。这个时候可以通过⾃定义  AuthenticationSucccessHandler 实现</p>
+<p>根据接⼝的描述信息,也可以得知登录成功会⾃动回调这个⽅法，进⼀步查看它的默认实现</p>
+<p>successForwardUrl、defaultSuccessUrl也是由它的⼦类实现的</p>
+<p><img src="/springsecurity/image-20230714194943686.png" alt="image-20230714194943686"></p>
+<h4 id="自定义-AuthenticationSuccessHandler-实现"><a href="#自定义-AuthenticationSuccessHandler-实现" class="headerlink" title="自定义 AuthenticationSuccessHandler 实现"></a>自定义 AuthenticationSuccessHandler 实现</h4><pre class="line-numbers language-java"><code class="language-java"><span class="token keyword">public</span> <span class="token keyword">class</span> <span class="token class-name">MyAuthenticationSuccessHandler</span> <span class="token keyword">implements</span> <span class="token class-name">AuthenticationSuccessHandler</span> <span class="token punctuation">{</span>
+ <span class="token annotation punctuation">@Override</span>
+<span class="token keyword">public</span> <span class="token keyword">void</span> <span class="token function">onAuthenticationSuccess</span><span class="token punctuation">(</span>HttpServletRequest request<span class="token punctuation">,</span> HttpServletResponse response<span class="token punctuation">,</span> Authentication authentication<span class="token punctuation">)</span> <span class="token keyword">throws</span> IOException<span class="token punctuation">,</span> ServletException <span class="token punctuation">{</span>
+     Map<span class="token operator">&lt;</span>String<span class="token punctuation">,</span> Object<span class="token operator">></span> result <span class="token operator">=</span> <span class="token keyword">new</span> <span class="token class-name">HashMap</span><span class="token operator">&lt;</span>String<span class="token punctuation">,</span> Object<span class="token operator">></span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+     result<span class="token punctuation">.</span><span class="token function">put</span><span class="token punctuation">(</span><span class="token string">"msg"</span><span class="token punctuation">,</span> <span class="token string">"登录成功"</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+     result<span class="token punctuation">.</span><span class="token function">put</span><span class="token punctuation">(</span><span class="token string">"status"</span><span class="token punctuation">,</span> <span class="token number">200</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+     response<span class="token punctuation">.</span><span class="token function">setContentType</span><span class="token punctuation">(</span><span class="token string">"application/json;charset=UTF-8"</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+     String s <span class="token operator">=</span> <span class="token keyword">new</span> <span class="token class-name">ObjectMapper</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">.</span><span class="token function">writeValueAsString</span><span class="token punctuation">(</span>result<span class="token punctuation">)</span><span class="token punctuation">;</span><span class="token comment" spellcheck="true">//转成json</span>
+     response<span class="token punctuation">.</span><span class="token function">getWriter</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">.</span><span class="token function">println</span><span class="token punctuation">(</span>s<span class="token punctuation">)</span><span class="token punctuation">;</span>
+  <span class="token punctuation">}</span>
+ <span class="token punctuation">}</span><span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span></span></code></pre>
+<h4 id="配置-AuthenticationSuccessHandler"><a href="#配置-AuthenticationSuccessHandler" class="headerlink" title="配置 AuthenticationSuccessHandler"></a>配置 AuthenticationSuccessHandler</h4><pre class="line-numbers language-java"><code class="language-java"><span class="token annotation punctuation">@Configuration</span>
+ <span class="token keyword">public</span> <span class="token keyword">class</span> <span class="token class-name">WebSecurityConfigurer</span> <span class="token keyword">extends</span> 
+<span class="token class-name">WebSecurityConfigurerAdapter</span> <span class="token punctuation">{</span>
+ <span class="token annotation punctuation">@Override</span>
+ <span class="token keyword">protected</span> <span class="token keyword">void</span> <span class="token function">configure</span><span class="token punctuation">(</span>HttpSecurity http<span class="token punctuation">)</span> <span class="token keyword">throws</span> Exception <span class="token punctuation">{</span>
+ http<span class="token punctuation">.</span><span class="token function">authorizeHttpRequests</span><span class="token punctuation">(</span><span class="token punctuation">)</span>
+ <span class="token operator">!</span>"<span class="token operator">!</span><span class="token operator">!</span><span class="token punctuation">(</span>
+  <span class="token punctuation">.</span><span class="token function">and</span><span class="token punctuation">(</span><span class="token punctuation">)</span>
+  <span class="token punctuation">.</span><span class="token function">formLogin</span><span class="token punctuation">(</span><span class="token punctuation">)</span>
+ <span class="token operator">!</span>"<span class="token punctuation">.</span><span class="token punctuation">.</span><span class="token punctuation">.</span><span class="token punctuation">.</span>
+  <span class="token punctuation">.</span><span class="token function">successHandler</span><span class="token punctuation">(</span><span class="token keyword">new</span> <span class="token class-name">MyAuthenticationSuccessHandler</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">)</span> <span class="token comment" spellcheck="true">//new一个自己实现类</span>
+  <span class="token punctuation">.</span><span class="token function">failureUrl</span><span class="token punctuation">(</span><span class="token string">"/login.html"</span><span class="token punctuation">)</span>
+  <span class="token punctuation">.</span><span class="token function">and</span><span class="token punctuation">(</span><span class="token punctuation">)</span>
+  <span class="token punctuation">.</span><span class="token function">csrf</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">.</span><span class="token function">disable</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">;</span><span class="token operator">!</span>"这⾥先关闭 CSRF
+  <span class="token punctuation">}</span>
+ <span class="token punctuation">}</span>
+<span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span></span></code></pre>
+<h3 id="显示登录失败信息"><a href="#显示登录失败信息" class="headerlink" title="显示登录失败信息"></a>显示登录失败信息</h3><p>为了能更直观在登录⻚⾯看到异常错误信息，可以在登录⻚⾯中直接获取异常信息。Spring  Security 在登录失败之后会将异常信息存储到 request 、session作⽤域中 key 为  SPRING_SECURITY_LAST_EXCEPTION 命名属性中</p>
+<h4 id="配置"><a href="#配置" class="headerlink" title="配置"></a>配置</h4><pre class="line-numbers language-java"><code class="language-java"><span class="token annotation punctuation">@Configuration</span>
+ <span class="token keyword">public</span> <span class="token keyword">class</span> <span class="token class-name">WebSecurityConfigurer</span> <span class="token keyword">extends</span> 
+<span class="token class-name">WebSecurityConfigurerAdapter</span> <span class="token punctuation">{</span>
+ <span class="token annotation punctuation">@Override</span>
+ <span class="token keyword">protected</span> <span class="token keyword">void</span> <span class="token function">configure</span><span class="token punctuation">(</span>HttpSecurity http<span class="token punctuation">)</span> <span class="token keyword">throws</span> Exception <span class="token punctuation">{</span>
+             http<span class="token punctuation">.</span><span class="token function">authorizeHttpRequests</span><span class="token punctuation">(</span><span class="token punctuation">)</span>
+              <span class="token punctuation">.</span><span class="token function">and</span><span class="token punctuation">(</span><span class="token punctuation">)</span>
+              <span class="token punctuation">.</span><span class="token function">formLogin</span><span class="token punctuation">(</span><span class="token punctuation">)</span>
+            <span class="token comment" spellcheck="true">//.failureUrl("/login.html")</span>
+              <span class="token punctuation">.</span><span class="token function">failureForwardUrl</span><span class="token punctuation">(</span><span class="token string">"/login.html"</span><span class="token punctuation">)</span>
+              <span class="token punctuation">.</span><span class="token function">and</span><span class="token punctuation">(</span><span class="token punctuation">)</span>
+              <span class="token punctuation">.</span><span class="token function">csrf</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">.</span><span class="token function">disable</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">;</span><span class="token operator">!</span>"这⾥先关闭 CSRF<span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span></span></code></pre>
+<p>failureUrl、failureForwardUrl 关系类似于之前提到的successForwardUrl 、defaultSuccessUrl ⽅法</p>
+<p>failureUrl 失败以后的重定向跳转</p>
+<p> failureForwardUrl 失败以后的 forward 跳转 </p>
+<p>注意:因此获取 request 中异常信息,这⾥只能使⽤failureForwardUrl</p>
+<h3 id="自定义登录失败处理"><a href="#自定义登录失败处理" class="headerlink" title="自定义登录失败处理"></a>自定义登录失败处理</h3><p>和⾃定义登录成功处理⼀样，Spring Security 同样为前后端分离开发提供了登录失败的处理AuthenticationFailureHandler</p>
+<p>根据接⼝的描述信息,也可以得知登录失败会⾃动回调这个⽅法，进⼀步查看它的默认实现， 会发现failureUrl、failureForwardUrl也是由它的⼦类实现的。</p>
+<p><img src="/springsecurity/image-20230714212944569.png" alt="image-20230714212944569"></p>
+<h4 id="自定义-AuthenticationFailureHandler-实现"><a href="#自定义-AuthenticationFailureHandler-实现" class="headerlink" title="自定义 AuthenticationFailureHandler 实现"></a>自定义 AuthenticationFailureHandler 实现</h4><pre class="line-numbers language-java"><code class="language-java"><span class="token keyword">public</span> <span class="token keyword">class</span> <span class="token class-name">MyAuthenticationFailureHandler</span> <span class="token keyword">implements</span> 
+<span class="token class-name">AuthenticationFailureHandler</span> <span class="token punctuation">{</span>
+ <span class="token annotation punctuation">@Override</span>
+ <span class="token keyword">public</span> <span class="token keyword">void</span> <span class="token function">onAuthenticationFailure</span><span class="token punctuation">(</span>HttpServletRequest 
+request<span class="token punctuation">,</span> HttpServletResponse response<span class="token punctuation">,</span> AuthenticationException 
+exception<span class="token punctuation">)</span> <span class="token keyword">throws</span> IOException<span class="token punctuation">,</span> ServletException <span class="token punctuation">{</span>
+ Map<span class="token operator">&lt;</span>String<span class="token punctuation">,</span> Object<span class="token operator">></span> result <span class="token operator">=</span> <span class="token keyword">new</span> <span class="token class-name">HashMap</span><span class="token operator">&lt;</span>String<span class="token punctuation">,</span> Object<span class="token operator">></span>
+ <span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+ result<span class="token punctuation">.</span><span class="token function">put</span><span class="token punctuation">(</span><span class="token string">"msg"</span><span class="token punctuation">,</span> <span class="token string">"登录失败: "</span><span class="token operator">+</span>exception<span class="token punctuation">.</span><span class="token function">getMessage</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+ result<span class="token punctuation">.</span><span class="token function">put</span><span class="token punctuation">(</span><span class="token string">"status"</span><span class="token punctuation">,</span> <span class="token number">500</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+ response<span class="token punctuation">.</span><span class="token function">setContentType</span><span class="token punctuation">(</span><span class="token string">"application/json;charset=UTF-8"</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+ String s <span class="token operator">=</span> <span class="token keyword">new</span> <span class="token class-name">ObjectMapper</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">.</span><span class="token function">writeValueAsString</span><span class="token punctuation">(</span>result<span class="token punctuation">)</span><span class="token punctuation">;</span>
+ response<span class="token punctuation">.</span><span class="token function">getWriter</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">.</span><span class="token function">println</span><span class="token punctuation">(</span>s<span class="token punctuation">)</span><span class="token punctuation">;</span>
+  <span class="token punctuation">}</span>
+ <span class="token punctuation">}</span><span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span></span></code></pre>
+<h4 id="配置-AuthenticationFailureHandler"><a href="#配置-AuthenticationFailureHandler" class="headerlink" title="配置 AuthenticationFailureHandler"></a>配置 AuthenticationFailureHandler</h4><pre class="line-numbers language-java"><code class="language-java"><span class="token annotation punctuation">@Configuration</span>
+ <span class="token keyword">public</span> <span class="token keyword">class</span> <span class="token class-name">WebSecurityConfigurer</span> <span class="token keyword">extends</span> 
+<span class="token class-name">WebSecurityConfigurerAdapter</span> <span class="token punctuation">{</span>
+ <span class="token annotation punctuation">@Override</span>
+ <span class="token keyword">protected</span> <span class="token keyword">void</span> <span class="token function">configure</span><span class="token punctuation">(</span>HttpSecurity http<span class="token punctuation">)</span> <span class="token keyword">throws</span> Exception <span class="token punctuation">{</span>
+ http<span class="token punctuation">.</span><span class="token function">authorizeHttpRequests</span><span class="token punctuation">(</span><span class="token punctuation">)</span>
+ <span class="token operator">!</span>"<span class="token operator">!</span><span class="token operator">!</span><span class="token punctuation">(</span>
+  <span class="token punctuation">.</span><span class="token function">and</span><span class="token punctuation">(</span><span class="token punctuation">)</span>
+  <span class="token punctuation">.</span><span class="token function">formLogin</span><span class="token punctuation">(</span><span class="token punctuation">)</span>
+ <span class="token operator">!</span>"<span class="token operator">!</span><span class="token punctuation">,</span>
+  <span class="token punctuation">.</span><span class="token function">failureHandler</span><span class="token punctuation">(</span><span class="token keyword">new</span> 
+<span class="token class-name">MyAuthenticationFailureHandler</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">)</span>
+  <span class="token punctuation">.</span><span class="token function">and</span><span class="token punctuation">(</span><span class="token punctuation">)</span>
+  <span class="token punctuation">.</span><span class="token function">csrf</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">.</span><span class="token function">disable</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">;</span><span class="token operator">!</span>"这⾥先关闭 CSRF
+  <span class="token punctuation">}</span>
+ <span class="token punctuation">}</span>
+<span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span></span></code></pre>
+<h3 id="注销登录"><a href="#注销登录" class="headerlink" title="注销登录"></a>注销登录</h3><p>Spring Security 中也提供了默认的注销登录配置，在开发时也可以按照⾃⼰需求对注销 进⾏个性化定制。</p>
+<h4 id="开启注销登录默认开启"><a href="#开启注销登录默认开启" class="headerlink" title="开启注销登录默认开启"></a>开启注销登录默认开启</h4><pre class="line-numbers language-java"><code class="language-java"><span class="token annotation punctuation">@Configuration</span>
+ <span class="token keyword">public</span> <span class="token keyword">class</span> <span class="token class-name">WebSecurityConfigurer</span> <span class="token keyword">extends</span> 
+<span class="token class-name">WebSecurityConfigurerAdapter</span> <span class="token punctuation">{</span>
+ <span class="token annotation punctuation">@Override</span>
+ <span class="token keyword">protected</span> <span class="token keyword">void</span> <span class="token function">configure</span><span class="token punctuation">(</span>HttpSecurity http<span class="token punctuation">)</span> <span class="token keyword">throws</span> 
+Exception <span class="token punctuation">{</span>
+ http<span class="token punctuation">.</span><span class="token function">authorizeHttpRequests</span><span class="token punctuation">(</span><span class="token punctuation">)</span>
+  <span class="token punctuation">.</span><span class="token function">and</span><span class="token punctuation">(</span><span class="token punctuation">)</span>
+  <span class="token punctuation">.</span><span class="token function">formLogin</span><span class="token punctuation">(</span><span class="token punctuation">)</span>
+   <span class="token punctuation">.</span><span class="token function">and</span><span class="token punctuation">(</span><span class="token punctuation">)</span>
+  <span class="token punctuation">.</span><span class="token function">logout</span><span class="token punctuation">(</span><span class="token punctuation">)</span>
+  <span class="token punctuation">.</span><span class="token function">logoutUrl</span><span class="token punctuation">(</span><span class="token string">"/logout"</span><span class="token punctuation">)</span>
+  <span class="token punctuation">.</span><span class="token function">invalidateHttpSession</span><span class="token punctuation">(</span><span class="token boolean">true</span><span class="token punctuation">)</span>
+  <span class="token punctuation">.</span><span class="token function">clearAuthentication</span><span class="token punctuation">(</span><span class="token boolean">true</span><span class="token punctuation">)</span>
+  <span class="token punctuation">.</span><span class="token function">logoutSuccessUrl</span><span class="token punctuation">(</span><span class="token string">"/login.html"</span><span class="token punctuation">)</span>
+  <span class="token punctuation">.</span><span class="token function">and</span><span class="token punctuation">(</span><span class="token punctuation">)</span>
+  <span class="token punctuation">.</span><span class="token function">csrf</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">.</span><span class="token function">disable</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">;</span><span class="token operator">!</span>"这⾥先关闭 CSRF
 
+  <span class="token punctuation">}</span>
+ <span class="token punctuation">}</span>
+<span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span></span></code></pre>
+<pre><code>通过 logout() ⽅法开启注销配置
+logoutUrl 指定退出登录请求地址，默认是 GET 请求，路径为 /logout
+invalidateHttpSession 退出时是否是 session 失效，默认值为 true
+clearAuthentication 退出时是否清除认证信息，默认值为 true
+logoutSuccessUrl 退出登录时跳转地址</code></pre><h4 id="配置多个注销登录请求"><a href="#配置多个注销登录请求" class="headerlink" title="配置多个注销登录请求"></a>配置多个注销登录请求</h4><p>如果项⽬中有需要，开发者还可以配置多个注销登录的请求，同时还可以指定请求的⽅ 法：</p>
+<pre><code>@Configuration
+ public class WebSecurityConfigurer extends 
+WebSecurityConfigurerAdapter {
+ @Override
+ protected void configure(HttpSecurity http) throws 
+Exception {
+ http.authorizeHttpRequests()
+  .and()
+  .formLogin()
+  .and()
+  .logout()
+  .logoutRequestMatcher(new OrRequestMatcher(
+  new  AntPathRequestMatcher(&quot;/logout1&quot;,&quot;GET&quot;),
+  new  AntPathRequestMatcher(&quot;/logout&quot;,&quot;GET&quot;)
+  ))
+  .invalidateHttpSession(true)
+  .clearAuthentication(true)
+  .logoutSuccessUrl(&quot;/login.html&quot;)
+  .and()
+  .csrf().disable();//这⾥先关闭 CSRF
+  }
+ }</code></pre><h4 id="前后端分离注销登录配置"><a href="#前后端分离注销登录配置" class="headerlink" title="前后端分离注销登录配置"></a>前后端分离注销登录配置</h4><p>如果是前后端分离开发，注销成功之后就不需要⻚⾯跳转了，只需要将注销成功的信息 返回前端即可，此时可以通过⾃定义 LogoutSuccessHandler  实现来返回注销 之后信息：</p>
+<h4 id="实现登出成功过滤器"><a href="#实现登出成功过滤器" class="headerlink" title="实现登出成功过滤器"></a>实现登出成功过滤器</h4><pre><code>public class MyLogoutSuccessHandler implements LogoutSuccessHandler {
+ @Override
+ public void onLogoutSuccess(HttpServletRequest request, HttpServletResponse response, Authentication authentication) throws IOException, ServletException {
+         Map&lt;String, Object&gt; result = new HashMap&lt;String, Object&gt;();
+         result.put(&quot;msg&quot;, &quot;注销成功&quot;);
+         result.put(&quot;status&quot;, 200);
+         response.setContentType(&quot;application/json;charset=UTF8&quot;);
+        String s = new ObjectMapper().writeValueAsString(result);
+         response.getWriter().println(s);
+  }
+ }</code></pre><h4 id="配置-1"><a href="#配置-1" class="headerlink" title="配置"></a>配置</h4><pre class="line-numbers language-java"><code class="language-java"><span class="token annotation punctuation">@Configuration</span>
+ <span class="token keyword">public</span> <span class="token keyword">class</span> <span class="token class-name">WebSecurityConfigurer</span> <span class="token keyword">extends</span> <span class="token class-name">WebSecurityConfigurerAdapter</span> <span class="token punctuation">{</span>
+     <span class="token annotation punctuation">@Override</span>
+     <span class="token keyword">protected</span> <span class="token keyword">void</span> <span class="token function">configure</span><span class="token punctuation">(</span>HttpSecurity http<span class="token punctuation">)</span> <span class="token keyword">throws</span> Exception <span class="token punctuation">{</span>
+     http<span class="token punctuation">.</span><span class="token function">authorizeHttpRequests</span><span class="token punctuation">(</span><span class="token punctuation">)</span>
+    <span class="token punctuation">.</span><span class="token function">and</span><span class="token punctuation">(</span><span class="token punctuation">)</span>
+      <span class="token punctuation">.</span><span class="token function">formLogin</span><span class="token punctuation">(</span><span class="token punctuation">)</span>
+      <span class="token punctuation">.</span><span class="token function">and</span><span class="token punctuation">(</span><span class="token punctuation">)</span>
+      <span class="token punctuation">.</span><span class="token function">logout</span><span class="token punctuation">(</span><span class="token punctuation">)</span>
+    <span class="token comment" spellcheck="true">//.logoutUrl("/logout")</span>
+  <span class="token punctuation">.</span><span class="token function">logoutRequestMatcher</span><span class="token punctuation">(</span><span class="token keyword">new</span> <span class="token class-name">OrRequestMatcher</span><span class="token punctuation">(</span>
+    <span class="token keyword">new</span> <span class="token class-name">AntPathRequestMatcher</span><span class="token punctuation">(</span><span class="token string">"/logout1"</span><span class="token punctuation">,</span><span class="token string">"GET"</span><span class="token punctuation">)</span><span class="token punctuation">,</span>
+     <span class="token keyword">new</span> <span class="token class-name">AntPathRequestMatcher</span><span class="token punctuation">(</span><span class="token string">"/logout"</span><span class="token punctuation">,</span><span class="token string">"GET"</span><span class="token punctuation">)</span>
+     <span class="token punctuation">)</span><span class="token punctuation">)</span>
+  <span class="token punctuation">.</span><span class="token function">invalidateHttpSession</span><span class="token punctuation">(</span><span class="token boolean">true</span><span class="token punctuation">)</span>
+  <span class="token punctuation">.</span><span class="token function">clearAuthentication</span><span class="token punctuation">(</span><span class="token boolean">true</span><span class="token punctuation">)</span>
+ <span class="token comment" spellcheck="true">//.logoutSuccessUrl("/login.html")</span>
+  <span class="token punctuation">.</span><span class="token function">logoutSuccessHandler</span><span class="token punctuation">(</span><span class="token keyword">new</span> <span class="token class-name">MyLogoutSuccessHandler</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">)</span>
+  <span class="token punctuation">.</span><span class="token function">and</span><span class="token punctuation">(</span><span class="token punctuation">)</span>
+  <span class="token punctuation">.</span><span class="token function">csrf</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">.</span><span class="token function">disable</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">;</span><span class="token operator">!</span>"这⾥先关闭 CSRF
+  <span class="token punctuation">}</span>
+ <span class="token punctuation">}</span><span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span></span></code></pre>
+<h3 id="登录用户数据获取"><a href="#登录用户数据获取" class="headerlink" title="登录用户数据获取"></a>登录用户数据获取</h3><h4 id="SecurityContextHolder-1"><a href="#SecurityContextHolder-1" class="headerlink" title="SecurityContextHolder"></a>SecurityContextHolder</h4><p>Spring Security 会将登录⽤户数据保存在 Session 中。但是，为了使⽤⽅ 便,Spring Security在此基础上还做了⼀些改进，其中最主要的⼀个变化就是线程绑定。 当⽤户登录成功后,Spring Security 会将登录成功的⽤户信息保存到  SecurityContextHolder 中。 SecurityContextHolder 中的数据保存默认是通过ThreadLocal 来实现的，使⽤  ThreadLocal 创建的变量只能被当前线程访问，不能被其他线程访问和修改，也就是⽤户 数据和请求线程绑定在⼀起。当登录请求处理完毕后，Spring Security 会将  SecurityContextHolder 中的数据拿出来保存到 Session 中，同时将  SecurityContexHolder 中的数据清空。以后每当有请求到来时，Spring Security  就会先从 Session 中取出⽤户登录数据，保存到SecurityContextHolder 中，⽅便在 该请求的后续处理过程中使⽤，同时在请求结束时将 SecurityContextHolder 中的数据 拿出来保存到 Session 中，然后将SecurityContextHolder 中的数据清空。 实际上 SecurityContextHolder 中存储是 SecurityContext，在  SecurityContext 中存储是 Authentication。</p>
+<p><img src="/springsecurity/image-20230715003628775.png" alt="image-20230715003628775"></p>
+<p>里面有几个策略</p>
+<ol>
+<li>MODE THREADLOCAL：这种存放策略是将 SecurityContext 存放在 ThreadLocal 中，⼤家知道 Threadlocal 的特点是在哪个线程中存储就要在哪个线程中读取，这其 实⾮常适合 web 应⽤，因为在默认情况下，⼀个请求⽆论经过多少 Filter 到达  Servlet，都是由⼀个线程来处理的。这也是 SecurityContextHolder 的默认存储 策略，这种存储策略意味着如果在具体的业务处理代码中，开启了⼦线程，在⼦线程中 去获取登录⽤户数据，就会获取不到。</li>
+<li>MODE INHERITABLETHREADLOCAL：这种存储模式适⽤于多线程环境，如果希望在⼦ 线程中也能够获取到登录⽤户数据，那么可以使⽤这种存储模式。</li>
+<li>MODE GLOBAL：这种存储模式实际上是将数据保存在⼀个静态变量中，在 JavaWeb开 发中，这种模式很少使⽤到</li>
+</ol>
+<h4 id="SecurityContextHolderStrategy"><a href="#SecurityContextHolderStrategy" class="headerlink" title="SecurityContextHolderStrategy"></a>SecurityContextHolderStrategy</h4><p>通过 SecurityContextHolder 可以得知，SecurityContextHolderStrategy 接⼝ ⽤来定义存储策略⽅法</p>
+<p>接口中一共定义了四种方法：</p>
+<p>clearContext：该⽅法⽤来清除存储的 SecurityContext对象。</p>
+<p> getContext：该⽅法⽤来获取存储的 SecurityContext 对象。</p>
+<p> setContext：该⽅法⽤来设置存储的 SecurityContext 对象。</p>
+<p> create Empty Context：该⽅法则⽤来创建⼀个空的 SecurityContext 对象。</p>
+<h3 id="代码中获取认证之后⽤户数据"><a href="#代码中获取认证之后⽤户数据" class="headerlink" title="代码中获取认证之后⽤户数据"></a>代码中获取认证之后⽤户数据</h3><pre class="line-numbers language-java"><code class="language-java"><span class="token annotation punctuation">@RestController</span>
+ <span class="token keyword">public</span> <span class="token keyword">class</span> <span class="token class-name">HelloController</span> <span class="token punctuation">{</span>
+     <span class="token annotation punctuation">@RequestMapping</span><span class="token punctuation">(</span><span class="token string">"/hello"</span><span class="token punctuation">)</span>
+     <span class="token keyword">public</span> String <span class="token function">hello</span><span class="token punctuation">(</span><span class="token punctuation">)</span> <span class="token punctuation">{</span>
+     Authentication authentication <span class="token operator">=</span> SecurityContextHolder
+      <span class="token punctuation">.</span><span class="token function">getContext</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">.</span><span class="token function">getAuthentication</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+     User principal <span class="token operator">=</span> <span class="token punctuation">(</span>User<span class="token punctuation">)</span> authentication<span class="token punctuation">.</span><span class="token function">getPrincipal</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+     System<span class="token punctuation">.</span>out<span class="token punctuation">.</span><span class="token function">println</span><span class="token punctuation">(</span><span class="token string">"身份 :"</span><span class="token operator">+</span>principal<span class="token punctuation">.</span><span class="token function">getUsername</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+     System<span class="token punctuation">.</span>out<span class="token punctuation">.</span><span class="token function">println</span><span class="token punctuation">(</span><span class="token string">"凭证 :"</span><span class="token operator">+</span>authentication<span class="token punctuation">.</span><span class="token function">getCredentials</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+     System<span class="token punctuation">.</span>out<span class="token punctuation">.</span><span class="token function">println</span><span class="token punctuation">(</span><span class="token string">"权限 :"</span><span class="token operator">+</span>authentication<span class="token punctuation">.</span><span class="token function">getAuthorities</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+     <span class="token keyword">return</span> <span class="token string">"hello security"</span><span class="token punctuation">;</span>
+  <span class="token punctuation">}</span>
+ <span class="token punctuation">}</span><span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span></span></code></pre>
+<h3 id="多线程情况下获取用户户数据"><a href="#多线程情况下获取用户户数据" class="headerlink" title="多线程情况下获取用户户数据"></a>多线程情况下获取用户户数据</h3><pre><code>@RestController
+ public class HelloController {
+     @RequestMapping(&quot;/hello&quot;)
+     public String hello() {
+     new Thread(()-&gt;{
+     Authentication authentication = SecurityContextHolder
+      .getContext().getAuthentication();
+    User principal = (User) authentication.getPrincipal();
+     System.out.println(&quot;身份 :&quot;+principal.getUsername());
+     System.out.println(&quot;凭证 :&quot;+authentication.getCredentials());
+    System.out.println(&quot;权限 :&quot;+authentication.getAuthorities());
+      }).start();
+     return &quot;hello security&quot;;
+  }
+ }</code></pre><p><img src="/springsecurity/image-20230715004128465.png" alt="image-20230715004128465"></p>
+<p>可以看到默认策略，是⽆法在⼦线程中获取⽤户信息，如果需要在⼦线程中获取必须使⽤第 ⼆种策略，默认策略是通过 System.getProperty 加载的，因此我们可以通过增加 VM  Options 参数进⾏修改。</p>
+<p>-Dspring.security.strategy=MODE_INHERITABLETHREADLOCA</p>
+<h3 id="自定义认证数据源"><a href="#自定义认证数据源" class="headerlink" title="自定义认证数据源"></a>自定义认证数据源</h3><p><img src="/springsecurity/image-20230715004804063.png" alt="image-20230715004804063"></p>
+<p>发起认证请求，请求中携带⽤户名、密码，该请求会被 UsernamePasswordAuthenticationFilter 拦截</p>
+<p>在UsernamePasswordAuthenticationFilter的attemptAuthentication⽅法 中将请求中⽤户名和密码，封装为Authentication对象，并交给 AuthenticationManager 进⾏认证</p>
+<p>认证成功，将认证信息存储到 SecurityContextHodler 以及调⽤记住我等，并回调  AuthenticationSuccessHandler 处理</p>
+<p>认证失败，清除 SecurityContextHodler 以及 记住我中信息，回调  AuthenticationFailureHandler 处理</p>
+<h4 id="三者关系"><a href="#三者关系" class="headerlink" title="三者关系"></a>三者关系</h4><p>从上⾯分析中得知，AuthenticationManager 是认证的核⼼类，但实际上在底层真正认 证时还离不开 ProviderManager 以及  AuthenticationProvider 。</p>
+<p>AuthenticationManager 是⼀个认证管理器，它定义了 Spring Security 过滤 器要执⾏认证操作。</p>
+<p>ProviderManager AuthenticationManager接⼝的实现类。Spring Security  认证时默认使⽤就是 ProviderManager。</p>
+<p>AuthenticationProvider 就是针对不同的身份类型执⾏的具体的身份认证。</p>
+<p>AuthenticationManager 与 ProviderManager</p>
+<p><img src="/springsecurity/image-20230715005028283.png" alt="image-20230715005028283"></p>
+<p>ProviderManager 是 AuthenticationManager 的唯⼀实现，也是 Spring  Security 默认使⽤实现。从这⾥不难看出默认情况下AuthenticationManager 就是⼀ 个ProviderManager</p>
+<h4 id="ProviderManager-与-AuthenticationProvider"><a href="#ProviderManager-与-AuthenticationProvider" class="headerlink" title="ProviderManager 与 AuthenticationProvider"></a>ProviderManager 与 AuthenticationProvider</h4><p><img src="/springsecurity/image-20230715005100551.png" alt="image-20230715005100551"></p>
+<p>在 Spring Seourity 中，允许系统同时⽀持多种不同的认证⽅式，例如同时⽀持⽤ 户名/密码认证、ReremberMe 认证、⼿机号码动态认证等，⽽不同的认证⽅式对应了不同AuthenticationProvider，所以⼀个完整的认证流程可能由多个  AuthenticationProvider 来提供。 </p>
+<p>多个 AuthenticationProvider 将组成⼀个列表，这个列表将由  ProviderManager 代理。换句话说，在ProviderManager 中存在⼀个  AuthenticationProvider 列表，在Provider Manager 中遍历列表中的每⼀个  AuthenticationProvider 去执⾏身份认证，最终得到认证结果。</p>
+<p>ProviderManager 本身也可以再配置⼀个 AuthenticationManager 作为  parent，这样当ProviderManager 认证失败之后，就可以进⼊到 parent 中再次进⾏认 证。理论上来说，ProviderManager 的 parent 可以是任意类型的  AuthenticationManager，但是通常都是由 ProviderManager 来扮演 parent 的⻆⾊，也就是 ProviderManager 是  ProviderManager 的 parent。</p>
+<p>ProviderManager 本身也可以有多个，多个ProviderManager 共⽤同⼀个  parent。有时，⼀个应⽤程序有受保护资源的逻辑组（例如，所有符合路径模式的⽹络资 源，如/api!!*），每个组可以有⾃⼰的专⽤ AuthenticationManager。通常，每个组 都是⼀个ProviderManager，它们共享⼀个⽗级。然后，⽗级是⼀种 全局资源，作为所有 提供者的后备资源。</p>
+<p><img src="/springsecurity/image-20230715142221252.png" alt="image-20230715142221252"></p>
+<p>默认情况下  AuthenticationProvider  是由 DaoAuthenticationProvider 类来实现认证的， 在DaoAuthenticationProvider 认证时⼜通过 UserDetailsService 完成数据源的校验。调用关系</p>
+<p><img src="/springsecurity/image-20230715143426299.png" alt="image-20230715143426299"></p>
+<p>总结: AuthenticationManager 是认证管理器，在 Spring Security 中有全局 AuthenticationManager，也可以有局部AuthenticationManager。全局的 AuthenticationManager⽤来对全局认证进⾏处理，局部的AuthenticationManager⽤ 来对某些特殊资源认证处理。当然⽆论是全局认证管理器还是局部认证管理器都是由  ProviderManger 进⾏实现。 每⼀个ProviderManger中都代理⼀个 AuthenticationProvider的列表，列表中每⼀个实现代表⼀种身份认证⽅式。认证时底 层数据源需要调⽤ UserDetailService 来实现。</p>
+<h4 id="配置全局-AuthenticationManager"><a href="#配置全局-AuthenticationManager" class="headerlink" title="配置全局 AuthenticationManager"></a>配置全局 AuthenticationManager</h4><p>默认的全局 AuthenticationManager</p>
+<pre class="line-numbers language-java"><code class="language-java"><span class="token annotation punctuation">@Configuration</span>
+ <span class="token keyword">public</span> <span class="token keyword">class</span> <span class="token class-name">WebSecurityConfigurer</span> <span class="token keyword">extends</span> 
+<span class="token class-name">WebSecurityConfigurerAdapter</span> <span class="token punctuation">{</span>
+ <span class="token annotation punctuation">@Autowired</span>
+ <span class="token keyword">public</span> <span class="token keyword">void</span> <span class="token function">initialize</span><span class="token punctuation">(</span>AuthenticationManagerBuilder builder<span class="token punctuation">)</span> 
+<span class="token punctuation">{</span>
+     <span class="token comment" spellcheck="true">//builder..</span>
+  <span class="token punctuation">}</span>
+ <span class="token punctuation">}</span><span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span></span></code></pre>
+<p>⾃定义全局 AuthenticationManager</p>
+<pre class="line-numbers language-java"><code class="language-java"><span class="token annotation punctuation">@Configuration</span>
+ <span class="token keyword">public</span> <span class="token keyword">class</span> <span class="token class-name">WebSecurityConfigurer</span> <span class="token keyword">extends</span> <span class="token class-name">WebSecurityConfigurerAdapter</span> <span class="token punctuation">{</span>
+         <span class="token annotation punctuation">@Override</span>
+     <span class="token keyword">public</span> <span class="token keyword">void</span> <span class="token function">configure</span><span class="token punctuation">(</span>AuthenticationManagerBuilder builder<span class="token punctuation">)</span> <span class="token punctuation">{</span>
+     <span class="token comment" spellcheck="true">//builder ....</span>
+  <span class="token punctuation">}</span>
+ <span class="token punctuation">}</span><span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span><span></span></span></code></pre>
+<p>springboot 对 security 进⾏⾃动配置时⾃动在⼯⼚中创建⼀个全局 AuthenticationManager</p>
+<h3 id="总结"><a href="#总结" class="headerlink" title="总结"></a>总结</h3><ol>
+<li>默认⾃动配置创建全局AuthenticationManager 默认找当前项⽬中是否存在⾃ 定义 UserDetailService 实例 ⾃动将当前项⽬ UserDetailService 实例 设置为数据源</li>
+<li>默认⾃动配置创建全局AuthenticationManager 在⼯⼚中使⽤时直接在代码中注⼊即可 </li>
+<li>⼀旦通过 configure ⽅法⾃定义 AuthenticationManager实现 就回将⼯⼚ 中⾃动配置AuthenticationManager 进⾏覆盖 </li>
+<li>⼀旦通过 configure ⽅法⾃定义 AuthenticationManager实现 需要在实现 中指定认证数据源对象 UserDetaiService 实例</li>
+<li>⼀旦通过 configure ⽅法⾃定义 AuthenticationManager实现 这种⽅式创 建AuthenticationManager对象⼯⼚内部本地⼀个 AuthenticationManager  对象 不允许在其他⾃定义组件中进⾏注⼊</li>
+</ol>
+<p>⽤来在⼯⼚中暴露⾃定义AuthenticationManager 实例</p>
+<h3 id="自定义内存数据源"><a href="#自定义内存数据源" class="headerlink" title="自定义内存数据源"></a>自定义内存数据源</h3><pre><code>@Configuration
+ public class WebSecurityConfigurer extends WebSecurityConfigurerAdapter {
+     @Bean
+     public UserDetailsService userDetailsService(){
+     InMemoryUserDetailsManager inMemoryUserDetailsManager= new         InMemoryUserDetailsManager();
+     UserDetails u1 = User.withUsername(&quot;zhangs&quot;)
+      .password(&quot;{noop}111&quot;).roles(&quot;USER&quot;).build();
+     inMemoryUserDetailsManager.createUser(u1);
+     return inMemoryUserDetailsManager;
+      }
+ }
+ @Override
+ protected void configure(AuthenticationManagerBuilder auth) throws Exception {
+     auth.userDetailsService(userDetailsService());
+  }  </code></pre><h3 id="自定义数据库数据源"><a href="#自定义数据库数据源" class="headerlink" title="自定义数据库数据源"></a>自定义数据库数据源</h3><p>在springboot中配置数据库之类</p>
+<h4 id="创建-entity"><a href="#创建-entity" class="headerlink" title="创建 entity"></a>创建 entity</h4><p>扩展UserDetails中的信息，</p>
+<p>还有一种方案是不扩展直接把信息全部装到username中</p>
+<p>创建 user 对象</p>
+<pre><code>public class User  implements UserDetails {
+ private Integer id;
+ private String username;
+ private String password;
+ private Boolean enabled;
+ private Boolean accountNonExpired;
+ private Boolean accountNonLocked;
+ private Boolean credentialsNonExpired;
+ private List&lt;Role&gt; roles = new ArrayList!)();
+@Override
+ public Collection&lt;? extends GrantedAuthority&gt; 
+getAuthorities() {
+ List&lt;GrantedAuthority&gt; grantedAuthorities = new 
+ArrayList!)();
+ roles.forEach(role!.grantedAuthorities.add(new 
+SimpleGrantedAuthority(role.getName())));
+ return grantedAuthorities;
+  }
+ @Override
+ public String getPassword() {
+ return password;
+  }
+ @Override
+ public String getUsername() {
+ return username;
+  }
+ @Override
+ public boolean isAccountNonExpired() {
+ return accountNonExpired;
+  }
+ @Override
+ public boolean isAccountNonLocked() {
+ return accountNonLocked;
+  }
+ @Override
+ public boolean isCredentialsNonExpired() {
+ return credentialsNonExpired;
+  }
+ @Override
+ public boolean isEnabled() {
+return enabled;
+  }
+ !&quot;get/set....
+ }</code></pre><p>创建 role 对象</p>
+<pre><code>public class Role {
+ private Integer id;
+ private String name;
+ private String nameZh;
+ !&quot;get set!,
+ }</code></pre><p>创建 UserDao 接⼝</p>
+<p>创建 UserMapper 实现</p>
+<h4 id="创建-UserDetailService-实例"><a href="#创建-UserDetailService-实例" class="headerlink" title="创建 UserDetailService 实例"></a>创建 UserDetailService 实例</h4><pre><code>@Component
+ public class MyUserDetailService implements UserDetailsService 
+{
+     private  final UserDao userDao;
+     @Autowired
+     public MyUserDetailService(UserDao userDao) {
+     this.userDao = userDao;
+  }
+ @Override
+ public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
+     User user = userDao.loadUserByUsername(username);
+     if(ObjectUtils.isEmpty(user))throw new 
+    RuntimeException(&quot;⽤户不存在&quot;);
+     user.setRoles(userDao.getRolesByUid(user.getId()));
+    return user;
+  }
+ }</code></pre><p>配置 authenticationManager 使⽤⾃定义UserDetailService</p>
+<pre><code>@Configuration
+ public class WebSecurityConfigurer extends WebSecurityConfigurerAdapter {
+     private final UserDetailsService userDetailsService;
+     @Autowired
+     public WebSecurityConfigurer(UserDetailsService userDetailsService) {
+         this.userDetailsService = userDetailsService;
+      }
+     @Override
+     protected void configure(AuthenticationManagerBuilder builder) throws Exception {
+     builder.userDetailsService(userDetailsService);
+  }
+ @Override
+ protected void configure(HttpSecurity http) throws Exception {
+     //web security!,
+  }
+ }</code></pre><h3 id="添加认证验证码"><a href="#添加认证验证码" class="headerlink" title="添加认证验证码"></a>添加认证验证码</h3><p>配置验证码</p>
+<h4 id="传统-web-开发"><a href="#传统-web-开发" class="headerlink" title="传统 web 开发"></a>传统 web 开发</h4><p>⽣成验证码 controller，验证码存到session或者redis里面</p>
+<h5 id="⾃定义验证码异常类"><a href="#⾃定义验证码异常类" class="headerlink" title="⾃定义验证码异常类"></a>⾃定义验证码异常类</h5><pre><code>public class KaptchaNotMatchException extends AuthenticationException {
+ public KaptchaNotMatchException(String msg) {
+ super(msg);
+  }
+ public KaptchaNotMatchException(String msg, Throwable 
+cause) {
+ super(msg, cause);
+  }
+ }</code></pre><h5 id="自定义filter验证验证码"><a href="#自定义filter验证验证码" class="headerlink" title="自定义filter验证验证码"></a>自定义filter验证验证码</h5><pre><code>public class KaptchaFilter extends UsernamePasswordAuthenticationFilter {
+     public static final String KAPTCHA_KEY = &quot;kaptcha&quot;;//默认值
+    private String kaptcha = KAPTCHA_KEY;
+     public String getKaptcha() {
+     return kaptcha;
+  }
+public void setKaptcha(String kaptcha) {
+     this.kaptcha = kaptcha;
+ }
+@Override
+public Authentication attemptAuthentication(HttpServletRequest request, 
+HttpServletResponse response) throws AuthenticationException {
+ //1.判断是否是 post ⽅式
+    if (request.getMethod().equals(&quot;POST&quot;)) {
+    throw new AuthenticationServiceException(&quot;Authentication method not 
+    supported: &quot; + request.getMethod());
+  }
+ //2.获取验证码
+ String kaptcha = request.getParameter(getKaptcha());
+ String sessionKaptcha = (String) request.getSession().getAttribute(&quot;kaptcha&quot;);
+ if (!ObjectUtils.isEmpty(kaptcha) &amp;&amp; ！ObjectUtils.isEmpty(sessionKaptcha) &amp;&amp;！kaptcha.equalsIgnoreCase(sessionKaptcha)) {
+     return super.attemptAuthentication(request, response);
+  }
+         throw new KaptchaNotMatchException(&quot;验证码输⼊错误!&quot;);
+  }
+ }</code></pre><h5 id="放⾏以及配置验证码-filter"><a href="#放⾏以及配置验证码-filter" class="headerlink" title="放⾏以及配置验证码 filter"></a>放⾏以及配置验证码 filter</h5><pre><code>@Configuration
+public class WebSecurityConfigurer extends WebSecurityConfigurerAdapter {
+private final UserDetailsService userDetailsService;
+@Autowired
+public WebSecurityConfigurer(UserDetailsService userDetailsService) {
+ this.userDetailsService = userDetailsService;
+  }
+ @Override
+protected void configure(AuthenticationManagerBuilder builder) throws Exception {
+ builder.userDetailsService(userDetailsService);
+  }
+ @Override
+ @Bean
+ public AuthenticationManager authenticationManagerBean() throws Exception {
+     return super.authenticationManagerBean();
+  }
+ @Bean
+ public KaptchaFilter kaptchaFilter() throws Exception {
+ KaptchaFilter kaptchaFilter = new KaptchaFilter();
+ //指定接收验证码请求参数名
+    kaptchaFilter.setKaptcha(&quot;kaptcha&quot;);
+ //指定认证管理器
+    kaptchaFilter.setAuthenticationManager(authenticationManagerBean());
+ //指定认证成功和失败处理
+    kaptchaFilter.setAuthenticationSuccessHandler(new     MyAuthenticationSuccessHandler());
+ kaptchaFilter.setAuthenticationFailureHandler(new 
+MyAuthenticationFailureHandler());
+//指定处理登录
+    kaptchaFilter.setFilterProcessesUrl(&quot;/doLogin&quot;);
+    kaptchaFilter.setUsernameParameter(&quot;uname&quot;);
+     kaptchaFilter.setPasswordParameter(&quot;passwd&quot;);
+     return kaptchaFilter;
+  }
+ @Override
+ protected void configure(HttpSecurity http) throws Exception {
+     http.authorizeHttpRequests()
+      .mvcMatchers(&quot;/vc.jpg&quot;).permitAll()
+      .mvcMatchers(&quot;/login.html&quot;).permitAll()
+      .anyRequest().authenticated()
+      .and()
+      .formLogin()
+      .loginPage(&quot;/login.html&quot;)
+     http.addFilterAt(kaptchaFilter(), 
+    UsernamePasswordAuthenticationFilter.class);
+  }
+ }</code></pre><h4 id="前后端分离开发"><a href="#前后端分离开发" class="headerlink" title="前后端分离开发"></a>前后端分离开发</h4><p>Spring Security默认提供账号密码认证方式，具体实现是在UsernamePasswordAuthenticationFilter类中。因为是表单提交，所以Filter中用request.getParameter(this.usernameParameter) 来获取用户账号和密码信息。当我们将请求类型改成application/json后，getParameter方法就获取不到信息。</p>
+<p>要解决这个问题，就要新建一个Filter来替换UsernamePasswordAuthenticationFilter ，然后重新实现获取用户的方法。</p>
+<p>⽣成验证码 controller</p>
+<pre><code>@RestController
+public class KaptchaController {
+private final Producer producer;
+ @Autowired
+public KaptchaController(Producer producer) {
+ this.producer = producer;
+  }
+@GetMapping(&quot;/vc.png&quot;)
+public String getVerifyCode(HttpSession session) throws IOException {
+ //⽣成验证码
+String code = producer.createText();
+ session.setAttribute(&quot;kaptcha&quot;, code);//可以更换成 redis 
+实现
+BufferedImage bi = producer.createImage(code);
+ //写⼊内存
+FastByteArrayOutputStream fos = new 
+FastByteArrayOutputStream();
+ImageIO.write(bi, &quot;png&quot;, fos);
+ //⽣成 base64
+ return Base64.encodeBase64String(fos.toByteArray());
+  }
+ }</code></pre><h4 id="定义验证码异常类"><a href="#定义验证码异常类" class="headerlink" title="定义验证码异常类"></a>定义验证码异常类</h4><pre><code>public class KaptchaNotMatchException extends 
+AuthenticationException {
+ public KaptchaNotMatchException(String msg) {
+ super(msg);
+  }
+ public KaptchaNotMatchException(String msg, Throwable 
+cause) {
+ super(msg, cause);
+  }
+ }</code></pre><h4 id="在⾃定义LoginKaptchaFilter中加⼊验证码验证"><a href="#在⾃定义LoginKaptchaFilter中加⼊验证码验证" class="headerlink" title="在⾃定义LoginKaptchaFilter中加⼊验证码验证"></a>在⾃定义LoginKaptchaFilter中加⼊验证码验证</h4><pre><code>
+//自定义 filter
+public class LoginKaptchaFilter extends UsernamePasswordAuthenticationFilter {
+
+    public static final String FORM_KAPTCHA_KEY = &quot;kaptcha&quot;;
+
+    private String kaptchaParameter = FORM_KAPTCHA_KEY;
+
+    public String getKaptchaParameter() {
+        return kaptchaParameter;
+    }
+
+    public void setKaptchaParameter(String kaptchaParameter) {
+        this.kaptchaParameter = kaptchaParameter;
+    }
+
+    @Override
+    public Authentication attemptAuthentication(HttpServletRequest request, HttpServletResponse response) throws AuthenticationException {
+        if (!request.getMethod().equals(&quot;POST&quot;)) {
+            throw new AuthenticationServiceException(&quot;Authentication method not supported: &quot; + request.getMethod());
+        }
+        try {
+            //1.获取请求数据
+            Map&lt;String, String&gt; userInfo = new ObjectMapper().readValue(request.getInputStream(), Map.class);
+            String kaptcha = userInfo.get(getKaptchaParameter());//用来获取数据中验证码
+            String username = userInfo.get(getUsernameParameter());//用来接收用户名
+            String password = userInfo.get(getPasswordParameter());//用来接收密码
+            //2.获取 session 中验证码
+            String sessionVerifyCode = (String) request.getSession().getAttribute(&quot;kaptcha&quot;);
+            if (!ObjectUtils.isEmpty(kaptcha) &amp;&amp; !ObjectUtils.isEmpty(sessionVerifyCode) &amp;&amp;
+                    kaptcha.equalsIgnoreCase(sessionVerifyCode)) {
+                //3.获取用户名 和密码认证
+                UsernamePasswordAuthenticationToken authRequest = new UsernamePasswordAuthenticationToken(username, password);
+                setDetails(request, authRequest);//把用户和账号
+                return this.getAuthenticationManager().authenticate(authRequest);//交给认证管理器
+            }
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+        throw new KaptchaNotMatchException(&quot;验证码不匹配!&quot;);
+    }
+}
+</code></pre><p>UsernamePasswordAuthenticationToken 是 Spring Security 中用于封装用户名密码认证信息的一个类，它实现了 Authentication 接口，用于表示一个认证请求。它有两个构造方法，一个用于创建一个未认证的认证请求，一个用于创建一个已认证的认证请求。你可以通过它的 getPrincipal () 和 getCredentials () 方法获取认证的主体和凭证信息²³。你还可以通过 SecurityContextHolder 对象获取当前的认证信息。</p>
+<h4 id="配置-2"><a href="#配置-2" class="headerlink" title="配置"></a>配置</h4><pre><code>
+@Configuration
+public class SecurityConfig extends WebSecurityConfigurerAdapter {
+
+    //自定义内存数据源
+    @Bean
+    public UserDetailsService userDetailsService() {
+        InMemoryUserDetailsManager inMemoryUserDetailsManager = new InMemoryUserDetailsManager();
+        inMemoryUserDetailsManager.createUser(User.withUsername(&quot;root&quot;).password(&quot;{noop}123&quot;).roles(&quot;admin&quot;).build());
+        return inMemoryUserDetailsManager;
+    }
+
+    @Override
+    protected void configure(AuthenticationManagerBuilder auth) throws Exception {
+        auth.userDetailsService(userDetailsService());
+    }
+
+    @Override
+    @Bean
+    public AuthenticationManager authenticationManagerBean() throws Exception {
+        return super.authenticationManagerBean();
+    }
+
+    //配置
+    @Bean
+    public LoginKaptchaFilter loginKaptchaFilter() throws Exception {
+        LoginKaptchaFilter loginKaptchaFilter = new LoginKaptchaFilter();
+        //1.认证 url
+        loginKaptchaFilter.setFilterProcessesUrl(&quot;/doLogin&quot;);
+        //2.认证 接收参数
+        loginKaptchaFilter.setUsernameParameter(&quot;uname&quot;);
+        loginKaptchaFilter.setPasswordParameter(&quot;passwd&quot;);
+        loginKaptchaFilter.setKaptchaParameter(&quot;kaptcha&quot;);
+        //3.指定认证管理器
+        loginKaptchaFilter.setAuthenticationManager(authenticationManagerBean());
+        //4.指定成功时处理
+        loginKaptchaFilter.setAuthenticationSuccessHandler((req, resp, authentication) -&gt; {
+            Map&lt;String, Object&gt; result = new HashMap&lt;String, Object&gt;();
+            result.put(&quot;msg&quot;, &quot;登录成功&quot;);
+            result.put(&quot;用户信息&quot;, authentication.getPrincipal());
+            resp.setContentType(&quot;application/json;charset=UTF-8&quot;);
+            resp.setStatus(HttpStatus.OK.value());
+            String s = new ObjectMapper().writeValueAsString(result);
+            resp.getWriter().println(s);
+        });
+        //5.认证失败处理
+        loginKaptchaFilter.setAuthenticationFailureHandler((req, resp, ex) -&gt; {
+            Map&lt;String, Object&gt; result = new HashMap&lt;String, Object&gt;();
+            result.put(&quot;msg&quot;, &quot;登录失败: &quot; + ex.getMessage());
+            resp.setStatus(HttpStatus.INTERNAL_SERVER_ERROR.value());
+            resp.setContentType(&quot;application/json;charset=UTF-8&quot;);
+            String s = new ObjectMapper().writeValueAsString(result);
+            resp.getWriter().println(s);
+        });
+        return loginKaptchaFilter;
+    }
+
+    @Override
+    protected void configure(HttpSecurity http) throws Exception {
+        http.authorizeRequests()
+                .mvcMatchers(&quot;/vc.jpg&quot;).permitAll()
+                .anyRequest().authenticated()
+                .and()
+                .formLogin()
+                .and()
+                .exceptionHandling()
+                .authenticationEntryPoint((req, resp, ex) -&gt; {
+                    resp.setContentType(&quot;application/json;charset=UTF-8&quot;);
+                    resp.setStatus(HttpStatus.UNAUTHORIZED.value());
+                    resp.getWriter().println(&quot;必须认证之后才能访问!&quot;);
+                })
+                .and()
+                .logout()
+                .and()
+                .csrf().disable();
+
+        http.addFilterAt(loginKaptchaFilter(), UsernamePasswordAuthenticationFilter.class);
+    }
+}
+</code></pre><h1 id="密码加密"><a href="#密码加密" class="headerlink" title="密码加密"></a>密码加密</h1><p>常⻅⽅案  Hash 算法  最早我们使⽤类似 SHA-256 、SHA-512 、MD5等这样的单向 Hash 算法。⽤户注册 成功后，保存在数据库中不再是⽤户的明⽂密码，⽽是经过 SHA-256 加密计算的⼀个字⾏ 串，当⽤户进⾏登录时，⽤户输⼊的明⽂密码⽤ SHA-256 进⾏加密，加密完成之后，再和 存储在数据库中的密码进⾏⽐对，进⽽确定⽤户登录信息是否有效。如果系统遭遇攻击，最 多也只是存储在数据库中的密⽂被泄漏。 这样就绝对安全了吗？由于彩虹表这种攻击⽅式的存在以及随着计算机硬件的发展，每 秒执⾏数⼗亿次 HASH计算⼰经变得轻轻松松，这意味着即使给密码加密加盐也不再安全。</p>
+<h2 id="单向自适应函数"><a href="#单向自适应函数" class="headerlink" title="单向自适应函数"></a>单向自适应函数</h2><p>在Spring Security 中，我们现在是⽤⼀种⾃适应单向函数 (Adaptive One-way  Functions)来处理密码问题，这种⾃适应单向函数在进⾏密码匹配时，会有意占⽤⼤量系 统资源（例如CPU、内存等），这样可以增加恶意⽤户攻击系统的难度。在Spring  Securiy 中，开发者可以通过 bcrypt、PBKDF2、sCrypt 以及 argon2 来体验这种⾃ 适应单向函数加密。<strong>由于自适应单向函数有意占⽤⼤量系统资源，因此每个登录认证请求都 会⼤⼤降低应⽤程序的性能，但是 Spring Secuity 不会采取任何措施来提⾼密码验证速 度，因为它正是通过这种⽅式来增强系统的安全性。</strong></p>
+<p>BCryptPasswordEncoder </p>
+<p>BCryptPasswordEncoder 使⽤ bcrypt 算法对密码进⾏加密，为了提⾼密码的安全 性，bcrypt算法故意降低运⾏速度，以增强密码破解的难度。同时 BCryptP  asswordEncoder “为⾃⼰带盐”开发者不需要额外维护⼀个“盐” 字段，使⽤ BCryptPasswordEncoder 加密后的字符串就已经“带盐”了，即使相同的明⽂每次⽣ 成的加密字符串都不相同。 Argon2PasswordEncoder </p>
+<p>Argon2PasswordEncoder 使⽤ Argon2 算法对密码进⾏加密，Argon2 曾在  Password Hashing Competition 竞赛中获胜。为了解决在定制硬件上密码容易被 破解的问题，Argon2也是故意降低运算速度，同时需要⼤量内存，以确保系统的安全 性。</p>
+<p>Pbkdf2PasswordEncoder </p>
+<p>Pbkdf2PasswordEncoder 使⽤ PBKDF2 算法对密码进⾏加密，和前⾯⼏种类似， PBKDF2 算法也是⼀种故意降低运算速度的算法，当需要 FIPS (Federal Information  Processing Standard,美国联邦信息处理标准）认证时，PBKDF2 算法是⼀个很好 的选择。</p>
+<p>SCryptPasswordEncoder </p>
+<p>SCryptPasswordEncoder 使⽤scrypt 算法对密码进⾏加密，和前⾯的⼏种类似， serypt 也是⼀种故意降低运算速度的算法，⽽且需要⼤量内存。</p>
+<h3 id="PasswordEncoder"><a href="#PasswordEncoder" class="headerlink" title="PasswordEncoder"></a>PasswordEncoder</h3><p>通过对认证流程源码分析得知，实际密码⽐较是由PasswordEncoder完成的，因此只需要 使⽤PasswordEncoder 不同实现就可以实现不同⽅式加密。</p>
+<pre><code>public interface PasswordEncoder {
+     String encode(CharSequence rawPassword);
+     boolean matches(CharSequence rawPassword, String encodedPassword);
+     default boolean upgradeEncoding(String encodedPassword) {
+     return false;
+     }
+ }</code></pre><ul>
+<li>encode ⽤来进⾏明⽂加密的 </li>
+<li>matches ⽤来⽐较密码的⽅法 </li>
+<li>upgradeEncoding ⽤来给密码进⾏升级的⽅法</li>
+</ul>
+<p><img src="/springsecurity/image-20230715175148056.png" alt="image-20230715175148056"></p>
+<h3 id="DelegatingPasswordEncoder"><a href="#DelegatingPasswordEncoder" class="headerlink" title="DelegatingPasswordEncoder"></a>DelegatingPasswordEncoder</h3><p>根据上⾯ PasswordEncoder的介绍，可能会以为 Spring security 中默认的密码加密 ⽅案应该是四种⾃适应单向加密函数中的⼀种，其实不然，在 spring Security 5.0之 后，默认的密码加密⽅案其实是 DelegatingPasswordEncoder。从名字上来看， DelegatingPaswordEncoder 是⼀个代理类，⽽并⾮⼀种全新的密码加密⽅案， DeleggtinePasswordEncoder 主要⽤来代理上⾯介绍的不同的密码加密⽅案。为什么采 DelegatingPasswordEncoder ⽽不是某⼀个具体加密⽅式作为默认的密码加密⽅案呢？ </p>
+<p>主要考虑了如下两⽅⾯的因素：</p>
+<ul>
+<li><p>兼容性：使⽤ DelegatingPasswrordEncoder 可以帮助许多使⽤旧密码加密⽅式的 系统顺利迁移到 Spring security 中，它允许在同⼀个系统中同时存在多种不同的 密码加密⽅案。</p>
+</li>
+<li><p>便捷性：密码存储的最佳⽅案不可能⼀直不变，如果使⽤  DelegatingPasswordEncoder作为默认的密码加密⽅案，当需要修改加密⽅案时，只 需要修改很⼩⼀部分代码就可以实现。</p>
+</li>
+<li></li>
+</ul>
+<h3 id="密码加密实战"><a href="#密码加密实战" class="headerlink" title="密码加密实战"></a>密码加密实战</h3><p>测试⽣成的密码</p>
+<pre><code>@Test
+public void test() {
+//1.BCryptPasswordEncoder
+ BCryptPasswordEncoder bCryptPasswordEncoder = new BCryptPasswordEncoder();
+ System.out.println(bCryptPasswordEncoder.encode(&quot;123&quot;));
+ //2.Pbkdf2PasswordEncoder
+Pbkdf2PasswordEncoder pbkdf2PasswordEncoder = new Pbkdf2PasswordEncoder();
+ System.out.println(pbkdf2PasswordEncoder.encode(&quot;123&quot;));
+ //3.SCryptPasswordEncoder //需要额外引⼊依赖
+SCryptPasswordEncoder sCryptPasswordEncoder = new SCryptPasswordEncoder();
+System.out.println(sCryptPasswordEncoder.encode(&quot;123&quot;));
+
+ //4.Argon2PasswordEncoder !&quot;需要额外引⼊依赖
+Argon2PasswordEncoder argon2PasswordEncoder = new Argon2PasswordEncoder();
+ System.out.println(argon2PasswordEncoder.encode(&quot;123&quot;));
+ }</code></pre><p>使⽤固定密码加密⽅案</p>
+<pre><code>@Configuration
+public class SecurityConfig extends WebSecurityConfigurerAdapter {
+ @Bean
+ public PasswordEncoder BcryptPasswordEncoder() {
+     return new BCryptPasswordEncoder();
+ }
+ @Bean
+public UserDetailsService userDetailsService() {
+InMemoryUserDetailsManager inMemoryUserDetailsManager = new InMemoryUserDetailsManager();
+inMemoryUserDetailsManager.createUser(User.withUsername(&quot;root&quot;).password(&quot;$2a$10$WGFkRsZC0kzafTKOPcWONeLvNvg2jqd3U09qd5gjJGSHE5b0yoy6a&quot;).roles(&quot;xxx&quot;).build();
+     return inMemoryUserDetailsManager;
+  }
+ }</code></pre><p>使⽤灵活密码加密⽅案 推荐</p>
+<pre><code>@Configuration
+public class SecurityConfig extends WebSecurityConfigurerAdapter {
+ @Bean
+public UserDetailsService userDetailsService() {
+InMemoryUserDetailsManager inMemoryUserDetailsManager = new InMemoryUserDetailsManager();
+inMemoryUserDetailsManager.createUser(User.withUsername(&quot;root&quot;).p
+ assword(&quot;{bcrypt}$2a$10$WGFkRsZC0kzafTKOPcWONeLvNvg2jqd3U09qd5gjJGSHE5b0yoy
+ 6a&quot;).roles(&quot;xxx&quot;).build());
+     return inMemoryUserDetailsManager;
+  }
+ }
+</code></pre><h1 id="RememberMe"><a href="#RememberMe" class="headerlink" title="RememberMe"></a>RememberMe</h1><p>具体的实现思路就是通过 Cookie 来记录当前⽤户身份。当⽤户登录成功之后，会通过⼀定 算法，将⽤户信息、时间戳等进⾏加密，加密完成后，通过响应头带回前端存储在cookie 中，当浏览器会话过期之后，如果再次访问该⽹站，会⾃动将 Cookie 中的信息发送给服务 器，服务器对 Cookie中的信息进⾏校验分析，进⽽确定出⽤户的身份，Cookie中所保存的 ⽤户信息也是有时效的，例如三天、⼀周等</p>
+<h2 id="基本使用"><a href="#基本使用" class="headerlink" title="基本使用"></a>基本使用</h2><p>开启记住我</p>
+<pre class="line-numbers language-java"><code class="language-java"><span class="token annotation punctuation">@Configuration</span>
+ <span class="token keyword">public</span> <span class="token keyword">class</span> <span class="token class-name">SecurityConfig</span> <span class="token keyword">extends</span> <span class="token class-name">WebSecurityConfigurerAdapter</span> <span class="token punctuation">{</span>
+
+ <span class="token annotation punctuation">@Override</span>
+ <span class="token keyword">protected</span> <span class="token keyword">void</span> <span class="token function">configure</span><span class="token punctuation">(</span>HttpSecurity http<span class="token punctuation">)</span> <span class="token keyword">throws</span> Exception <span class="token punctuation">{</span>
+ http<span class="token punctuation">.</span><span class="token function">authorizeRequests</span><span class="token punctuation">(</span><span class="token punctuation">)</span>
+  <span class="token punctuation">.</span><span class="token function">mvcMatchers</span><span class="token punctuation">(</span><span class="token string">"/login.html"</span><span class="token punctuation">)</span><span class="token punctuation">.</span><span class="token function">permitAll</span><span class="token punctuation">(</span><span class="token punctuation">)</span>
+  <span class="token punctuation">.</span><span class="token function">anyRequest</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">.</span><span class="token function">authenticated</span><span class="token punctuation">(</span><span class="token punctuation">)</span>
+  <span class="token punctuation">.</span><span class="token function">and</span><span class="token punctuation">(</span><span class="token punctuation">)</span>
+  <span class="token punctuation">.</span><span class="token function">formLogin</span><span class="token punctuation">(</span><span class="token punctuation">)</span>
+  <span class="token punctuation">.</span><span class="token function">and</span><span class="token punctuation">(</span><span class="token punctuation">)</span>
+  <span class="token punctuation">.</span><span class="token function">rememberMe</span><span class="token punctuation">(</span><span class="token punctuation">)</span> <span class="token comment" spellcheck="true">//开启记住我功能</span>
+  <span class="token punctuation">.</span><span class="token function">and</span><span class="token punctuation">(</span><span class="token punctuation">)</span>
+  <span class="token punctuation">.</span><span class="token function">csrf</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">.</span><span class="token function">disable</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+  <span class="token punctuation">}</span>
+ <span class="token punctuation">}</span><span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span></span></code></pre>
+<h2 id="原理分析"><a href="#原理分析" class="headerlink" title="原理分析"></a>原理分析</h2><p>RememberMeAuthenticationFilter</p>
+<p>当在SecurityConfig配置中开启了”记住我”功能之后,在进⾏认证时如果勾选 了”记住我”选项，此时打开浏览器控制台，分析整个登录过程。⾸先当我们登录时，在登录 请求中多了⼀个 RememberMe 的参数。</p>
+<p><img src="/springsecurity/image-20230715210021841.png" alt="image-20230715210021841"></p>
+<p>很显然，这个参数就是告诉服务器应该开启 RememberMe功能的。如果⾃定义登录⻚⾯开启  RememberMe 功能应该多加⼊⼀个⼀样的请求参数就可以啦。该请求会被  RememberMeAuthenticationFilter进⾏拦截然后⾃动登录</p>
+<p>(1）请求到达过滤器之后，⾸先判断 SecurityContextHolder 中是否有值，没值的 话表示⽤户尚未登录，此时调⽤ autoLogin ⽅法进⾏⾃动登录。</p>
+<p> (2）当⾃动登录成功后返回的rememberMeAuth 不为null 时，表示⾃动登录成功， 此时调⽤ authenticate ⽅法对 key 进⾏校验，并且将登录成功的⽤户信息保存到  SecurityContextHolder 对象中，然后调⽤登录成功回调，并发布登录成功事件。 需要注意的是，登录成功的回调并不包含 RememberMeServices 中的  1oginSuccess ⽅法。</p>
+<p> (3）如果⾃动登录失败，则调⽤ remenberMeServices.loginFail⽅法处理登录失 败回调。onUnsuccessfulAuthentication 和 onSuccessfulAuthentication  都是该过滤器中定义的空⽅法，并没有任何实现这就是  RememberMeAuthenticationFilter 过滤器所做的事情，成功将RememberMeServices的服务集成进来。</p>
+<h2 id="RememberMeServices"><a href="#RememberMeServices" class="headerlink" title="RememberMeServices"></a>RememberMeServices</h2><p>这⾥⼀共定义了三个⽅法：</p>
+<ol>
+<li>autoLogin ⽅法可以从请求中提取出需要的参数，完成⾃动登录功能。</li>
+<li>loginFail ⽅法是⾃动登录失败的回调。</li>
+<li><ol start="3">
+<li>1oginSuccess ⽅法是⾃动登录成功的回调。</li>
+</ol>
+</li>
+</ol>
+<p><img src="/springsecurity/image-20230715210055880.png" alt="image-20230715210055880"></p>
+<h2 id="TokenBasedRememberMeServices"><a href="#TokenBasedRememberMeServices" class="headerlink" title="TokenBasedRememberMeServices"></a>TokenBasedRememberMeServices</h2><p>在开启记住我后如果没有加⼊额外配置默认实现就是由TokenBasedRememberMeServices 进⾏的实现。</p>
+<p>processAutoLoginCookie ⽅法主要⽤来验证 Cookie 中的令牌信息是否合法：</p>
+<p><img src="/springsecurity/image-20230715210234250.png" alt="image-20230715210234250"></p>
+<ol>
+<li>⾸先判断 cookieTokens ⻓度是否为3，不为3说明格式不对，则直接抛出异常。 </li>
+<li>从cookieTokens 数组中提取出第 1项，也就是过期时间，判断令牌是否过期，如果 ⼰经过期，则拋出异常。</li>
+<li>根据⽤户名 （cookieTokens 数组的第。项）查询出当前⽤户对象。</li>
+<li>调⽤ makeTokenSignature ⽅法⽣成⼀个签名，签名的⽣成过程如下：⾸先将⽤户 名、令牌过期时间、⽤户密码以及 key 组成⼀个宇符串，中间⽤“：”隔开，然后通过  MD5 消息摘要算法对该宇符串进⾏加密，并将加密结果转为⼀个字符串返回。</li>
+<li>判断第4 步⽣成的签名和通过 Cookie 传来的签名是否相等（即 cookieTokens 数 组 的第2项），如果相等，表示令牌合法，则直接返回⽤户对象，否则拋出异常。</li>
+</ol>
+<p><img src="/springsecurity/image-20230715210250060.png" alt="image-20230715210250060"></p>
+<p>在这个回调中，⾸先获取⽤户经和密码信息，如果⽤户密码在⽤户登录成功后从successfulAuthentication对象中擦除，则从数据库中重新加载出⽤户密码。</p>
+<p>计算出令牌的过期时间，令牌默认有效期是两周。</p>
+<p> 根据令牌的过期时间、⽤户名以及⽤户密码，计算出⼀个签名。</p>
+<p>调⽤ setCookie ⽅法设置 Cookie， 第⼀个参数是⼀个数组，数组中⼀共包含三 项。⽤户名、过期时间以及签名，在setCookie ⽅法中会将数组转为字符串，并进⾏  Base64编码后响应给前端</p>
+<h2 id="总结-1"><a href="#总结-1" class="headerlink" title="总结"></a>总结</h2><p>当⽤户通过⽤户名/密码的形式登录成功后，系统会根据⽤户的⽤户名、密码以及令牌的过期 时间计算出⼀个签名，这个签名使⽤ MD5 消息摘要算法⽣成，是不可逆的。然后再将⽤户 名、令牌过期时间以及签名拼接成⼀个字符串，中间⽤“:” 隔开，对拼接好的字符串进⾏ Base64 编码，然后将编码后的结果返回到前端，也就是我们在浏览器中看到的令牌。当会 话过期之后，访问系统资源时会⾃动携带上Cookie中的令牌，服务端拿到 Cookie中的令牌 后，先进⾏ Bae64解码，解码后分别提取出令牌中的三项数据：接着根据令牌中的数据判断 令牌是否已经过期，如果没有过期，则根据令牌中的⽤户名查询出⽤户信息：接着再计算出 ⼀个签名和令牌中的签名进⾏对⽐，如果⼀致，表示会牌是合法令牌，⾃动登录成功，否则 ⾃动登录失败。</p>
+<p><img src="/springsecurity/image-20230715210508749.png" alt="image-20230715210508749"></p>
+<p><img src="/springsecurity/image-20230715210545039.png" alt="image-20230715210545039"></p>
+<h2 id="内存令牌"><a href="#内存令牌" class="headerlink" title="内存令牌"></a>内存令牌</h2><p>PersistentTokenBasedRememberMeServices</p>
+<p><img src="/springsecurity/image-20230715210816451.png" alt="image-20230715210816451"></p>
+<ol>
+<li>不同于 TokonBasedRemornberMeServices 中的 processAutologinCookie ⽅ 法，这⾥cookieTokens 数组的⻓度为2，第⼀项是series，第⼆项是 token。 </li>
+<li>从cookieTokens数组中分到提取出 series 和 token． 然后根据 series 去内存 中查询出⼀个 PersistentRememberMeToken对象。如果查询出来的对象为null，表 示内存中并没有series对应的值，本次⾃动登录失败。如果查询出来的 token 和从  cookieTokens 中解析出来的token不相同，说明⾃动登录会牌已经泄漏（恶意⽤户利 ⽤令牌登录后，内存中的token变了)，此时移除当前⽤户的所有⾃动登录记录并抛出异 常。</li>
+<li>根据数据库中查询出来的结果判断令牌是否过期，如果过期就抛出异常。 </li>
+<li>⽣成⼀个新的 PersistentRememberMeToken 对象，⽤户名和series 不变， token 重新 ⽣成，date 也使⽤当前时间。newToken ⽣成后，根据 series 去修改内存中的  token 和 date(即每次⾃动登录后都会产⽣新的 token 和 date）</li>
+<li>调⽤ addCookie ⽅法添加 Cookie， 在addCookie ⽅法中，会调⽤到我们前⾯所 说的 setCookie ⽅法，但是要注意第⼀个数组参数中只有两项：series 和 token（即返 回到前端的令牌是通过对 series 和 token 进⾏ Base64 编码得到的） </li>
+<li>最后将根据⽤户名查询⽤户对象并返回。</li>
+</ol>
+<h2 id="使用内存中令牌实现"><a href="#使用内存中令牌实现" class="headerlink" title="使用内存中令牌实现"></a>使用内存中令牌实现</h2><pre class="line-numbers language-java"><code class="language-java"><span class="token annotation punctuation">@Configuration</span>
+ <span class="token keyword">public</span> <span class="token keyword">class</span> <span class="token class-name">SecurityConfig</span> <span class="token keyword">extends</span> <span class="token class-name">WebSecurityConfigurerAdapter</span> <span class="token punctuation">{</span> 
+<span class="token annotation punctuation">@Override</span>
+ <span class="token keyword">protected</span> <span class="token keyword">void</span> <span class="token function">configure</span><span class="token punctuation">(</span>HttpSecurity http<span class="token punctuation">)</span> <span class="token keyword">throws</span> Exception <span class="token punctuation">{</span>
+ http<span class="token punctuation">.</span><span class="token function">authorizeRequests</span><span class="token punctuation">(</span><span class="token punctuation">)</span>
+  <span class="token punctuation">.</span><span class="token function">anyRequest</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">.</span><span class="token function">authenticated</span><span class="token punctuation">(</span><span class="token punctuation">)</span>
+  <span class="token punctuation">.</span><span class="token function">and</span><span class="token punctuation">(</span><span class="token punctuation">)</span>
+  <span class="token punctuation">.</span><span class="token function">formLogin</span><span class="token punctuation">(</span><span class="token punctuation">)</span>
+  <span class="token punctuation">.</span><span class="token function">and</span><span class="token punctuation">(</span><span class="token punctuation">)</span>
+  <span class="token punctuation">.</span><span class="token function">rememberMe</span><span class="token punctuation">(</span><span class="token punctuation">)</span> <span class="token comment" spellcheck="true">//开启记住我功能</span>
+  <span class="token punctuation">.</span><span class="token function">rememberMeServices</span><span class="token punctuation">(</span><span class="token function">rememberMeServices</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">)</span>
+  <span class="token punctuation">.</span><span class="token function">and</span><span class="token punctuation">(</span><span class="token punctuation">)</span>
+  <span class="token punctuation">.</span><span class="token function">csrf</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">.</span><span class="token function">disable</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+  <span class="token punctuation">}</span>
+ <span class="token annotation punctuation">@Bean</span>
+<span class="token keyword">public</span> RememberMeServices <span class="token function">rememberMeServices</span><span class="token punctuation">(</span><span class="token punctuation">)</span> <span class="token punctuation">{</span><span class="token keyword">return</span> <span class="token keyword">new</span> <span class="token class-name">PersistentTokenBasedRememberMeServices</span><span class="token punctuation">(</span>
+     <span class="token string">"key"</span><span class="token comment" spellcheck="true">//参数 1: ⾃定义⼀个⽣成令牌 key 默认 UUID  </span>
+    <span class="token function">userDetailsService</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">,</span> <span class="token comment" spellcheck="true">//参数 2:认证数据源  </span>
+    <span class="token keyword">new</span> <span class="token class-name">InMemoryTokenRepositoryImpl</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">)</span><span class="token punctuation">;</span><span class="token comment" spellcheck="true">//参数 3:令牌存储⽅式</span>
+    <span class="token punctuation">}</span>
+<span class="token punctuation">}</span><span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span></span></code></pre>
+<h2 id="使用数据库"><a href="#使用数据库" class="headerlink" title="使用数据库"></a>使用数据库</h2><p>配置数据源</p>
+<p>配置持久化令牌</p>
+<pre class="line-numbers language-java"><code class="language-java"><span class="token annotation punctuation">@Configuration</span>
+ <span class="token keyword">public</span> <span class="token keyword">class</span> <span class="token class-name">SecurityConfig</span> <span class="token keyword">extends</span> <span class="token class-name">WebSecurityConfigurerAdapter</span> <span class="token punctuation">{</span>
+ <span class="token annotation punctuation">@Autowired</span>
+ <span class="token keyword">private</span> DataSource dataSource<span class="token punctuation">;</span>
+ <span class="token annotation punctuation">@Bean</span>
+ <span class="token keyword">public</span> PersistentTokenRepository <span class="token function">persistentTokenRepository</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">{</span>
+ JdbcTokenRepositoryImpl jdbcTokenRepository <span class="token operator">=</span> <span class="token keyword">new</span> <span class="token class-name">JdbcTokenRepositoryImpl</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+    jdbcTokenRepository<span class="token punctuation">.</span><span class="token function">setCreateTableOnStartup</span><span class="token punctuation">(</span><span class="token boolean">false</span><span class="token punctuation">)</span><span class="token punctuation">;</span><span class="token comment" spellcheck="true">//是否自动建表</span>
+     jdbcTokenRepository<span class="token punctuation">.</span><span class="token function">setDataSource</span><span class="token punctuation">(</span>dataSource<span class="token punctuation">)</span><span class="token punctuation">;</span>
+     <span class="token keyword">return</span> jdbcTokenRepository<span class="token punctuation">;</span>
+  <span class="token punctuation">}</span>
+
+ <span class="token annotation punctuation">@Override</span>
+ <span class="token keyword">protected</span> <span class="token keyword">void</span> <span class="token function">configure</span><span class="token punctuation">(</span>HttpSecurity http<span class="token punctuation">)</span> <span class="token keyword">throws</span> Exception <span class="token punctuation">{</span>
+ http<span class="token punctuation">.</span><span class="token function">authorizeRequests</span><span class="token punctuation">(</span><span class="token punctuation">)</span>
+  <span class="token punctuation">.</span><span class="token function">mvcMatchers</span><span class="token punctuation">(</span><span class="token string">"/login.html"</span><span class="token punctuation">)</span><span class="token punctuation">.</span><span class="token function">permitAll</span><span class="token punctuation">(</span><span class="token punctuation">)</span>
+  <span class="token punctuation">.</span><span class="token function">anyRequest</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">.</span><span class="token function">authenticated</span><span class="token punctuation">(</span><span class="token punctuation">)</span>
+  <span class="token punctuation">.</span><span class="token function">logout</span><span class="token punctuation">(</span><span class="token punctuation">)</span>
+  <span class="token punctuation">.</span><span class="token function">and</span><span class="token punctuation">(</span><span class="token punctuation">)</span>
+  <span class="token punctuation">.</span><span class="token function">rememberMe</span><span class="token punctuation">(</span><span class="token punctuation">)</span> <span class="token operator">!</span>"开启记住我功能
+  <span class="token punctuation">.</span><span class="token function">tokenRepository</span><span class="token punctuation">(</span><span class="token function">persistentTokenRepository</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">)</span>
+  <span class="token punctuation">.</span><span class="token function">and</span><span class="token punctuation">(</span><span class="token punctuation">)</span>
+  <span class="token punctuation">.</span><span class="token function">csrf</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">.</span><span class="token function">disable</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+  <span class="token punctuation">}</span>
+ <span class="token punctuation">}</span><span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span></span></code></pre>
+<p>启动项⽬并查看数据库</p>
+<p>注意:启动项⽬会⾃动创建⼀个表,⽤来保存记住我的 token 信息</p>
+<p><img src="/springsecurity/image-20230715214328977.png" alt="image-20230715214328977"></p>
+<h2 id="自定义记住我"><a href="#自定义记住我" class="headerlink" title="自定义记住我"></a>自定义记住我</h2><h3 id="传统-web-开发记住我实现"><a href="#传统-web-开发记住我实现" class="headerlink" title="传统 web 开发记住我实现"></a>传统 web 开发记住我实现</h3><p>传统 web 开发记住我实现  通过源码分析得知必须在认证请求中加⼊参数remember-me值为”true,on,yes,1”其中任 意⼀个才可以完成记住我功能,这个时候修改认证界⾯:</p>
+<pre><code>&lt;!DOCTYPE html&gt;
+ &lt;html lang=&quot;en&quot;&gt;
+ &lt;head&gt;
+ &lt;meta charset=&quot;UTF-8&quot;&gt;
+ &lt;title&gt;登录!&amp;title&gt;
+ !&amp;head&gt;
+ &lt;body&gt;
+ &lt;h1&gt;⽤户登录!&amp;h1&gt;
+ &lt;form method=&quot;post&quot; th:action=&quot;@{/doLogin}&quot;&gt;
+    ⽤户名:&lt;input name=&quot;uname&quot; type=&quot;text&quot;/&gt;&lt;br&gt;
+    密码:&lt;input name=&quot;passwd&quot; type=&quot;password&quot;/&gt;&lt;br&gt;
+    记住我: &lt;input type=&quot;checkbox&quot; name=&quot;remember-me&quot; 
+    value=&quot;on|yes|true|1&quot;!&#39;&lt;br&gt;
+ &lt;input type=&quot;submit&quot; value=&quot;登录&quot;/&gt;
+ &lt;/form&gt;
+ &lt;/body&gt;
+ &lt;/html&gt;</code></pre><h4 id="配置中开启记住我"><a href="#配置中开启记住我" class="headerlink" title="配置中开启记住我"></a>配置中开启记住我</h4><pre><code>@Configuration
+ public class SecurityConfig extends WebSecurityConfigurerAdapter {
+ @Override
+ protected void configure(HttpSecurity http) throws Exception {
+ http.authorizeRequests()
+  .....
+  .and()
+  .rememberMe()//开启记住我
+    //.alwaysRemember(true) 总是记住我
+  .and()
+  .csrf().disable();
+  }
+ }
+</code></pre><h3 id="前后端分离开发记住我实现"><a href="#前后端分离开发记住我实现" class="headerlink" title="前后端分离开发记住我实现"></a>前后端分离开发记住我实现</h3><pre><code>
+/**
+ * 自定义前后端分离认证 Filter
+ */
+public class LoginFilter extends UsernamePasswordAuthenticationFilter {
+
+    @Override
+    public Authentication attemptAuthentication(HttpServletRequest request, HttpServletResponse response) throws AuthenticationException {
+        System.out.println(&quot;========================================&quot;);
+        //1.判断是否是 post 方式请求
+        if (!request.getMethod().equals(&quot;POST&quot;)) {
+            throw new AuthenticationServiceException(&quot;Authentication method not supported: &quot; + request.getMethod());
+        }
+        //2.判断是否是 json 格式请求类型
+        if (request.getContentType().equalsIgnoreCase(MediaType.APPLICATION_JSON_VALUE)) {
+            //3.从 json 数据中获取用户输入用户名和密码进行认证 {&quot;uname&quot;:&quot;xxx&quot;,&quot;password&quot;:&quot;xxx&quot;,&quot;remember-me&quot;:true}
+            try {
+                Map&lt;String, String&gt; userInfo = new ObjectMapper().readValue(request.getInputStream(), Map.class);
+                String username = userInfo.get(getUsernameParameter());
+                String password = userInfo.get(getPasswordParameter());
+                String rememberValue = userInfo.get(AbstractRememberMeServices.DEFAULT_PARAMETER);
+                if (!ObjectUtils.isEmpty(rememberValue)) {
+                    request.setAttribute(AbstractRememberMeServices.DEFAULT_PARAMETER, rememberValue);
+                }
+                System.out.println(&quot;用户名: &quot; + username + &quot; 密码: &quot; + password + &quot; 是否记住我: &quot; + rememberValue);
+                UsernamePasswordAuthenticationToken authRequest = new UsernamePasswordAuthenticationToken(username, password);
+                setDetails(request, authRequest);
+                return this.getAuthenticationManager().authenticate(authRequest);
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
+        }
+        return super.attemptAuthentication(request, response);
+    }
+}
+</code></pre><h4 id="自定义-RememberMeService"><a href="#自定义-RememberMeService" class="headerlink" title="自定义 RememberMeService"></a>自定义 RememberMeService</h4><pre><code>
+/**
+ * 自定义记住我 services 实现类
+ */
+public class MyPersistentTokenBasedRememberMeServices extends PersistentTokenBasedRememberMeServices {
+
+
+    public MyPersistentTokenBasedRememberMeServices(String key, UserDetailsService userDetailsService, PersistentTokenRepository tokenRepository) {
+        super(key, userDetailsService, tokenRepository);
+    }
+
+
+    /**
+     * 自定义前后端分离获取 remember-me 方式
+     *
+     * @param request
+     * @param parameter
+     * @return
+     */
+    @Override
+    protected boolean rememberMeRequested(HttpServletRequest request, String parameter) {
+        String paramValue = request.getAttribute(parameter).toString();
+        if (paramValue != null) {
+            if (paramValue.equalsIgnoreCase(&quot;true&quot;) || paramValue.equalsIgnoreCase(&quot;on&quot;)
+                    || paramValue.equalsIgnoreCase(&quot;yes&quot;) || paramValue.equals(&quot;1&quot;)) {
+                return true;
+            }
+        }
+        return false;
+    }
+}</code></pre><h4 id="配置记住我"><a href="#配置记住我" class="headerlink" title="配置记住我"></a>配置记住我</h4><pre><code>
+@Configuration
+public class SecurityConfig extends WebSecurityConfigurerAdapter {
+
+
+    @Bean
+    public UserDetailsService userDetailsService() {
+        InMemoryUserDetailsManager inMemoryUserDetailsManager = new InMemoryUserDetailsManager();
+        inMemoryUserDetailsManager.createUser(User.withUsername(&quot;root&quot;).password(&quot;{noop}123&quot;).roles(&quot;admin&quot;).build());
+        return inMemoryUserDetailsManager;
+    }
+
+    @Override
+    protected void configure(AuthenticationManagerBuilder auth) throws Exception {
+        auth.userDetailsService(userDetailsService());
+    }
+
+    @Override
+    @Bean
+    public AuthenticationManager authenticationManagerBean() throws Exception {
+        return super.authenticationManagerBean();
+    }
+
+    //自定义 filter 交给工厂管理
+    @Bean
+    public LoginFilter loginFilter() throws Exception {
+        LoginFilter loginFilter = new LoginFilter();
+        loginFilter.setFilterProcessesUrl(&quot;/doLogin&quot;);//指定认证 url
+        loginFilter.setUsernameParameter(&quot;uname&quot;);//指定接收json 用户名 key
+        loginFilter.setPasswordParameter(&quot;passwd&quot;);//指定接收 json 密码 key
+        loginFilter.setAuthenticationManager(authenticationManagerBean());
+        loginFilter.setRememberMeServices(rememberMeServices()); //设置认证成功时使用自定义rememberMeService
+        //认证成功处理
+        loginFilter.setAuthenticationSuccessHandler((req, resp, authentication) -&gt; {
+            Map&lt;String, Object&gt; result = new HashMap&lt;String, Object&gt;();
+            result.put(&quot;msg&quot;, &quot;登录成功&quot;);
+            result.put(&quot;用户信息&quot;, authentication.getPrincipal());
+            resp.setContentType(&quot;application/json;charset=UTF-8&quot;);
+            resp.setStatus(HttpStatus.OK.value());
+            String s = new ObjectMapper().writeValueAsString(result);
+            resp.getWriter().println(s);
+        });
+        //认证失败处理
+        loginFilter.setAuthenticationFailureHandler((req, resp, ex) -&gt; {
+            Map&lt;String, Object&gt; result = new HashMap&lt;String, Object&gt;();
+            result.put(&quot;msg&quot;, &quot;登录失败: &quot; + ex.getMessage());
+            resp.setStatus(HttpStatus.INTERNAL_SERVER_ERROR.value());
+            resp.setContentType(&quot;application/json;charset=UTF-8&quot;);
+            String s = new ObjectMapper().writeValueAsString(result);
+            resp.getWriter().println(s);
+        });
+        return loginFilter;
+    }
+
+    @Override
+    protected void configure(HttpSecurity http) throws Exception {
+        http.authorizeHttpRequests()
+                .anyRequest().authenticated()//所有请求必须认证
+                .and()
+                .formLogin()
+                .and()
+                .rememberMe() //开启记住我功能  cookie 进行实现  1.认证成功保存记住我 cookie 到客户端   2.只有 cookie 写入客户端成功才能实现自动登录功能
+                .rememberMeServices(rememberMeServices())  //设置自动登录使用哪个 rememberMeServices
+                .and()
+                .exceptionHandling()
+                .authenticationEntryPoint((req, resp, ex) -&gt; {
+                    resp.setContentType(MediaType.APPLICATION_JSON_UTF8_VALUE);
+                    resp.setStatus(HttpStatus.UNAUTHORIZED.value());
+                    resp.getWriter().println(&quot;请认证之后再去处理!&quot;);
+                })
+                .and()
+                .logout()
+                .logoutRequestMatcher(new OrRequestMatcher(
+                        new AntPathRequestMatcher(&quot;/logout&quot;, HttpMethod.DELETE.name()),
+                        new AntPathRequestMatcher(&quot;/logout&quot;, HttpMethod.GET.name())
+                ))
+                .logoutSuccessHandler((req, resp, auth) -&gt; {
+                    Map&lt;String, Object&gt; result = new HashMap&lt;String, Object&gt;();
+                    result.put(&quot;msg&quot;, &quot;注销成功&quot;);
+                    result.put(&quot;用户信息&quot;, auth.getPrincipal());
+                    resp.setContentType(&quot;application/json;charset=UTF-8&quot;);
+                    resp.setStatus(HttpStatus.OK.value());
+                    String s = new ObjectMapper().writeValueAsString(result);
+                    resp.getWriter().println(s);
+                })
+                .and()
+                .csrf().disable();
+
+
+        // at: 用来某个 filter 替换过滤器链中哪个 filter
+        // before: 放在过滤器链中哪个 filter 之前
+        // after: 放在过滤器链中那个 filter 之后
+        http.addFilterAt(loginFilter(), UsernamePasswordAuthenticationFilter.class);
+    }
+
+
+    @Bean
+    public RememberMeServices rememberMeServices() {
+        return new MyPersistentTokenBasedRememberMeServices(UUID.randomUUID().toString(), userDetailsService(), new InMemoryTokenRepositoryImpl());
+    }
+}
+</code></pre><h3 id="基于redis的-rememberMe-token持久化功能"><a href="#基于redis的-rememberMe-token持久化功能" class="headerlink" title="基于redis的 rememberMe token持久化功能"></a>基于redis的 rememberMe token持久化功能</h3><p>rememberMe认证流程<br>简单来说，认证时首先会经过UsernamePasswordAuthenticationFilter，如果开启了rememberMe，随后会有一个RememberMeAuthenticationFilter进行token认证。该filter调用一个rememberMeServices，该service的autoLogin方法中从request中获取对应的cookie，经过解密分解为一个series和token。之后利用一个tokenRepository获取一个PersistentRememberMeToken对象，该对象包含了基本token、series、username和日期等信息。通过比较取出的PersistentRememberMeToken中的token与request中的token，进行验证。<br>因为spring security已经帮助我们完成许多处理，因此自定义实现redis持久化token，我们只需要实现一点：</p>
+<p>一个自定义的tokenRepository，用以持久化token操作。</p>
+<h4 id="实现代码"><a href="#实现代码" class="headerlink" title="实现代码"></a><strong>实现代码</strong></h4><p>一个实现了<strong>PersistentTokenRepository</strong>的<strong>RedisPersistentRe</strong>类。<br><strong>PersistentTokenRepository</strong>接口主要包括这几个方法：</p>
+<pre><code>   void createNewToken(PersistentRememberMeToken var1);
+//创建新的token，每次采用密码账登录验证成功后都会执行这个方法。
+    void updateToken(String var1, String var2, Date var3);
+//更新token，每次新的会话都会更新token。其中var1代表series，var2代表新的token值。
+    PersistentRememberMeToken getTokenForSeries(String var1);
+//通过series获取PersistentRememberMeToken对象。
+    void removeUserTokens(String var1);
+//删除对应的token，采用默认的rememberMeServices时，var1是username。
+</code></pre><h5 id="RedisPersistentRe类"><a href="#RedisPersistentRe类" class="headerlink" title="RedisPersistentRe类"></a><strong>RedisPersistentRe</strong>类</h5><pre><code>@Component
+public class RedisPersistentRe implements PersistentTokenRepository {
+    private final static String USERNAME_KEY =&quot;spring:security:rememberMe:USERNAME_KEY:&quot;;
+    private final static String SERIES_KEY = &quot;spring:security:rememberMe:SERIES_KEY:&quot;;
+    @Autowired
+    RedisTemplate redisTemplate;
+
+    @Autowired
+    StringRedisTemplate stringRedisTemplate;
+    @Override
+    public void createNewToken(PersistentRememberMeToken persistentRememberMeToken) {
+        String series = persistentRememberMeToken.getSeries();
+        String key = generateKey(series,SERIES_KEY);
+        String usernameKey = generateKey(persistentRememberMeToken.getUsername(),USERNAME_KEY);
+        //用户只要采用账户密码重新登录，那么为了安全就有必要清除之前的token信息。deleteIfPresent方法通过
+        //username查找到用户对应的series，然后删除旧的token信息。
+        deleteIfPresent(usernameKey);
+        HashMap&lt;String,String &gt; hashMap = new HashMap&lt;&gt;();
+        hashMap.put(&quot;username&quot;,persistentRememberMeToken.getUsername());
+        hashMap.put(&quot;token&quot;,persistentRememberMeToken.getTokenValue());
+        hashMap.put(&quot;date&quot;,String.valueOf(persistentRememberMeToken.getDate().getTime()));
+        HashOperations&lt;String ,String ,String&gt; hashOperations = redisTemplate.opsForHash();
+        hashOperations.putAll(key,hashMap);
+        redisTemplate.expire(key,1, TimeUnit.DAYS);//设置token保存期限
+        stringRedisTemplate.opsForValue().set(usernameKey,series);
+        redisTemplate.expire(usernameKey,1, TimeUnit.DAYS);
+    }
+
+    @Override
+    public void updateToken(String s, String s1, Date date) {
+        String key = generateKey(s,SERIES_KEY);
+        if(redisTemplate.hasKey(key))
+            redisTemplate.opsForHash().put(key,&quot;token&quot;,s1);
+    }
+
+    @Override
+    public PersistentRememberMeToken getTokenForSeries(String s) {
+        String key = generateKey(s,SERIES_KEY);
+        List&lt;String&gt; hashKeys = new ArrayList&lt;&gt;();
+        hashKeys.add(&quot;username&quot;);
+        hashKeys.add(&quot;token&quot;);
+        hashKeys.add(&quot;date&quot;);
+        List&lt;String&gt; hashValues = redisTemplate.opsForHash().multiGet(key, hashKeys);
+        String username =  hashValues.get(0);
+        String tokenValue = hashValues.get(1);
+        String date = hashValues.get(2);
+        if (null == username || null == tokenValue || null == date) {
+            return null;
+        }
+        Long timestamp = Long.valueOf(date);
+        Date time = new Date(timestamp);
+        return new PersistentRememberMeToken(username, s, tokenValue, time);
+    }
+
+    @Override
+    public void removeUserTokens(String s) {
+    //rememberMeService实现类中调用这个方法传入的参数是username，因此我们必须通过username查找到
+    //对应的series，然后再通过series查找到对应的token信息再删除。
+        String key = generateKey(s,USERNAME_KEY);
+        deleteIfPresent(key);
+    }
+
+    private void deleteIfPresent(String key){
+    //删除token时应该同时删除token信息，以及保存了对应的username与series对照数据。
+        if(redisTemplate.hasKey(key)){
+            String series = generateKey(stringRedisTemplate.opsForValue().get(key),SERIES_KEY);
+            if(series!=null &amp;&amp; redisTemplate.hasKey(series)){
+                redisTemplate.delete(series);
+                redisTemplate.delete(key);
+            }
+        }
+    }
+    private String generateKey(String series,String prefix) {
+        return prefix + series;
+    }
+}
+</code></pre><p>配置</p>
+<pre><code>@Configuration
+@EnableWebSecurity
+public class ASpringSecurityConfig extends WebSecurityConfigurerAdapter {
+    @Autowired
+    AUserDetailsService aUserDetailsService;
+    @Autowired
+    RedisPersistentRe redisPerSisRe;
+    @Override
+    protected void configure(HttpSecurity http) throws Exception {
+        http.authorizeRequests()
+                .antMatchers(&quot;/login&quot;).permitAll()
+                .anyRequest().authenticated()
+                .and()
+                .formLogin().permitAll()
+                .defaultSuccessUrl(&quot;/success&quot;,true)
+                .and()
+                .rememberMe()
+                .tokenRepository(redisPerSisRe)
+                .rememberMeCookieName(&quot;mytoken&quot;)
+                .userDetailsService(aUserDetailsService)
+                .and()
+                .csrf().disable()
+                ;
+    }
+    @Override
+    protected void configure(AuthenticationManagerBuilder auth) throws Exception {
+        auth.userDetailsService(aUserDetailsService).passwordEncoder(new BCryptPasswordEncoder());
+    }
+
+
+}
+</code></pre><h1 id="会话管理"><a href="#会话管理" class="headerlink" title="会话管理"></a>会话管理</h1><h2 id="简介"><a href="#简介" class="headerlink" title="简介"></a>简介</h2><p>当浏览器调⽤登录接⼝登录成功后，服务端会和浏览器之间建⽴⼀个会话 (Session) 浏览 器在每次发送请求时都会携带⼀个 Sessionld，服务端则根据这个 Sessionld 来判断⽤ 户身份。当浏览器关闭后，服务端的 Session 并不会⾃动销毁，需要开发者⼿动在服务端 调⽤ Session销毁⽅法，或者等 Session 过期时间到了⾃动销毁。在Spring  Security 中，与HttpSession相关的功能由 SessionManagementFiter 和 SessionAutheaticationStrateey 接⼝来处理，SessionManagomentFilter 过滤 器将 Session 相关操作委托给 SessionAuthenticationStrateey 接⼝去完成。</p>
+<h2 id="会话并发管理"><a href="#会话并发管理" class="headerlink" title="会话并发管理"></a>会话并发管理</h2><h3 id="简介-1"><a href="#简介-1" class="headerlink" title="简介"></a>简介</h3><p>会话并发管理就是指在当前系统中，同⼀个⽤户可以同时创建多少个会话，如果⼀个设备对 应⼀个会话，那么也可以简单理解为同⼀个⽤户可以同时在多少台设备上进⾏登录。默认情 况下，同⼀⽤户在多少台设备上登录并没有限制，不过开发者可以在 Spring Security  中对此进⾏配置。</p>
+<h2 id="开启会话管理"><a href="#开启会话管理" class="headerlink" title="开启会话管理"></a>开启会话管理</h2><pre><code>@Configuration
+ public class SecurityConfig extends WebSecurityConfigurerAdapter {
+
+ @Override
+ protected void configure(HttpSecurity http) throws Exception {
+ http.authorizeRequests()
+  .anyRequest().authenticated()
+  .and()
+  .formLogin()
+  .and()
+  .rememberMe()
+  .and()
+  .csrf().disable()
+  .sessionManagement()  //开启会话管理
+  .maximumSessions(1);  //设置会话并发数为 1
+  }
+ @Bean
+ public HttpSessionEventPublisher httpSessionEventPublisher() {
+ return new HttpSessionEventPublisher();
+  }
+ }</code></pre><ol>
+<li>sessionManagement() ⽤来开启会话管理、maximumSessions 指定会话的并发数 为 1。 </li>
+<li>HttpSessionEventPublisher 提供⼀⼀个Htp SessionEvenePubishor-实例。 Spring Security中通过⼀个 Map 集合来集护当前的 Http Session 记录，进⽽ 实现会话的并发管理。当⽤户登录成功时，就向集合中添加⼀条Http Session 记录； 当会话销毁时，就从集合中移除⼀条 Httpsession 记录。 HtpSesionEvenPublisher 实现了 Fttp SessionListener 接⼝，可以监听到  HtpSession 的创建和销毀事件，并将 Fltp Session 的创建/销毁事件发布出去， 这样，当有 HttpSession 销毀时，Spring Security 就可以感知到该事件了。</li>
+</ol>
+<h2 id="测试会话管理"><a href="#测试会话管理" class="headerlink" title="测试会话管理"></a>测试会话管理</h2><p>配置完成后，启动项⽬。这次测试我们需要两个浏览器，如果使⽤了 Chrome 浏览器，可以 使⽤ Chrome 浏览器中的多⽤户⽅式（相当于两个浏览器）先在第⼀个浏览器中输⼊ http :!”localhost:8080，此时会⾃动跳转到登录⻚⾯，完成登录操作，就可以访问到数据 了；接下来在第⼆个浏览器中也输⼊ http:!”localhost:8080，也需要登录， 完成登录操作；当第⼆个浏览器登录成功后，再回到第⼀个浏览器，刷新⻚⾯。结果出现下 图：</p>
+<p><img src="/springsecurity/image-20230715235954166.png" alt="image-20230715235954166"></p>
+<h2 id="会话失效处理"><a href="#会话失效处理" class="headerlink" title="会话失效处理"></a>会话失效处理</h2><h3 id="传统-web-开发处理"><a href="#传统-web-开发处理" class="headerlink" title="传统 web 开发处理"></a>传统 web 开发处理</h3><pre><code>protected void configure(HttpSecurity http) throws Exception {
+ http.authorizeRequests()
+  .anyRequest().authenticated()
+  .and()
+  ....
+  .sessionManagement()  //开启会话管理
+  .maximumSessions(1)  //允许同⼀个⽤户只允许创建⼀个会话
+  .expiredUrl(&quot;/login&quot;);//会话过期处理
+}</code></pre><h3 id="前后端分离开发处理"><a href="#前后端分离开发处理" class="headerlink" title="前后端分离开发处理"></a>前后端分离开发处理</h3><pre><code>@Override
+ protected void configure(HttpSecurity http) throws Exception {
+ http.authorizeRequests()
+  .anyRequest().authenticated()
+  .....
+  .sessionManagement()  //开启会话管理
+  .maximumSessions(1)  //允许同⼀个⽤户只允许创建⼀个会话
+//.expiredUrl(&quot;/login&quot;)//会话过期处理  传统 web 开发
+  .expiredSessionStrategy(event -&gt; {
+     HttpServletResponse response = event.getResponse();
+     response.setContentType(&quot;application/json;charset=UTF-8&quot;);
+     Map&lt;String, Object&gt; result = new HashMap!)();
+     result.put(&quot;status&quot;, 500);
+     result.put(&quot;msg&quot;, &quot;当前会话已经失效,请重新登录!&quot;);
+     String s = new ObjectMapper().writeValueAsString(result);
+     response.setContentType(&quot;application/json;charset=UTF-8&quot;);
+     response.getWriter().println(s);
+     response.flushBuffer();
+  });//前后端分离开发处理
+}
+</code></pre><h3 id="禁⽌再次登录"><a href="#禁⽌再次登录" class="headerlink" title="禁⽌再次登录"></a>禁⽌再次登录</h3><p>默认的效果是⼀种被 “挤下线”的效果，后⾯登录的⽤户会把前⾯登录的⽤户 “挤下线”。还 有⼀种是禁⽌后来者登录，即⼀旦当前⽤户登录成功，后来者⽆法再次使⽤相同的⽤户登 录，直到当前⽤户主动注销登录，配置如下</p>
+<pre><code>@Override
+ protected void configure(HttpSecurity http) throws Exception {
+ http.authorizeRequests()
+  .anyRequest().authenticated()
+  .and()
+  ....
+  .sessionManagement()  //开启会话管理
+  .maximumSessions(1)  //允许同⼀个⽤户只允许创建⼀个会话
+//.expiredUrl(&quot;/login&quot;)!&quot;会话过期处理  传统 web 开发
+  .expiredSessionStrategy(event !. {
+ HttpServletResponse response = event.getResponse();
+ response.setContentType(&quot;application/json;charset=UTF-8&quot;);
+ Map&lt;String, Object&gt; result = new HashMap!)();
+ result.put(&quot;status&quot;, 500);
+ result.put(&quot;msg&quot;, &quot;当前会话已经失效,请重新登录!&quot;);
+ String s = new ObjectMapper().writeValueAsString(result);
+ response.getWriter().println(s);
+ response.flushBuffer();
+  })//前后端分离开发处理
+  .maxSessionsPreventsLogin(true);//登录之后禁⽌再次登录
+  //用于设置当用户达到最大登录数时，是否阻止新的登录请求。如果为true，表示当用户已经在其他设备或浏览器登录时，不允许再次登录，返回一个错误信息。如果为false，表示当用户再次登录时，踢出之前的登录会话，让新的登录会话生效。
+}</code></pre><h3 id="会话共享"><a href="#会话共享" class="headerlink" title="会话共享"></a>会话共享</h3><p>前⾯所讲的会话管理都是单机上的会话管理，如果当前是集群环境，前⾯所讲的会话管 理⽅案就会失效。此时可以利⽤ spring-session 结合 redis 实现 session 共享。</p>
+<p>引⼊依赖</p>
+<pre><code>&lt;dependency&gt;
+ &lt;groupId&gt;org.springframework.boot!&amp;groupId&gt;
+ &lt;artifactId&gt;spring-boot-starter-data-redis!&amp;artifactId&gt;
+ !&amp;dependency&gt;
+ &lt;dependency&gt;
+ &lt;groupId&gt;org.springframework.session!&amp;groupId&gt;
+ &lt;artifactId&gt;spring-session-data-redis!&amp;artifactId&gt;
+ !&amp;dependency&gt;</code></pre><p>编写配置</p>
+<pre><code>## Session 存储方式
+spring.session.store-type=redis
+## Session 过期时间，默认单位为 s
+server.servlet.session.timeout=600
+## Session 存储到 Redis 键的前缀
+spring.session.redis.namespace=test:spring:session
+spring.redis.host=localhost
+spring.redis.port=6379</code></pre><p>默认情况下，Session 默认使用HttpSession 序列化方式，这种值看起来不够直观。可以将其修改成 json 序列化方式，存储到 redis 中。</p>
+<pre><code>@Configuration
+public class HttpSessionConfig implements BeanClassLoaderAware {
+
+
+    private ClassLoader loader;
+
+    @Bean
+    public RedisSerializer&lt;Object&gt; springSessionDefaultRedisSerializer() {
+        return new GenericJackson2JsonRedisSerializer(objectMapper());
+    }
+
+    /**
+     * Customized {@link ObjectMapper} to add mix-in for class that doesn&#39;t have default
+     * constructors
+     *
+     * @return the {@link ObjectMapper} to use
+     */
+    private ObjectMapper objectMapper() {
+        ObjectMapper mapper = new ObjectMapper();
+        mapper.registerModules(SecurityJackson2Modules.getModules(this.loader));
+        return mapper;
+    }
+
+
+    @Override
+    public void setBeanClassLoader(ClassLoader classLoader) {
+        this.loader = classLoader;
+    }
+}
+</code></pre><pre><code>
+@Configuration
+public class SecurityConfig extends WebSecurityConfigurerAdapter {
+
+
+    private final FindByIndexNameSessionRepository findByIndexNameSessionRepository;
+
+    @Autowired
+    public SecurityConfig(FindByIndexNameSessionRepository findByIndexNameSessionRepository) {
+        this.findByIndexNameSessionRepository = findByIndexNameSessionRepository;
+    }
+
+    @Override
+    protected void configure(HttpSecurity http) throws Exception {
+        http.authorizeHttpRequests()
+                .anyRequest().authenticated()
+                .and()
+                .formLogin()
+                .and()
+                .logout()
+                .and()
+                .csrf().disable()
+                .sessionManagement()//开启会话管理
+                .maximumSessions(1)//允许会话最大并发只能一个客户端
+                //.expiredUrl(&quot;/login&quot;);//传统架构处理方案: 当用户的挤下线之后跳转路径
+                .expiredSessionStrategy(event -&gt; { //前后端分离架构处理分案
+                    HttpServletResponse response = event.getResponse();
+                    Map&lt;String, Object&gt; result = new HashMap&lt;&gt;();
+                    result.put(&quot;status&quot;, 500);
+                    result.put(&quot;msg&quot;, &quot;当前会话已经失效,请重新登录!&quot;);
+                    String s = new ObjectMapper().writeValueAsString(result);
+                    response.setContentType(&quot;application/json;charset=UTF-8&quot;);
+                    response.getWriter().println(s);
+                    response.flushBuffer();
+                })
+                .sessionRegistry(sessionRegistry()) //将 session 交给谁管理
+                .maxSessionsPreventsLogin(true); //一旦登录 禁止再次登录
+    }
+
+
+    //创建 session 同步到 redis 中方案
+    @Bean
+    public SpringSessionBackedSessionRegistry sessionRegistry() {
+        return new SpringSessionBackedSessionRegistry(findByIndexNameSessionRepository);
+    }
+
+    /*@Bean
+    public HttpSessionEventPublisher httpSessionEventPublisher() {
+        return new HttpSessionEventPublisher();
+    }*/
+}</code></pre><h1 id="异常处理"><a href="#异常处理" class="headerlink" title="异常处理"></a>异常处理</h1><p>Spring Security 异常体系 </p>
+<p>⾃定义异常配置</p>
+<h2 id="异常体系"><a href="#异常体系" class="headerlink" title="异常体系"></a>异常体系</h2><p>Spring Security 中异常主要分为两⼤类: </p>
+<p>AuthenticationException:  认证异常</p>
+<p> AccessDeniedException:     授权异常 </p>
+<p><code>AuthenticationException</code> 是在用户认证的时候出现错误时抛出的异常</p>
+<p>其中认证所涉及异常类型⽐较多，默认提供的异常类型如下</p>
+<p><img src="/springsecurity/image-20230716124735230.png" alt="image-20230716124735230"></p>
+<p>相⽐于认证异常，权限异常类就要少了很多，默认提供的权限异常如下：</p>
+<p><img src="/springsecurity/image-20230716124756429.png" alt="image-20230716124756429"></p>
+<p>在实际项⽬开发中，如果默认提供异常⽆法满⾜需求时，就需要根据实际需要来⾃定义异常 类。</p>
+<h2 id="自定义异常处理配置"><a href="#自定义异常处理配置" class="headerlink" title="自定义异常处理配置"></a>自定义异常处理配置</h2><pre><code>@Configuration
+ public class SecurityConfig extends WebSecurityConfigurerAdapter {
+ @Override
+ protected void configure(HttpSecurity http) throws Exception {
+     http.authorizeRequests().anyRequest()
+      .authenticated()
+      .and()
+      .exceptionHandling()//异常处理
+      .authenticationEntryPoint((request, response, e)-&gt; {
+     response.setContentType(&quot;application/json;charset=UTF-8&quot;);
+     response.setStatus(HttpStatus.UNAUTHORIZED.value());
+     response.getWriter().write(&quot;尚未认证，请进⾏认证操作！&quot;);
+  })
+      .accessDeniedHandler((request, response, e) -&gt; {
+     response.setContentType(&quot;application/json;charset=UTF-8&quot;);
+     response.setStatus(HttpStatus.FORBIDDEN.value());
+     response.getWriter().write(&quot;⽆权访问!&quot;);
+  });
+  }
+ }</code></pre><p>方式二</p>
+<h3 id="实现AuthenticationEntryPoint"><a href="#实现AuthenticationEntryPoint" class="headerlink" title="实现AuthenticationEntryPoint"></a>实现AuthenticationEntryPoint</h3><pre class="line-numbers language-text"><code class="language-text">public class SimpleAuthenticationEntryPoint implements AuthenticationEntryPoint {
+     @Override
+     public void commence(HttpServletRequest request, HttpServletResponse response, AuthenticationException authException) throws IOException, ServletException {
+
+         //todo your business
+         HashMap<String, String> map = new HashMap<>(2);
+         map.put("uri", request.getRequestURI());
+         map.put("msg", "认证失败");
+         response.setStatus(HttpServletResponse.SC_UNAUTHORIZED);
+         response.setCharacterEncoding("utf-8");
+         response.setContentType(MediaType.APPLICATION_JSON_VALUE);
+         ObjectMapper objectMapper = new ObjectMapper();
+         String resBody = objectMapper.writeValueAsString(map);
+         PrintWriter printWriter = response.getWriter();
+         printWriter.print(resBody);
+         printWriter.flush();
+         printWriter.close();
+     }
+ }<span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span></span></code></pre>
+<h3 id="实现-AccessDeniedHandler"><a href="#实现-AccessDeniedHandler" class="headerlink" title="实现 AccessDeniedHandler"></a>实现 AccessDeniedHandler</h3><pre><code>public class SimpleAccessDeniedHandler implements AccessDeniedHandler {
+     @Override
+     public void handle(HttpServletRequest request, HttpServletResponse response, AccessDeniedException accessDeniedException) throws IOException, ServletException {
+         //todo your business
+         HashMap&lt;String, String&gt; map = new HashMap&lt;&gt;(2);
+         map.put(&quot;uri&quot;, request.getRequestURI());
+         map.put(&quot;msg&quot;, &quot;认证失败&quot;);
+         response.setStatus(HttpServletResponse.SC_FORBIDDEN);
+         response.setCharacterEncoding(&quot;utf-8&quot;);
+         response.setContentType(MediaType.APPLICATION_JSON_VALUE);
+         ObjectMapper objectMapper = new ObjectMapper();
+         String resBody = objectMapper.writeValueAsString(map);
+         PrintWriter printWriter = response.getWriter();
+         printWriter.print(resBody);
+         printWriter.flush();
+         printWriter.close();
+     }
+ }</code></pre><h3 id="配置-3"><a href="#配置-3" class="headerlink" title="配置"></a>配置</h3><pre><code>http.exceptionHandling().accessDeniedHandler(newSimpleAccessDeniedHandler()).authenticationEntryPoint(new SimpleAuthenticationEntryPoint())</code></pre><h1 id="授权"><a href="#授权" class="headerlink" title="授权"></a>授权</h1><h2 id="权限管理"><a href="#权限管理" class="headerlink" title="权限管理"></a>权限管理</h2><h3 id="认证"><a href="#认证" class="headerlink" title="认证"></a>认证</h3><p>身份认证，就是判断⼀个⽤户是否为合法⽤户的处理过程。Spring Security 中⽀持多种 不同⽅式的认证，但是⽆论开发者使⽤那种⽅式认证，都不会影响授权功能使⽤。因为  Spring Security 很好做到了认证和授权解耦。</p>
+<h3 id="授权-1"><a href="#授权-1" class="headerlink" title="授权"></a>授权</h3><p>授权，即访问控制，控制谁能访问哪些资源。简单的理解授权就是根据系统提前设置好的规 则，给⽤户分配可以访问某⼀个资源的权限，⽤户根据⾃⼰所具有权限，去执⾏相应操作。</p>
+<h2 id="授权核心概念"><a href="#授权核心概念" class="headerlink" title="授权核心概念"></a>授权核心概念</h2><p>认证成功之后会将当前登录⽤户信息保存到  Authentication 对象中，Authentication 对象中有⼀个getAuthorities() ⽅ 法，⽤来返回当前登录⽤户具备的权限信息，也就是当前⽤户具有权限信息。该⽅法的返回值为 Collection，当需要进⾏权限判断时，就回根据集合返回权限信息调⽤相应⽅法进⾏判断。</p>
+<p>对于授权可以是基于⻆⾊权限管理和基于资源权限管理 ，从设计层⾯上来说，⻆⾊ 和权限是两个完全不同的东⻄：权限是⼀些具体操作，⻆⾊则是某些权限集合。如： READ_BOOK 和 ROLE_ADMIN 是完全不同的。</p>
+<p>因此⾄于返回值是什么取决于你的业务设计 情况： </p>
+<p>基于⻆⾊权限设计就是: ⽤户-&gt;⻆⾊-&gt;资源 三者关系 返回就是⽤户的⻆⾊  </p>
+<p>基于资源权限设计就是: ⽤户-&gt;权限-&gt;资源 三者关系 返回就是⽤户的权限</p>
+<p>基于⻆⾊和资源权限设计就是: ⽤户-&gt;⻆⾊-&gt;权限-&gt;资源 返回统称为⽤户的权限</p>
+<p>为什么可以统称为权限，因为从代码层⾯⻆⾊和权限没有太⼤不同都是权限，特别是在  Spring Security 中，⻆⾊和权限处理⽅式基本上都是⼀样的。唯⼀区别  SpringSecurity 在很多时候会⾃动给⻆⾊添加⼀个ROLE_前缀，⽽权限则不会⾃动添 加</p>
+<h2 id="权限管理策略"><a href="#权限管理策略" class="headerlink" title="权限管理策略"></a>权限管理策略</h2><p>Spring Security 中提供的权限管理策略主要有两种类型: </p>
+<ul>
+<li><p>基于过滤器(URL)的权限管理 (FilterSecurityInterceptor) 基于过滤器的权限管理主要是⽤来拦截 HTTP 请求，拦截下来之后，根据 HTTP  请求地址进⾏权限校验。</p>
+</li>
+<li><p>基于 AOP (⽅法)的权限管理   (MethodSecurityInterceptor) 基于 AOP 权限管理主要是⽤来处理⽅法级别的权限问题。当需要调⽤某⼀个⽅法 时，通过 AOP 将操作拦截下来，然后判断⽤户是否具备相关的权限</p>
+</li>
+</ul>
+<h2 id="基于-URL-权限管理"><a href="#基于-URL-权限管理" class="headerlink" title="基于 URL 权限管理"></a>基于 URL 权限管理</h2><h3 id="开发-controller"><a href="#开发-controller" class="headerlink" title="开发 controller"></a>开发 controller</h3><pre><code>@RestController
+ public class DemoController {
+ @GetMapping(&quot;/admin&quot;)
+ public String admin() {
+ return &quot;admin ok&quot;;
+  }
+ @GetMapping(&quot;/user&quot;)
+ public String user() {
+ return &quot;user ok&quot;;
+  }
+ @GetMapping(&quot;/getInfo&quot;)
+ public String getInfo() {
+ return &quot;info ok&quot;;
+  }
+ }
+</code></pre><h3 id="配置授权"><a href="#配置授权" class="headerlink" title="配置授权"></a>配置授权</h3><pre><code>@Configuration
+@EnableGlobalMethodSecurity(prePostEnabled = true,securedEnabled = true,jsr250Enabled = true)
+public class SecurityConfig  extends WebSecurityConfigurerAdapter {
+
+
+    //创建内存数据源
+    @Bean
+    public UserDetailsService userDetailsService() {
+        InMemoryUserDetailsManager inMemoryUserDetailsManager = new InMemoryUserDetailsManager();
+        inMemoryUserDetailsManager.createUser(User.withUsername(&quot;root&quot;).password(&quot;{noop}123&quot;).roles(&quot;ADMIN&quot;,&quot;USER&quot;).build());
+        inMemoryUserDetailsManager.createUser(User.withUsername(&quot;lisi&quot;).password(&quot;{noop}123&quot;).roles(&quot;USER&quot;).build());
+        inMemoryUserDetailsManager.createUser(User.withUsername(&quot;win7&quot;).password(&quot;{noop}123&quot;).authorities(&quot;READ_INFO&quot;).build());
+        return inMemoryUserDetailsManager;
+    }
+
+    @Override
+    protected void configure(AuthenticationManagerBuilder auth) throws Exception {
+        auth.userDetailsService(userDetailsService());
+    }
+
+    @Override
+    protected void configure(HttpSecurity http) throws Exception {
+        http.authorizeRequests()
+                .mvcMatchers(HttpMethod.GET,&quot;/admin&quot;).hasRole(&quot;ADMIN&quot;)  //具有 admin 角色   强大 通用: /admin /admin/  /admin.html
+                .mvcMatchers(&quot;/user&quot;).hasRole(&quot;USER&quot;)    //具有 user 角色
+                .mvcMatchers(&quot;/getInfo&quot;).hasAuthority(&quot;READ_INFO&quot;) //READ_INFO 权限
+                .antMatchers(HttpMethod.GET,&quot;/admin&quot;).hasRole(&quot;ADMIN&quot;)
+                //.regexMatchers().hasRole()  //注意: 好处 支持正则表达
+                .anyRequest().authenticated()
+                .and().formLogin()
+                .and().csrf().disable();
+    }
+}</code></pre><h3 id="权限表达式"><a href="#权限表达式" class="headerlink" title="权限表达式"></a>权限表达式</h3><p><img src="/springsecurity/image-20230716164802482.png" alt="image-20230716164802482"></p>
+<table>
+<thead>
+<tr>
+<th>方法</th>
+<th>说明</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>hasAuthority(String authority)</td>
+<td>当前⽤户是否具备指定权限</td>
+</tr>
+<tr>
+<td>hasAnyAuthority(String…authorities)</td>
+<td>当前⽤户是否具备指定权限中任意⼀</td>
+</tr>
+<tr>
+<td>hasRole(String role)</td>
+<td>当前⽤户是否具备指定⻆⾊</td>
+</tr>
+<tr>
+<td>hasAnyRole(String … roles)</td>
+<td>当前⽤户是否具备指定⻆⾊中任意 ⼀个</td>
+</tr>
+<tr>
+<td>permitAll();</td>
+<td>放⾏所有请求/调⽤</td>
+</tr>
+<tr>
+<td>denyAll();</td>
+<td>拒绝所有请求/调⽤</td>
+</tr>
+<tr>
+<td>isAnonymous();</td>
+<td>当前⽤户是否是⼀个匿名⽤户</td>
+</tr>
+<tr>
+<td>isAuthenticated();</td>
+<td>当前⽤户是否已经认证成功</td>
+</tr>
+<tr>
+<td>isRememberMe();</td>
+<td>当前⽤户是否通过 Remember-Me ⾃动登录</td>
+</tr>
+<tr>
+<td>isFullyAuthenticated();</td>
+<td>当前⽤户是否既不是匿名⽤户⼜不 是通过 Remember-Me ⾃动登录的</td>
+</tr>
+<tr>
+<td>hasPermission(Object targetId, Object permission);</td>
+<td>当前⽤户是否具备指定⽬标的指定 权限信息</td>
+</tr>
+<tr>
+<td>hasPermission(Object targetId, String targetType, Object permission);</td>
+<td>当前⽤户是否具备指定⽬标的指定 权限信息</td>
+</tr>
+</tbody></table>
+<p>antMatcher和mvcMatcher区别</p>
+<p><code>antMatcher(String antPattern)</code> - 允许将 <code>HttpSecurity</code> 配置为仅在匹配提供的 ant 模式时调用。</p>
+<p><code>mvcMatcher(String mvcPattern)</code> - 允许将 <code>HttpSecurity</code> 配置为仅在匹配提供的 Spring MVC 模式时调用。</p>
+<p>通常<code>mvcMatcher</code> 比<code>antMatcher</code> 更安全。举个例子：</p>
+<ul>
+<li><strong><code>antMatchers(&quot;/secured&quot;)</code></strong> 仅匹配<em>精确</em> <code>/secured</code> URL</li>
+<li><strong><code>mvcMatchers(&quot;/secured&quot;)</code></strong> 匹配 <code>/secured</code> 以及 <code>/secured/</code>、<code>/secured.html</code>、<code>/secured.xyz</code></li>
+</ul>
+<p>因此更通用，也可以处理一些可能的配置错误。</p>
+<p><code>mvcMatcher</code> 使用 Spring MVC 用于匹配的相同规则（使用 <code>@RequestMapping</code> 注释时）。</p>
+<h2 id="基于-方法-权限管理"><a href="#基于-方法-权限管理" class="headerlink" title="基于 方法 权限管理"></a>基于 方法 权限管理</h2><p>基于⽅法的权限管理主要是通过 A0P 来实现的，Spring Security 中通过  MethodSecurityInterceptor 来提供相关的实现。不同在于  FilterSecurityInterceptor 只是在请求之前进⾏前置处理， MethodSecurityInterceptor 除了前置处理之外还可以进⾏后置处理。前置处理就是在 请求之前判断是否具备相应的权限，后置处理则是对⽅法的执⾏结果进⾏⼆次过滤。前置处 理和后置处理分别对应了不同的实现类。</p>
+<h3 id="EnableGlobalMethodSecurity"><a href="#EnableGlobalMethodSecurity" class="headerlink" title="@EnableGlobalMethodSecurity"></a>@EnableGlobalMethodSecurity</h3><pre><code>@Configuration
+ @EnableGlobalMethodSecurity(prePostEnabled=true,securedEnabled=true, jsr250Enabled=true)
+ public class SecurityConfig extends WebsecurityConfigurerAdapter{}</code></pre><ul>
+<li><p>perPostEnabled: 开启 Spring Security 提供的四个权限注解， @PostAuthorize、@PostFilter、@PreAuthorize 以及@PreFilter。 </p>
+</li>
+<li><p>securedEnabled: 开启 Spring Security 提供的 @Secured 注解⽀持，该注解 不⽀持权限表达式</p>
+</li>
+<li><p>jsr250Enabled: 开启 JSR-250 提供的注解，主要是@DenyAll、@PermitAll、 @RolesAll 同样这些注解也不⽀持权限表达式</p>
+</li>
+</ul>
+<p>以上注解含义如下:</p>
+<p>@PostAuthorize： 在⽬前标⽅法执⾏之后进⾏权限校验。</p>
+<p>@PostFiter： 在⽬标⽅法执⾏之后对⽅法的返回结果进⾏过滤。</p>
+<p>@PreAuthorize：在⽬标⽅法执⾏之前进⾏权限校验。</p>
+<p>@PreFiter：在⽬前标⽅法执⾏之前对⽅法参数进⾏过滤。</p>
+<p> @Secured：访问⽬标⽅法必须具各相应的⻆⾊。-</p>
+<p>@DenyAll：拒绝所有访问。-</p>
+<p>@PermitAll：允许所有访问。-</p>
+<p>@RolesAllowed：访问⽬标⽅法必须具备相应</p>
+<p>这些基于⽅法的权限管理相关的注解，⼀般来说只要设置 prePostEnabled=true 就够⽤ 了。</p>
+<h3 id="基本用法"><a href="#基本用法" class="headerlink" title="基本用法"></a>基本用法</h3><p>开启注解使⽤</p>
+<pre><code>@Configuration
+ @EnableGlobalMethodSecurity(prePostEnabled=true,securedEnabled=tru
+ e, jsr250Enabled=true)
+ public class SecurityConfig extends WebsecurityConfigurerAdapter{}</code></pre><p>使⽤注解</p>
+<pre><code>
+@RestController
+@RequestMapping(&quot;/hello&quot;)
+public class AuthorizeMethodController {
+
+
+
+    //@PreAuthorize(&quot;hasRole(&#39;ADMIN&#39;)  and authentication.name ==&#39;win7&#39;&quot;)
+    @PreAuthorize(&quot;hasAuthority(&#39;READ_INFO&#39;)&quot;)
+    @GetMapping
+    public String hello() {
+        return &quot;hello&quot;;
+    }
+
+    @PreAuthorize(&quot;authentication.name==#name&quot;)
+    @GetMapping(&quot;/name&quot;)
+    public String hello(String name) {
+        return &quot;hello:&quot; + name;
+    }
+
+    @PreFilter(value = &quot;filterObject.id%2!=0&quot;,filterTarget = &quot;users&quot;) //filterTarget 必须是 数组  集合类型
+    @PostMapping(&quot;/users&quot;)
+    public void addUsers(@RequestBody List&lt;User&gt; users) {
+        System.out.println(&quot;users = &quot; + users);
+    }
+
+    @PostAuthorize(&quot;returnObject.id==1&quot;)
+    @GetMapping(&quot;/userId&quot;)
+    public User getUserById(Integer id) {
+        return new User(id, &quot;blr&quot;);
+    }
+
+    @PostFilter(&quot;filterObject.id%2==0&quot;)//用来对方法返回值进行过滤
+    @GetMapping(&quot;/lists&quot;)
+    public List&lt;User&gt; getAll() {
+        List&lt;User&gt; users = new ArrayList&lt;&gt;();
+        for (int i = 0; i &lt; 10; i++) {
+            users.add(new User(i, &quot;blr:&quot; + i));
+        }
+        return users;
+    }
+
+
+
+    @Secured({&quot;ROLE_USER&quot;}) //只能判断角色
+    @GetMapping(&quot;/secured&quot;)
+    public User getUserByUsername() {
+        return new User(99, &quot;secured&quot;);
+    }
+
+    @Secured({&quot;ROLE_ADMIN&quot;,&quot;ROLE_USER&quot;}) //具有其中一个即可
+    @GetMapping(&quot;/username&quot;)
+    public User getUserByUsername2(String username) {
+        return new User(99, username);
+    }
+
+
+    @PermitAll
+    @GetMapping(&quot;/permitAll&quot;)
+    public String permitAll() {
+        return &quot;PermitAll&quot;;
+    }
+
+    @DenyAll
+    @GetMapping(&quot;/denyAll&quot;)
+    public String denyAll() {
+        return &quot;DenyAll&quot;;
+    }
+
+    @RolesAllowed({&quot;ROLE_ADMIN&quot;,&quot;ROLE_USER&quot;}) //具有其中一个角色即可
+    @GetMapping(&quot;/rolesAllowed&quot;)
+    public String rolesAllowed() {
+        return &quot;RolesAllowed&quot;;
+    }
+}
+</code></pre><h2 id="原理分析-1"><a href="#原理分析-1" class="headerlink" title="原理分析"></a>原理分析</h2><p><img src="/springsecurity/image-20230716184716433.png" alt="image-20230716184716433"></p>
+<ul>
+<li><p>ConfigAttribute 在 Spring Security 中，⽤户请求⼀个资源(通常是⼀个接⼝ 或者⼀个 Java ⽅法)需要的⻆⾊会被封装成⼀个 ConfigAttribute 对象，在  ConfigAttribute 中只有⼀个 getAttribute⽅法，该⽅法返回⼀个 String 字符 串，就是⻆⾊的名称。⼀般来说，⻆⾊名称都带有⼀个 ROLE_ 前缀，投票器  AccessDecisionVoter 所做的事情，其实就是⽐较⽤户所具各的⻆⾊和请求某个资源 所需的 ConfigAtuibute 之间的关系。</p>
+</li>
+<li><p>AccesDecisionVoter 和 AccessDecisionManager 都有众多的实现类，在  AccessDecisionManager 中会换个遍历 AccessDecisionVoter，进⽽决定是否允 许⽤户访问，因⽽ AaccesDecisionVoter 和 AccessDecisionManager 两者的 关系类似于 AuthenticationProvider 和 ProviderManager 的关系。</p>
+</li>
+</ul>
+<h2 id="自定义动态权限管理"><a href="#自定义动态权限管理" class="headerlink" title="自定义动态权限管理"></a>自定义动态权限管理</h2><p>⽤户&lt;–&gt;中间表&lt;–&gt; ⻆⾊ &lt;–&gt;中间表&lt;–&gt;菜单</p>
+<p>库表设计</p>
+<pre><code>SET NAMES utf8mb4;
+ SET FOREIGN_KEY_CHECKS = 0;
+-- ---------------------------
+-- Table structure for menu
+ -----------------------------
+DROP TABLE IF EXISTS `menu`;
+ CREATE TABLE `menu` (
+ `id` int(11) NOT NULL AUTO_INCREMENT,
+ `pattern` varchar(128) DEFAULT NULL,
+ PRIMARY KEY (`id`)
+ ) ENGINE=InnoDB AUTO_INCREMENT=4 DEFAULT CHARSET=utf8;
+-- ---------------------------
+-- Records of menu
+-- ---------------------------
+BEGIN;
+ INSERT INTO `menu` VALUES (1, &#39;/admin!!*&#39;);
+ INSERT INTO `menu` VALUES (2, &#39;/user!!*&#39;);
+ INSERT INTO `menu` VALUES (3, &#39;/guest!!*&#39;);
+ COMMIT;
+-- ---------------------------
+-- Table structure for menu_role
+-- ---------------------------
+DROP TABLE IF EXISTS `menu_role`;
+ CREATE TABLE `menu_role` (
+ `id` int(11) NOT NULL AUTO_INCREMENT,
+ `mid` int(11) DEFAULT NULL,
+ `rid` int(11) DEFAULT NULL,
+ PRIMARY KEY (`id`),
+ KEY `mid` (`mid`),
+ KEY `rid` (`rid`),
+ CONSTRAINT `menu_role_ibfk_1` FOREIGN KEY (`mid`) REFERENCES 
+`menu` (`id`),
+ CONSTRAINT `menu_role_ibfk_2` FOREIGN KEY (`rid`) REFERENCES 
+`role` (`id`)
+ ) ENGINE=InnoDB AUTO_INCREMENT=5 DEFAULT CHARSET=utf8;
+-- ---------------------------
+-- Records of menu_role
+-- ---------------------------
+BEGIN;
+ INSERT INTO `menu_role` VALUES (1, 1, 1);
+ INSERT INTO `menu_role` VALUES (2, 2, 2);
+ INSERT INTO `menu_role` VALUES (3, 3, 3);
+ INSERT INTO `menu_role` VALUES (4, 3, 2);
+ COMMIT;
+ -- ---------------------------
+ -- Table structure for role
+ -- ---------------------------
+DROP TABLE IF EXISTS `role`;
+ CREATE TABLE `role` (
+ `id` int(11) NOT NULL AUTO_INCREMENT,
+ `name` varchar(32) DEFAULT NULL,
+ `nameZh` varchar(32) DEFAULT NULL,
+ PRIMARY KEY (`id`)
+ ) ENGINE=InnoDB AUTO_INCREMENT=4 DEFAULT CHARSET=utf8;
+ -- ---------------------------
+ -- Records of role
+ -- ---------------------------
+BEGIN;
+ INSERT INTO `role` VALUES (1, &#39;ROLE_ADMIN&#39;, &#39;系统管理员&#39;);
+ INSERT INTO `role` VALUES (2, &#39;ROLE_USER&#39;, &#39;普通⽤户&#39;);
+ INSERT INTO `role` VALUES (3, &#39;ROLE_GUEST&#39;, &#39;游客&#39;);
+ COMMIT;
+ -- ---------------------------
+ -- Table structure for user
+ -- ---------------------------
+DROP TABLE IF EXISTS `user`;
+ CREATE TABLE `user` (
+ `id` int(11) NOT NULL AUTO_INCREMENT,
+ `username` varchar(32) DEFAULT NULL,
+ `password` varchar(255) DEFAULT NULL,
+ `enabled` tinyint(1) DEFAULT NULL,
+ `locked` tinyint(1) DEFAULT NULL,
+PRIMARY KEY (`id`)
+ ) ENGINE=InnoDB AUTO_INCREMENT=4 DEFAULT CHARSET=utf8;
+-- ---------------------------
+-- Records of user
+-- ---------------------------
+BEGIN;
+ INSERT INTO `user` VALUES (1, &#39;admin&#39;, &#39;{noop}123&#39;, 1, 0);
+ INSERT INTO `user` VALUES (2, &#39;user&#39;, &#39;{noop}123&#39;, 1, 0);
+ INSERT INTO `user` VALUES (3, &#39;blr&#39;, &#39;{noop}123&#39;, 1, 0);
+ COMMIT;
+-- ---------------------------
+-- Table structure for user_role
+-- ---------------------------
+DROP TABLE IF EXISTS `user_role`;
+ CREATE TABLE `user_role` (
+ `id` int(11) NOT NULL AUTO_INCREMENT,
+ `uid` int(11) DEFAULT NULL,
+ `rid` int(11) DEFAULT NULL,
+ PRIMARY KEY (`id`),
+ KEY `uid` (`uid`),
+ KEY `rid` (`rid`),
+ CONSTRAINT `user_role_ibfk_1` FOREIGN KEY (`uid`) REFERENCES 
+`user` (`id`),
+ CONSTRAINT `user_role_ibfk_2` FOREIGN KEY (`rid`) REFERENCES 
+`role` (`id`)
+ ) ENGINE=InnoDB AUTO_INCREMENT=5 DEFAULT CHARSET=utf8;
+-- ---------------------------
+-- Records of user_role
+-- ---------------------------
+BEGIN;
+ INSERT INTO `user_role` VALUES (1, 1, 1);
+ INSERT INTO `user_role` VALUES (2, 1, 2);
+ INSERT INTO `user_role` VALUES (3, 2, 2);
+ INSERT INTO `user_role` VALUES (4, 3, 3);
+ COMMIT;
+SET FOREIGN_KEY_CHECKS = 1;</code></pre><p>创建 springboot 应⽤</p>
+<p>引⼊依赖</p>
+<pre><code>&lt;dependencies&gt;
+        &lt;dependency&gt;
+            &lt;groupId&gt;org.springframework.boot&lt;/groupId&gt;
+            &lt;artifactId&gt;spring-boot-starter-security&lt;/artifactId&gt;
+        &lt;/dependency&gt;
+        &lt;dependency&gt;
+            &lt;groupId&gt;org.springframework.boot&lt;/groupId&gt;
+            &lt;artifactId&gt;spring-boot-starter-web&lt;/artifactId&gt;
+        &lt;/dependency&gt;
+
+        &lt;dependency&gt;
+            &lt;groupId&gt;org.springframework.boot&lt;/groupId&gt;
+            &lt;artifactId&gt;spring-boot-starter-test&lt;/artifactId&gt;
+            &lt;scope&gt;test&lt;/scope&gt;
+            &lt;exclusions&gt;
+                &lt;exclusion&gt;
+                    &lt;groupId&gt;org.junit.vintage&lt;/groupId&gt;
+                    &lt;artifactId&gt;junit-vintage-engine&lt;/artifactId&gt;
+                &lt;/exclusion&gt;
+            &lt;/exclusions&gt;
+        &lt;/dependency&gt;
+        &lt;dependency&gt;
+            &lt;groupId&gt;org.springframework.security&lt;/groupId&gt;
+            &lt;artifactId&gt;spring-security-test&lt;/artifactId&gt;
+            &lt;scope&gt;test&lt;/scope&gt;
+        &lt;/dependency&gt;
+
+
+        &lt;dependency&gt;
+            &lt;groupId&gt;mysql&lt;/groupId&gt;
+            &lt;artifactId&gt;mysql-connector-java&lt;/artifactId&gt;
+            &lt;version&gt;5.1.38&lt;/version&gt;
+        &lt;/dependency&gt;
+        &lt;dependency&gt;
+            &lt;groupId&gt;com.alibaba&lt;/groupId&gt;
+            &lt;artifactId&gt;druid&lt;/artifactId&gt;
+            &lt;version&gt;1.2.8&lt;/version&gt;
+        &lt;/dependency&gt;
+        &lt;dependency&gt;
+            &lt;groupId&gt;org.mybatis.spring.boot&lt;/groupId&gt;
+            &lt;artifactId&gt;mybatis-spring-boot-starter&lt;/artifactId&gt;
+            &lt;version&gt;2.2.2&lt;/version&gt;
+        &lt;/dependency&gt;
+    &lt;/dependencies&gt;</code></pre><p>配置配置⽂件</p>
+<p>就是数据库之类的</p>
+<h4 id="创建实体类"><a href="#创建实体类" class="headerlink" title="创建实体类"></a>创建实体类</h4><pre><code>public class User implements UserDetails {
+    private Integer id;
+    private String password;
+    private String username;
+    private boolean enabled;
+    private boolean locked;
+    private List&lt;Role&gt; roles;
+
+    @Override
+    public Collection&lt;? extends GrantedAuthority&gt; getAuthorities() {
+        return roles.stream().map(r -&gt; new SimpleGrantedAuthority(r.getName())).collect(Collectors.toList());
+    }
+
+    @Override
+    public String getPassword() {
+        return password;
+    }
+
+    @Override
+    public String getUsername() {
+        return username;
+    }
+
+    @Override
+    public boolean isAccountNonExpired() {
+        return true;
+    }
+
+    @Override
+    public boolean isAccountNonLocked() {
+        return !locked;
+    }
+
+    @Override
+    public boolean isCredentialsNonExpired() {
+        return true;
+    }
+
+    @Override
+    public boolean isEnabled() {
+        return enabled;
+    }
+
+    public void setId(Integer id) {
+        this.id = id;
+    }
+
+    public void setPassword(String password) {
+        this.password = password;
+    }
+
+    public void setUsername(String username) {
+        this.username = username;
+    }
+
+    public void setEnabled(boolean enabled) {
+        this.enabled = enabled;
+    }
+
+    public void setLocked(boolean locked) {
+        this.locked = locked;
+    }
+
+    public void setRoles(List&lt;Role&gt; roles) {
+        this.roles = roles;
+    }
+
+    public Integer getId() {
+        return id;
+    }
+
+    public List&lt;Role&gt; getRoles() {
+        return roles;
+    }
+}</code></pre><pre><code>public class Role {
+    private Integer id;
+    private String name;
+    private String nameZh;
+
+    public Integer getId() {
+        return id;
+    }
+
+    public void setId(Integer id) {
+        this.id = id;
+    }
+
+    public String getName() {
+        return name;
+    }
+
+    public void setName(String name) {
+        this.name = name;
+    }
+
+    public String getNameZh() {
+        return nameZh;
+    }
+
+    public void setNameZh(String nameZh) {
+        this.nameZh = nameZh;
+    }
+}</code></pre><pre><code>
+public class Menu {
+    private Integer id;
+    private String pattern;
+    private List&lt;Role&gt; roles;
+
+    public List&lt;Role&gt; getRoles() {
+        return roles;
+    }
+
+    public void setRoles(List&lt;Role&gt; roles) {
+        this.roles = roles;
+    }
+
+    public Integer getId() {
+        return id;
+    }
+
+    public void setId(Integer id) {
+        this.id = id;
+    }
+
+    public String getPattern() {
+        return pattern;
+    }
+
+    public void setPattern(String pattern) {
+        this.pattern = pattern;
+    }
+}</code></pre><h4 id="创建-service-接⼝"><a href="#创建-service-接⼝" class="headerlink" title="创建 service 接⼝"></a>创建 service 接⼝</h4><pre><code>@Service
+public class UserService implements UserDetailsService {
+    private final UserMapper userMapper;
+
+    @Autowired
+    public UserService(UserMapper userMapper) {
+        this.userMapper = userMapper;
+    }
+
+    @Override
+    public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
+        //1.根据用户名查询用户信息
+        User user = userMapper.loadUserByUsername(username);
+        if (user == null) {
+            throw new UsernameNotFoundException(&quot;用户不存在&quot;);
+        }
+        List&lt;Role&gt; roles = userMapper.getUserRoleByUid(user.getId());
+        user.setRoles(roles);
+        return user;
+    }
+}</code></pre><h4 id="创建测试-controller"><a href="#创建测试-controller" class="headerlink" title="创建测试 controller"></a>创建测试 controller</h4><pre><code>RestController
+public class HelloController {
+
+
+    /**
+     * /admin/**   ROLE_ADMIN
+     * /user/**    ROLE_USER
+     * /guest/**   ROLE_USER ROLE_GUEST
+     *
+     * admin      ADMIN USER
+     * user       USER
+     * blr        GUEST
+     *
+     */
+    @GetMapping(&quot;/admin/hello&quot;)
+    public String admin() {
+        return &quot;hello admin&quot;;
+    }
+
+    @GetMapping(&quot;/user/hello&quot;)
+    public String user() {
+        return &quot;hello user&quot;;
+    }
+
+    @GetMapping(&quot;/guest/hello&quot;)
+    public String guest() {
+        return &quot;hello guest&quot;;
+    }
+
+    @GetMapping(&quot;/hello&quot;)
+    public String hello() {
+        return &quot;hello&quot;;
+    }
+}</code></pre><h4 id="创建-CustomSecurityMetadataSource"><a href="#创建-CustomSecurityMetadataSource" class="headerlink" title="创建 CustomSecurityMetadataSource"></a>创建 CustomSecurityMetadataSource</h4><pre><code>
+@Component
+public class CustomerSecurityMetaSource implements FilterInvocationSecurityMetadataSource {
+
+    private final MenuService menuService;
+
+    @Autowired
+    public CustomerSecurityMetaSource(MenuService menuService) {
+        this.menuService = menuService;
+    }
+
+    AntPathMatcher antPathMatcher = new AntPathMatcher();
+    /**
+     * 自定义动态资源权限元数据信息
+     * @param object the object being secured
+     * @return
+     * @throws IllegalArgumentException
+     */
+    @Override
+    public Collection&lt;ConfigAttribute&gt; getAttributes(Object object) throws IllegalArgumentException {
+        //1.当前请求对象
+        String requestURI = ((FilterInvocation) object).getRequest().getRequestURI();
+        //2.查询所有菜单
+        List&lt;Menu&gt; allMenu = menuService.getAllMenu();
+
+        for (Menu menu : allMenu) {
+            if (antPathMatcher.match(menu.getPattern(), requestURI)) {
+                String[] roles = menu.getRoles().stream().map(Role::getName).toArray(String[]::new);
+                return SecurityConfig.createList(roles);
+            }
+        }
+        return null;
+    }
+
+    @Override
+    public Collection&lt;ConfigAttribute&gt; getAllConfigAttributes() {
+        return null;
+    }
+
+    @Override
+    public boolean supports(Class&lt;?&gt; clazz) {
+        return FilterInvocation.class.isAssignableFrom(clazz);
+    }
+}
+</code></pre><h4 id="配置-Security-配置"><a href="#配置-Security-配置" class="headerlink" title="配置 Security 配置"></a>配置 Security 配置</h4><pre><code>
+@Configuration
+@EnableGlobalMethodSecurity(prePostEnabled = true,jsr250Enabled = true,securedEnabled = true)
+public class SecurityConfig extends WebSecurityConfigurerAdapter {
+
+    private final CustomerSecurityMetaSource customSecurityMetadataSource;
+
+    private final UserDetailsService userDetailsService;
+
+    @Autowired
+    public SecurityConfig(CustomerSecurityMetaSource customSecurityMetadataSource, UserDetailsService userDetailsService) {
+        this.customSecurityMetadataSource = customSecurityMetadataSource;
+        this.userDetailsService = userDetailsService;
+    }
+
+
+    @Override
+    protected void configure(AuthenticationManagerBuilder auth) throws Exception {
+        auth.userDetailsService(userDetailsService);
+    }
+
+    @Override
+    protected void configure(HttpSecurity http) throws Exception {
+        //1.获取工厂对象
+        ApplicationContext applicationContext = http.getSharedObject(ApplicationContext.class);
+        //2.设置自定义 url 权限处理
+        http.apply(new UrlAuthorizationConfigurer&lt;&gt;(applicationContext))
+                .withObjectPostProcessor(new ObjectPostProcessor&lt;FilterSecurityInterceptor&gt;() {
+                    @Override
+                    public &lt;O extends FilterSecurityInterceptor&gt; O postProcess(O object) {
+                        object.setSecurityMetadataSource(customSecurityMetadataSource);
+                        //是否拒绝公共资源访问
+                        object.setRejectPublicInvocations(false);
+                        return object;
+                    }
+                });
+        http.formLogin().and().csrf().disable();
+    }
+}
+</code></pre><h1 id="OAuth2"><a href="#OAuth2" class="headerlink" title="OAuth2"></a>OAuth2</h1><p>另一篇已经介绍了Oauth2</p>
+<p>OAuth2 标准接⼝ </p>
+<p> /oauth/authorize：授权端点 </p>
+<p>/oauth/token：获取令牌端点 </p>
+<p>/oauth/confirm_access：⽤户确认授权提交端点</p>
+<p> /oauth/error：授权服务错误信息端点 </p>
+<p>/oauth/check_token：⽤于资源服务访问的令牌解析端点</p>
+<p> /oauth/token_key：提供公有密匙的端点，如果使⽤JWT令牌的话</p>
+<h2 id="授权服务器"><a href="#授权服务器" class="headerlink" title="授权服务器"></a>授权服务器</h2><p>导入依赖</p>
+<pre><code>&lt;!--引入Springsecurity--&gt;
+&lt;dependency&gt;
+    &lt;groupId&gt;org.springframework.boot&lt;/groupId&gt;
+    &lt;artifactId&gt;spring-boot-starter-security&lt;/artifactId&gt;
+&lt;/dependency&gt;
+
+&lt;!--引入SpringSecurity oauth2 授权服务器依赖--&gt;
+&lt;dependency&gt;
+    &lt;groupId&gt;org.springframework.cloud&lt;/groupId&gt;
+    &lt;artifactId&gt;spring-cloud-starter-oauth2&lt;/artifactId&gt;
+    &lt;version&gt;2.2.4.RELEASE&lt;/version&gt;
+&lt;/dependency&gt;
+</code></pre><h3 id="AuthorizationServerConfigurerAdapter"><a href="#AuthorizationServerConfigurerAdapter" class="headerlink" title="AuthorizationServerConfigurerAdapter"></a>AuthorizationServerConfigurerAdapter</h3><p>主要继承这个类，有这个三个配置</p>
+<p><img src="/springsecurity/image-20230716221443106.png" alt="image-20230716221443106"></p>
+<p>AuthorizationServerConfigurerAdapter是一个配置类，用于配置OAuth2授权服务器的相关参数。它有三个抽象方法，分别代表不同的配置内容：</p>
+<ul>
+<li><strong>ClientDetailsServiceConfigurer</strong>：用来配置客户端详情服务（ClientDetailsService），客户端详情信息在这里进行初始化，你能够把客户端详情信息写死在这里或者是通过数据库来存储调取详情信息。</li>
+<li><strong>AuthorizationServerSecurityConfigurer</strong>：用来配置令牌端点 (Token Endpoint)的安全约束，比如设置令牌访问的权限、密码加密方式等。</li>
+<li><strong>AuthorizationServerEndpointsConfigurer</strong>：用来配置授权（authorization）以及令牌（token）的访问端点和令牌服务 (token services)，比如设置授权码服务、令牌存储方式、用户信息服务等。</li>
+</ul>
+<h3 id="EnableAuthorizationServer"><a href="#EnableAuthorizationServer" class="headerlink" title="@EnableAuthorizationServer"></a>@EnableAuthorizationServer</h3><p>作用是开启OAuth2授权服务器的功能</p>
+<h3 id="授权码模式"><a href="#授权码模式" class="headerlink" title="授权码模式"></a>授权码模式</h3><pre><code>// 自定义授权服务器配置,指定当前应用为授权服务器
+@Configuration
+@EnableAuthorizationServer
+public class AuthenticationServerConfig extends AuthorizationServerConfigurerAdapter {
+
+    @Autowired
+    private PasswordEncoder passwordEncoder;
+
+    /**
+     * 用来配置授权服务器可以为哪些客户端授权,使用哪种授权模式
+     */
+    @Override
+    public void configure(ClientDetailsServiceConfigurer clients) throws Exception {
+        clients.inMemory()
+                .withClient(&quot;client&quot;) //客户端id
+                .secret(passwordEncoder.encode(&quot;secret&quot;)) 
+                .redirectUris(&quot;http://www.baidu.com&quot;) //重定向
+                // 授权模式支持授权码模式,同时支持令牌刷新模式
+                .authorizedGrantTypes(&quot;authorization_code&quot;,&quot;refresh_token&quot;) 
+                // 令牌允许获取的资源权限
+                .scopes(&quot;read:user&quot;);
+    }
+}
+</code></pre><p>授权码模式：</p>
+<p>请求用户是否授权，获取授权码code：/oauth/authorize<br>授权之后根据获取的授权码获取令牌access_token：/oauth/token ，授权类型：authorization_code<br>① 请求用户是否授权，获取授权码code，浏览器访问完整路径：<a href="http://localhost:8080/oauth/authorize?client_id=client&amp;response_type=code&amp;redirect_uri=http://www.baidu.com" target="_blank" rel="noopener">http://localhost:8080/oauth/authorize?client_id=client&amp;response_type=code&amp;redirect_uri=http://www.baidu.com</a></p>
+<p><img src="/springsecurity/image-20230716230400249.png" alt="image-20230716230400249"></p>
+<p>点击Authorize按钮就会跳转到百度网站，并返回一个授权码 code</p>
+<p><img src="/springsecurity/image-20230716230922902.png" alt="image-20230716230922902"></p>
+<p>② 授权之后根据返回的授权码 code 获取访问令牌 access_token ：</p>
+<p><a href="http://client:secret@localhost:8080/oauth/token" target="_blank" rel="noopener">http://client:secret@localhost:8080/oauth/token</a></p>
+<p>或者这样请求</p>
+<pre><code>localhost:8080/auth/oauth/token？client_id=&quot;client&amp;client_secret=secret&amp;grant_type=authorization_code&amp;code=7U2297&amp;redirect_uri=http://www.xuecheng-plus.com</code></pre><p><img src="/springsecurity/image-20230716230436041.png" alt="image-20230716230436041"></p>
+<h3 id="授权服务器-支持授权码模式同时支持刷新令牌"><a href="#授权服务器-支持授权码模式同时支持刷新令牌" class="headerlink" title="授权服务器 - 支持授权码模式同时支持刷新令牌"></a>授权服务器 - 支持授权码模式同时支持刷新令牌</h3><p>在access_token即将过期的时候，我们希望支持刷新令牌</p>
+<p>授权码模式：</p>
+<p>请求用户是否授权，获取授权码 code：/oauth/authorize<br>授权之后根据获取的授权码 code 获取令牌 access_token 和 refresh_token：/oauth/token, 授权类型需要为authorization_code<br>令牌刷新：/oauth/token, 授权类型需要为 refresh_token</p>
+<pre><code>/**
+ * 自定义授权服务器配置，指定当前应用为授权服务器
+ */
+@Configuration
+@EnableAuthorizationServer
+public class AuthenticationServerConfig extends AuthorizationServerConfigurerAdapter {
+
+    @Autowired
+    private PasswordEncoder passwordEncoder;
+
+    @Autowired
+    private UserDetailsService userDetailsService;
+
+    /**
+     * 用来配置授权服务器可以为哪些客户端授权,使用哪种授权模式
+     */
+    @Override
+    public void configure(ClientDetailsServiceConfigurer clients) throws Exception {
+        clients.inMemory()
+                .withClient(&quot;client&quot;)
+                .secret(passwordEncoder.encode(&quot;secret&quot;))
+                .redirectUris(&quot;http://www.baidu.com&quot;)
+                // 授权模式支持授权码模式,同时支持令牌刷新模式
+                .authorizedGrantTypes(&quot;authorization_code&quot;,&quot;refresh_token&quot;)
+                // 令牌允许获取的资源权限
+                .scopes(&quot;read:user&quot;);
+    }
+
+    /**
+     * 刷新令牌必须配置userDetailsService，用来刷新令牌时的认证
+     */
+    @Override
+    public void configure(AuthorizationServerEndpointsConfigurer endpoints) throws Exception {
+        endpoints.userDetailsService(userDetailsService);
+    }
+}
+</code></pre><p>① 请求用户是否授权，获取授权码code，浏览器访问完整路径：<a href="http://localhost:8080/oauth/authorize?client_id=client&amp;response_type=code&amp;redirect_uri=http://www.baidu.com" target="_blank" rel="noopener">http://localhost:8080/oauth/authorize?client_id=client&amp;response_type=code&amp;redirect_uri=http://www.baidu.com</a></p>
+<p><img src="/springsecurity/image-20230716232710320.png" alt="image-20230716232710320"></p>
+<p>② 授权之后根据返回的授权码 code 获取访问令牌 access_token 和 刷新令牌 refresh_token</p>
+<p><img src="/springsecurity/image-20230716232817695.png" alt="image-20230716232817695"></p>
+<p>③ 根据 refresh_token 刷新令牌：</p>
+<p><img src="/springsecurity/image-20230716232856883.png" alt="image-20230716232856883"></p>
+<h3 id="授权服务器-支持密码模式"><a href="#授权服务器-支持密码模式" class="headerlink" title="授权服务器 - 支持密码模式"></a>授权服务器 - 支持密码模式</h3><pre><code>/**
+ * 自定义授权服务器配置，指定当前应用为授权服务器
+ */
+@Configuration
+@EnableAuthorizationServer
+public class AuthenticationServerConfig extends AuthorizationServerConfigurerAdapter {
+
+    @Autowired
+    private PasswordEncoder passwordEncoder;
+
+    @Autowired
+    private UserDetailsService userDetailsService;
+
+    @Autowired
+    private AuthenticationManager authenticationManager;
+
+    /**
+     * 用来配置授权服务器可以为哪些客户端授权,使用哪种授权模式
+     */
+    @Override
+    public void configure(ClientDetailsServiceConfigurer clients) throws Exception {
+        clients.inMemory()
+                .withClient(&quot;client&quot;)
+                .secret(passwordEncoder.encode(&quot;secret&quot;))
+                .redirectUris(&quot;http://www.baidu.com&quot;)
+                // 授权模式支持密码模式,同时支持令牌刷新模式
+                .authorizedGrantTypes(&quot;password&quot;,&quot;refresh_token&quot;)
+                // 令牌允许获取的资源权限
+                .scopes(&quot;read:user&quot;);
+    }
+
+    /**
+     * 刷新令牌必须配置userDetailsService，用来刷新令牌时的认证
+     */
+    @Override
+    public void configure(AuthorizationServerEndpointsConfigurer endpoints) throws Exception {
+        endpoints.userDetailsService(userDetailsService);
+        //配置认证管理
+        endpoints.authenticationManager(authenticationManager);
+        //在密码模式下要配置.authenticationManager(authenticationManager)，是因为密码模式需要验证用户的用户名和密码，而authenticationManager是一个接口，它可以管理不同的认证提供者（AuthenticationProvider），并且调用它们的authenticate()方法来进行认证。
+        //授权码模式是因为重定向到授权服务器的授权页面，让用户输入用户名和密码，并且同意授权。上
+
+
+    }
+}
+</code></pre><p><a href="http://client:secret@localhost:8080/oauth/token" target="_blank" rel="noopener">http://client:secret@localhost:8080/oauth/token</a></p>
+<p><img src="/springsecurity/image-20230716234139093.png" alt="image-20230716234139093"></p>
+<p>刷新令牌：</p>
+<p><img src="/springsecurity/image-20230716234159775.png" alt="image-20230716234159775"></p>
+<h3 id="授权服务器-支持客户端模式"><a href="#授权服务器-支持客户端模式" class="headerlink" title="授权服务器 - 支持客户端模式"></a>授权服务器 - 支持客户端模式</h3><pre><code>/**
+ * 自定义授权服务器配置，指定当前应用为授权服务器
+ */
+@Configuration
+@EnableAuthorizationServer
+public class AuthenticationServerConfig extends AuthorizationServerConfigurerAdapter {
+
+    @Autowired
+    private PasswordEncoder passwordEncoder;
+
+    @Autowired
+    private UserDetailsService userDetailsService;
+
+    @Autowired
+    private AuthenticationManager authenticationManager;
+
+    /**
+     * 用来配置授权服务器可以为哪些客户端授权,使用哪种授权模式
+     */
+    @Override
+    public void configure(ClientDetailsServiceConfigurer clients) throws Exception {
+        clients.inMemory()
+                .withClient(&quot;client&quot;)
+                .secret(passwordEncoder.encode(&quot;secret&quot;))
+                .redirectUris(&quot;http://www.baidu.com&quot;)
+                // 授权模式支持授权码模式,同时支持令牌刷新模式
+                .authorizedGrantTypes(&quot;client_credentials&quot;,&quot;refresh_token&quot;)
+                // 令牌允许获取的资源权限
+                .scopes(&quot;read:user&quot;);
+    }
+
+    /**
+     * 刷新令牌必须配置userDetailsService，用来刷新令牌时的认证
+     */
+    @Override
+    public void configure(AuthorizationServerEndpointsConfigurer endpoints) throws Exception {
+        endpoints.userDetailsService(userDetailsService);
+        endpoints.authenticationManager(authenticationManager);
+    }
+}
+</code></pre><p><img src="/springsecurity/image-20230716234759929.png" alt="image-20230716234759929"></p>
+<h3 id="授权服务器-基于redis令牌存储，用户信息采用数据库存储"><a href="#授权服务器-基于redis令牌存储，用户信息采用数据库存储" class="headerlink" title="授权服务器 - 基于redis令牌存储，用户信息采用数据库存储"></a>授权服务器 - 基于redis令牌存储，用户信息采用数据库存储</h3><p>redis存token，配置</p>
+<pre><code>#配置contextPath，要和客户端应用的接口保持一致
+server.servlet.context-path=/auth
+#数据库配置
+spring.datasource.driver-class-name=com.mysql.cj.jdbc.Driver
+spring.datasource.url=jdbc:mysql://localhost:3306/sc
+spring.datasource.username=root
+spring.datasource.password=123456
+spring.jpa.hibernate.ddl-auto=update
+spring.jpa.show-sql=true</code></pre><p>授权服务器配置</p>
+<pre><code>/**
+*
+* client_secret和password需要加密才存到数据库中: &quot;{bcrypt}&quot; + bCryptPasswordEncoder.encode(&quot;8080&quot;)
+* **/
+Configuration
+@EnableAuthorizationServer
+public class Oauth2AuthorizationConfigure extends AuthorizationServerConfigurerAdapter {
+
+    @Autowired
+    AuthenticationManager authenticationManager;
+
+    @Autowired
+    RedisConnectionFactory redisConnectionFactory;
+
+    @Autowired
+    private DataSource dataSource;
+
+    @Autowired
+    Oauth2UserDetailsService userDetailsService;
+
+    @Autowired
+    ClientDetailsService clientDetailsService;
+
+    /**
+     * jdbc加载client_details
+     * 要求数据库中的表名为:oauth_client_details
+     * @return
+     */
+    @Bean
+    public ClientDetailsService clientDetailsService() {
+        return new JdbcClientDetailsService(dataSource);
+    }
+
+    @Override
+    public void configure(ClientDetailsServiceConfigurer clients) throws Exception {
+        clients.withClientDetails(clientDetailsService);
+    }
+
+    /**
+     * 设置token存入redis
+     * @param endpoints
+     * @throws Exception
+     */
+    @Override
+    public void configure(AuthorizationServerEndpointsConfigurer endpoints) throws Exception {
+        endpoints.tokenStore(new RedisTokenStore(redisConnectionFactory))
+                .authenticationManager(authenticationManager)
+                .userDetailsService(userDetailsService);
+    }
+
+    @Override
+    public void configure(AuthorizationServerSecurityConfigurer oauthServer) {
+        oauthServer.tokenKeyAccess(&quot;permitAll()&quot;).checkTokenAccess(&quot;isAuthenticated()&quot;);
+    }
+}
+</code></pre><pre><code>@Autowired
+private DataSource dataSource;
+
+@Autowired
+ClientDetailsService clientDetailsService;
+
+/**
+* jdbc加载client_details
+ * 要求数据库中的表名为:oauth_client_details
+ * @return
+ */
+@Bean
+public ClientDetailsService clientDetailsService() {
+    return new JdbcClientDetailsService(dataSource);
+}
+
+@Override
+public void configure(ClientDetailsServiceConfigurer clients) throws Exception {
+    clients.withClientDetails(clientDetailsService);
+}
+</code></pre><pre><code>@Autowired
+Oauth2UserDetailsService userDetailsService;
+
+ /**
+     * 设置token存入redis
+     * @param endpoints
+     * @throws Exception
+     */
+    @Override
+    public void configure(AuthorizationServerEndpointsConfigurer endpoints) throws Exception {
+        endpoints.tokenStore(new RedisTokenStore(redisConnectionFactory))
+                .authenticationManager(authenticationManager)
+                //用户信息加载
+                .userDetailsService(userDetailsService);
+    }
+</code></pre>
             </div>
             <hr />
 
@@ -1619,7 +3974,7 @@ SecurityContextHolder.getContext().setAuthentication(token);</code></pre><p>对�
                     <div class="card-image">
                         
                         
-                        <img src="/medias/featureimages/18.jpg" class="responsive-img" alt="Eureka注册中心">
+                        <img src="/medias/featureimages/20.jpg" class="responsive-img" alt="Eureka注册中心">
                         
                         <span class="card-title">Eureka注册中心</span>
                     </div>
@@ -1668,7 +4023,7 @@ SecurityContextHolder.getContext().setAuthentication(token);</code></pre><p>对�
                     <div class="card-image">
                         
                         
-                        <img src="/medias/featureimages/2.jpg" class="responsive-img" alt="JWT">
+                        <img src="/medias/featureimages/0.jpg" class="responsive-img" alt="JWT">
                         
                         <span class="card-title">JWT</span>
                     </div>
@@ -1875,7 +4230,7 @@ SecurityContextHolder.getContext().setAuthentication(token);</code></pre><p>对�
            <!--<a href="/sitemap.xml" target="_blank">站点地图</a>丨-->
            
             &nbsp;<i class="fa fa-area-chart"></i>&nbsp;站点总字数:&nbsp;
-            <span class="white-color">138k
+            <span class="white-color">156k
              丨            
           
 
@@ -1969,7 +4324,7 @@ SecurityContextHolder.getContext().setAuthentication(token);</code></pre><p>对�
       <span class="badge-subject">PV</span><span class="badge-value bg-brightgreen" id="busuanzi_value_site_pv"></span>
     </div>
     <div class="github-badge">
-      <span class="badge-subject">WordCount</span><span class="badge-value bg-blueviolet">138k</span>
+      <span class="badge-subject">WordCount</span><span class="badge-value bg-blueviolet">156k</span>
     </div>
 </footer>
 
