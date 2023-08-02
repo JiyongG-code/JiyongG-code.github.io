@@ -616,7 +616,7 @@
 
 
 
-<div class="bg-cover pd-header post-cover" style="background-image: url('/medias/featureimages/7.jpg')">
+<div class="bg-cover pd-header post-cover" style="background-image: url('/medias/featureimages/5.jpg')">
     <div class="container">
         <div class="row">
             <div class="col s12 m12 l12">
@@ -1398,51 +1398,34 @@ http.port: 9200
 <article id="prenext-posts" class="prev-next articles">
     <div class="row article-row">
         
-        <div class="article col s12 m6" data-aos="fade-up" data-aos="fade-up">
+        <div class="article col s12 m6" data-aos="fade-up">
             <div class="article-badge left-badge text-color">
-                <i class="fa fa-dot-circle-o"></i>&nbsp;本篇
-            </div>
+                <i class="fa fa-chevron-left"></i>&nbsp;上一篇</div>
             <div class="card">
-                <a href="/elk-rabbitmq.html">
+                <a href="/rabbitmq-message-sequential.html">
                     <div class="card-image">
                         
                         
-                        <img src="/medias/featureimages/7.jpg" class="responsive-img" alt="基于ELK+Rabbitmq分布式日志收集平台">
+                        <img src="/medias/featureimages/11.jpg" class="responsive-img" alt="如何保证RabbitMQ消息的顺序性">
                         
-                        <span class="card-title">基于ELK+Rabbitmq分布式日志收集平台</span>
+                        <span class="card-title">如何保证RabbitMQ消息的顺序性</span>
                     </div>
                 </a>
                 <div class="card-content article-content">
                     <div class="summary block-with-text">
                         
-                            介绍ELK由Elasticsearch+Logstash+kibana三部分组成
-一般是由日志发布投入到MQ消息队列中，logstash消费MQ消息队列中的数据，放到ES服务器中，ES存储最终的日志信息，kibana负责展示ES存储服务中数
+                            如何保证 RabbitMQ 消息的顺序性意义消息队列中的若干消息如果是对同一个数据进行操作，这些操作具有前后的关系，必须要按前后的顺序执行，否则就会造成数据异常。
+错乱场景一一个queue，有多个consumer去消费，这样就会造成顺序的错
                         
                     </div>
                     <div class="publish-info">
-                            <span class="publish-date">
-                                <i class="fa fa-clock-o fa-fw icon-date"></i>2023-07-17
-                            </span>
+                        <span class="publish-date">
+                            <i class="fa fa-clock-o fa-fw icon-date"></i>2023-07-23
+                        </span>
                         <span class="publish-author">
-                            
-                            <i class="fa fa-bookmark fa-fw icon-category"></i>
-                            
-                            <a href="/categories/ELK/" class="post-category" target="_blank">
-                                    ELK
-                                </a>
-                            
                             
                         </span>
                     </div>
-                </div>
-
-                
-                <div class="card-action article-tags">
-                    
-                    <a href="/tags/ELK/" target="_blank">
-                        <span class="chip bg-color">ELK</span>
-                    </a>
-                    
                 </div>
                 
             </div>
@@ -1458,7 +1441,7 @@ http.port: 9200
                     <div class="card-image">
                         
                         
-                        <img src="/medias/featureimages/1.jpg" class="responsive-img" alt="并发编程">
+                        <img src="/medias/featureimages/3.jpg" class="responsive-img" alt="并发编程">
                         
                         <span class="card-title">并发编程</span>
                     </div>
@@ -1660,7 +1643,7 @@ http.port: 9200
            <!--<a href="/sitemap.xml" target="_blank">站点地图</a>丨-->
            
             &nbsp;<i class="fa fa-area-chart"></i>&nbsp;站点总字数:&nbsp;
-            <span class="white-color">156k
+            <span class="white-color">165.2k
              丨            
           
 
@@ -1754,7 +1737,7 @@ http.port: 9200
       <span class="badge-subject">PV</span><span class="badge-value bg-brightgreen" id="busuanzi_value_site_pv"></span>
     </div>
     <div class="github-badge">
-      <span class="badge-subject">WordCount</span><span class="badge-value bg-blueviolet">156k</span>
+      <span class="badge-subject">WordCount</span><span class="badge-value bg-blueviolet">165.2k</span>
     </div>
 </footer>
 

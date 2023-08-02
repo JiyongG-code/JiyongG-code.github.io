@@ -6,7 +6,7 @@
   <link href="/atom.xml" rel="self"/>
   
   <link href="https://jiyongg-code.github.io/"/>
-  <updated>2023-07-17T15:13:11.373Z</updated>
+  <updated>2023-07-23T09:09:01.923Z</updated>
   <id>https://jiyongg-code.github.io/</id>
   
   <author>
@@ -15,6 +15,50 @@
   </author>
   
   <generator uri="http://hexo.io/">Hexo</generator>
+  
+  <entry>
+    <title>Kafka消费顺序-消费可靠性-不重复消费</title>
+    <link href="https://jiyongg-code.github.io/kafka-reliability-sequential.html"/>
+    <id>https://jiyongg-code.github.io/kafka-reliability-sequential.html</id>
+    <published>2023-07-23T06:50:39.000Z</published>
+    <updated>2023-07-23T09:09:01.923Z</updated>
+    
+    <summary type="html">
+    
+      
+      
+        
+        
+          &lt;h3 id=&quot;Kafka-如何保证消息的消费顺序？&quot;&gt;&lt;a href=&quot;#Kafka-如何保证消息的消费顺序？&quot; class=&quot;headerlink&quot; title=&quot;Kafka 如何保证消息的消费顺序？&quot;&gt;&lt;/a&gt;Kafka 如何保证消息的消费顺序？&lt;/h3&gt;&lt;p&gt;Kafka
+        
+      
+    
+    </summary>
+    
+    
+  </entry>
+  
+  <entry>
+    <title>如何保证RabbitMQ消息的顺序性</title>
+    <link href="https://jiyongg-code.github.io/rabbitmq-message-sequential.html"/>
+    <id>https://jiyongg-code.github.io/rabbitmq-message-sequential.html</id>
+    <published>2023-07-23T06:11:39.000Z</published>
+    <updated>2023-07-23T06:44:37.589Z</updated>
+    
+    <summary type="html">
+    
+      
+      
+        
+        
+          &lt;h1 id=&quot;如何保证-RabbitMQ-消息的顺序性&quot;&gt;&lt;a href=&quot;#如何保证-RabbitMQ-消息的顺序性&quot; class=&quot;headerlink&quot; title=&quot;如何保证 RabbitMQ 消息的顺序性&quot;&gt;&lt;/a&gt;如何保证 RabbitMQ
+        
+      
+    
+    </summary>
+    
+    
+  </entry>
   
   <entry>
     <title>基于ELK+Rabbitmq分布式日志收集平台</title>
@@ -65,7 +109,7 @@
     <link href="https://jiyongg-code.github.io/rabbitmq.html"/>
     <id>https://jiyongg-code.github.io/rabbitmq.html</id>
     <published>2023-03-29T10:06:32.000Z</published>
-    <updated>2023-03-30T07:17:42.827Z</updated>
+    <updated>2023-07-23T12:02:10.897Z</updated>
     
     <summary type="html">
     
@@ -101,16 +145,26 @@
   </entry>
   
   <entry>
-    <title>SpringSecurity-OAuth2</title>
+    <title>SpringSecurity-OAuth2 授权码模式</title>
     <link href="https://jiyongg-code.github.io/springsecurity-oauth2.html"/>
     <id>https://jiyongg-code.github.io/springsecurity-oauth2.html</id>
     <published>2023-03-25T05:09:37.000Z</published>
-    <updated>2023-03-25T05:09:37.200Z</updated>
+    <updated>2023-08-02T11:53:10.629Z</updated>
     
     <summary type="html">
     
+      
+      
+        
+        
+          &lt;p&gt;在使用 &lt;strong&gt;OAuth2.0&lt;/strong&gt; 中 &lt;strong&gt;Authorization Server&lt;/strong&gt; （授权服务器）是一个回避不了的设施，在大多数情况下我们调用的是一些知名的、可靠的、可信任的第三方平台，比如
+        
+      
+    
     </summary>
     
+    
+      <category term="OAuth2" scheme="https://jiyongg-code.github.io/tags/OAuth2/"/>
     
   </entry>
   
@@ -380,7 +434,7 @@
     <link href="https://jiyongg-code.github.io/springsecurity.html"/>
     <id>https://jiyongg-code.github.io/springsecurity.html</id>
     <published>2023-03-22T12:20:31.000Z</published>
-    <updated>2023-07-16T16:09:53.370Z</updated>
+    <updated>2023-08-02T08:15:41.114Z</updated>
     
     <summary type="html">
     
@@ -450,58 +504,6 @@
     
     
       <category term="Oauth" scheme="https://jiyongg-code.github.io/tags/Oauth/"/>
-    
-  </entry>
-  
-  <entry>
-    <title>用Controller实现Feign 简化代码</title>
-    <link href="https://jiyongg-code.github.io/feign-simplification.html"/>
-    <id>https://jiyongg-code.github.io/feign-simplification.html</id>
-    <published>2023-03-20T13:03:21.000Z</published>
-    <updated>2023-03-23T14:04:36.123Z</updated>
-    
-    <summary type="html">
-    
-      
-      
-        
-        
-          &lt;h1 id=&quot;Feign简化-feign的接口抽取成公共的api&quot;&gt;&lt;a href=&quot;#Feign简化-feign的接口抽取成公共的api&quot; class=&quot;headerlink&quot; title=&quot;Feign简化  feign的接口抽取成公共的api&quot;&gt;&lt;/a&gt;Feign简化 
-        
-      
-    
-    </summary>
-    
-      <category term="SpringCloud" scheme="https://jiyongg-code.github.io/categories/SpringCloud/"/>
-    
-    
-      <category term="SpringCloud" scheme="https://jiyongg-code.github.io/tags/SpringCloud/"/>
-    
-  </entry>
-  
-  <entry>
-    <title>community项目</title>
-    <link href="https://jiyongg-code.github.io/community.html"/>
-    <id>https://jiyongg-code.github.io/community.html</id>
-    <published>2023-03-20T11:34:33.000Z</published>
-    <updated>2023-03-27T08:24:34.756Z</updated>
-    
-    <summary type="html">
-    
-      
-      
-        
-        
-          &lt;h1 id=&quot;community项目&quot;&gt;&lt;a href=&quot;#community项目&quot; class=&quot;headerlink&quot; title=&quot;community项目&quot;&gt;&lt;/a&gt;community项目&lt;/h1&gt;&lt;h1 id=&quot;用到的框架&quot;&gt;&lt;a href=&quot;#用到的框架&quot;
-        
-      
-    
-    </summary>
-    
-      <category term="项目" scheme="https://jiyongg-code.github.io/categories/%E9%A1%B9%E7%9B%AE/"/>
-    
-    
-      <category term="社区项目" scheme="https://jiyongg-code.github.io/tags/%E7%A4%BE%E5%8C%BA%E9%A1%B9%E7%9B%AE/"/>
     
   </entry>
   

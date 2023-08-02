@@ -1,3 +1,5 @@
+https://jiyongg-code.github.io/kafka-reliability-sequential.html
+https://jiyongg-code.github.io/rabbitmq-message-sequential.html
 https://jiyongg-code.github.io/elk-rabbitmq.html
 https://jiyongg-code.github.io/javaconcurrent.html
 https://jiyongg-code.github.io/rabbitmq.html

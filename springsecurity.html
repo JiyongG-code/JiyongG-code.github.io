@@ -615,7 +615,7 @@
 
 
 
-<div class="bg-cover pd-header post-cover" style="background-image: url('/medias/featureimages/10.jpg')">
+<div class="bg-cover pd-header post-cover" style="background-image: url('/medias/featureimages/8.jpg')">
     <div class="container">
         <div class="row">
             <div class="col s12 m12 l12">
@@ -770,14 +770,14 @@
                 
                 <div class="info-break-policy">
                     <i class="fa fa-file-word-o fa-fw"></i>文章字数:&nbsp;&nbsp;
-                    22.4k
+                    24.4k
                 </div>
                 
 
                 
                 <div class="info-break-policy">
                     <i class="fa fa-clock-o fa-fw"></i>阅读时长:&nbsp;&nbsp;
-                    96 分
+                    105 分
                 </div>
                 
                 
@@ -799,6 +799,21 @@
 <p>当初始化Spring Security时，会创建一个名为SpringSecurityFilterChain的Servlet过滤器，类型为 org.springframework.security.web.FilterChainProxy，它实现了javax.servlet.Filter，因此外部的请求会经过此类，<img src="/springsecurity/image-20230325122446975.png" alt="image-20230325122446975"></p>
 <p>FilterChainProxy是一个代理，真正起作用的是FilterChainProxy中SecurityFilterChain所包含的各个Filter，同时这些Filter作为Bean被Spring管理，它们是Spring Security核心，各有各的职责，但他们并不直接处理用户的<strong>认证</strong>，也不直接处理用户的<strong>授权</strong>，而是把它们交给了认证管理器（AuthenticationManager）和决策管理器（AccessDecisionManager）进行处理。</p>
 <p>spring Security功能的实现主要是由一系列过滤器链相互配合完成。</p>
+<p>密码登录流程</p>
+<ul>
+<li><p>UsernamePasswordAuthenticationFilter：它是一个类，继承了AbstractAuthenticationProcessingFilter，用于处理表单登录请求。它会从请求中获取用户名和密码，然后使用UsernamePasswordAuthenticationToken构造一个认证请求对象，然后交给AuthenticationManager进行认证。</p>
+</li>
+<li><p>AuthenticationManager：它是一个接口，用于管理认证逻辑，它的authenticate方法接受一个Authentication对象作为参数，然后返回一个认证成功的Authentication对象或者抛出一个认证异常。它的默认实现类是ProviderManager。</p>
+</li>
+<li><p>ProviderManager：它是一个类，实现了AuthenticationManager接口，它管理一系列的AuthenticationProvider，每个AuthenticationProvider负责处理一种类型的认证请求，例如用户名密码、短信验证码、社交账号等。ProviderManager会遍历所有的AuthenticationProvider，找到能够支持当前认证请求的那个，然后调用它的authenticate方法进行认证。</p>
+</li>
+<li><p>DaoAuthenticationProvider：它是一个类，实现了AuthenticationProvider接口，它负责处理用户名密码的认证请求。它会调用UserDetailsService接口的loadUserByUsername方法根据用户名加载用户信息，包括密码和权限。然后它会调用PasswordEncoder接口的matches方法对比用户输入的密码和数据库中的密码是否匹配。如果匹配成功，就返回一个认证成功的UsernamePasswordAuthenticationToken对象。</p>
+</li>
+<li><p>UserDetailsService：它是一个接口，用于根据用户名加载用户信息，包括密码和权限。它的loadUserByUsername方法接受一个用户名作为参数，然后返回一个UserDetails对象或者抛出一个用户不存在的异常。它有多个实现类，例如JdbcUserDetailsManager、InMemoryUserDetailsManager等。</p>
+</li>
+<li><p>PasswordEncoder：它是一个接口，用于对密码进行加密和匹配。它的encode方法接受一个明文密码作为参数，然后返回一个加密后的密码。它的matches方法接受一个明文密码和一个加密后的密码作为参数，然后返回一个布尔值表示是否匹配。它有多个实现类，例如BCryptPasswordEncoder、NoOpPasswordEncoder等。</p>
+</li>
+</ul>
 <h1 id="SpringSecurity执行流程图"><a href="#SpringSecurity执行流程图" class="headerlink" title="SpringSecurity执行流程图"></a>SpringSecurity执行流程图</h1><p><img src="/springsecurity/d359fe34bc7860c11a1b6e50bfd0e086.png" alt="img"></p>
 <ol>
 <li><p>WebAsyncManagerIntegrationFilter：将 Security 上下文与 Spring Web 中用于处理异步请求映射的 WebAsyncManager 进行集成。</p>
@@ -1130,6 +1145,17 @@ SecurityContextHolder.getContext().setAuthentication(token);</code></pre><p>对�
 <li>前后端分离认证</li>
 <li>添加验证码</li>
 </ul>
+<p>密码登录主要经过这几个类</p>
+<ul>
+<li><strong>UsernamePasswordAuthenticationFilter</strong>：这个过滤器用于拦截登录请求，创建一个UsernamePasswordAuthenticationToken对象，表示身份验证请求。</li>
+<li><strong>AuthenticationManager</strong>：这个接口用于对身份验证请求进行身份验证，委派给一个或多个AuthenticationProvider来进行身份验证，并返回一个Authentication对象，表示身份验证结果。</li>
+<li><strong>ProviderManager</strong>：这个类是AuthenticationManager的一种实现，它包含一个或多个AuthenticationProvider，并根据需要来调用它们。</li>
+<li><strong>DaoAuthenticationProvider</strong>：这个类是AuthenticationProvider的一种实现，它使用UserDetailsService来加载用户的信息，如密码、权限等，并使用PasswordEncoder来比较用户输入的密码和数据库中的密码是否匹配。</li>
+<li><strong>UserDetailsService</strong>：这个接口用于根据用户名来加载用户的信息，如密码、权限等。它可以有不同的实现，如内存用户、数据库用户或者自定义用户服务。</li>
+<li><strong>SecurityContextHolder</strong>：这个类用于保存身份验证结果，作为当前的安全上下文。它使用SecurityContext和Authentication两个接口来表示安全上下文和身份验证结果。</li>
+<li><strong>SavedRequestAwareAuthenticationSuccessHandler</strong>：这个类是身份验证成功处理器的一种实现，它用于处理身份验证成功的情况，通常是重定向到请求的资源或者其他的页面。<a href="https://edgeservices.bing.com/edgesvc/chat?udsframed=1&form=SHORUN&clientscopes=chat,noheader,channeldev,&shellsig=c9c1911c54c8b7293de4656beea472846ecfa276&setlang=zh-CN&lightschemeovr=1#sjevt|Discover.Chat.SydneyClickPageCitation|adpclick|0|8a5712c9-20f6-46a8-a4e4-000286514ce6" target="_blank" rel="noopener">1</a></li>
+<li><strong>FilterSecurityInterceptor</strong>：这个过滤器用于拦截资源请求，根据安全上下文中的身份验证结果和资源的访问规则来进行授权判断，如果授权通过，就返回资源给用户。</li>
+</ul>
 <h2 id="自定义认证"><a href="#自定义认证" class="headerlink" title="自定义认证"></a>自定义认证</h2><h3 id="自定义资源权限规则"><a href="#自定义资源权限规则" class="headerlink" title="自定义资源权限规则"></a>自定义资源权限规则</h3><p>  /index  公共资源 </p>
 <p>/hello …. 受保护资源 </p>
 <p>权限管理 在项⽬中添加如下配置就可以实现对资源权限规则设定:</p>
@@ -1187,7 +1213,196 @@ SecurityContextHolder.getContext().setAuthentication(token);</code></pre><p>对�
 <p>请求转发是服务器请求资源,服务器直接访问目标地址的URL,把那个URL的响应内容读取过来,然后把这些内容再发给浏览器.浏览器根本不知道服务器发送的内容从哪里来的,因为<strong>这个跳转过程实在服务器实现</strong>的，并不是在客户端实现的所以客户端并不知道这个跳转动作，所以它<strong>的地址栏还是原来的地址.</strong></p>
 <p>重定向</p>
 <p>是服务端根据逻辑,<strong>发送一个状态码</strong>,告诉浏览器重新去请求那个地址.<strong>所以地址栏显示的是新的URL</strong></p>
-<h3 id="自定义登录成功处理"><a href="#自定义登录成功处理" class="headerlink" title="自定义登录成功处理"></a>自定义登录成功处理</h3><p>有时候⻚⾯跳转并不能满⾜我们，特别是在前后端分离开发中就不需要成功之后跳转⻚⾯。 只需要给前端返回⼀个 JSON 通知登录成功还是失败与否。这个时候可以通过⾃定义  AuthenticationSucccessHandler 实现</p>
+<h3 id="使用JSON格式参数登录"><a href="#使用JSON格式参数登录" class="headerlink" title="使用JSON格式参数登录"></a>使用JSON格式参数登录</h3><ul>
+<li>方式一：重写 <code>UsernamePasswordAuthenticationFilter</code> 过滤器</li>
+<li>方式二：自定义登录接口</li>
+</ul>
+<h4 id="方法一"><a href="#方法一" class="headerlink" title="方法一"></a>方法一</h4><p><code>UsernamePasswordAuthenticationFilter</code> 过滤器中提取的，因此我们只需要模仿<code>UsernamePasswordAuthenticationFilter</code>过滤器重写一个过滤器，替代原有的<code>UsernamePasswordAuthenticationFilter</code>过滤器即可</p>
+<p>可以看到登录接口源码</p>
+<p>是从servlet里面拿username,password</p>
+<p><img src="/springsecurity/image-20230727183107128.png" alt="image-20230727183107128"></p>
+<p><img src="/springsecurity/image-20230727174154297.png" alt="image-20230727174154297"></p>
+<p>代码实现</p>
+<pre><code>public class LoginFilter extends UsernamePasswordAuthenticationFilter {
+
+    @Override
+    public Authentication attemptAuthentication(HttpServletRequest request, HttpServletResponse response) throws AuthenticationException {
+        // 需要是 POST 请求
+        if (!request.getMethod().equals(&quot;POST&quot;)) {
+            throw new AuthenticationServiceException(
+                    &quot;Authentication method not supported: &quot; + request.getMethod());
+        }
+        HttpSession session = request.getSession();
+        // 获得 session 中的 验证码值
+        String sessionVerifyCode = (String) session.getAttribute(&quot;verify_code&quot;);
+        // 判断请求格式是否是 JSON
+        if (request.getContentType().equals(MediaType.APPLICATION_JSON_VALUE) || request.getContentType().equals(MediaType.APPLICATION_JSON_UTF8_VALUE)) {
+            Map&lt;String, String&gt; loginData = new HashMap&lt;&gt;();
+            try {
+                loginData = new ObjectMapper().readValue(request.getInputStream(), Map.class);
+            } catch (IOException e) {
+            }finally {
+            //判断
+                String code = loginData.get(&quot;code&quot;);
+                checkVerifyCode(sessionVerifyCode, code);
+            }
+            String username = loginData.get(getUsernameParameter());
+            String password = loginData.get(getPasswordParameter());
+            if(StringUtils.isEmpty(username)){
+                throw new AuthenticationServiceException(&quot;用户名不能为空&quot;);
+            }
+            if(StringUtils.isEmpty(password)){
+                throw new AuthenticationServiceException(&quot;密码不能为空&quot;);
+            }
+            // // 然后把账号名、密码封装到 一个认证Token对象中，这是就是一个通行证，但是这时的状态时不可信的，一旦通过认证就变为可信的
+            UsernamePasswordAuthenticationToken authRequest = new UsernamePasswordAuthenticationToken(
+                    username, password);
+             // 会将 HttpServletRequest 中的一些细节 request.getRemoteAddr()  request.getSession 存入的到Token中
+            setDetails(request, authRequest);
+             // 然后 使用 父类中的 AuthenticationManager 对Token 进行认证
+            return this.getAuthenticationManager().authenticate(authRequest);
+        }else {
+            checkVerifyCode(sessionVerifyCode, request.getParameter(&quot;code&quot;));
+            return super.attemptAuthentication(request, response);
+        }
+    }
+
+    private void checkVerifyCode(String sessionVerifyCode, String code) {
+        if (StringUtils.isEmpty(code)){
+            throw new AuthenticationServiceException(&quot;验证码不能为空!&quot;);
+        }
+        if(StringUtils.isEmpty(sessionVerifyCode)){
+            throw new AuthenticationServiceException(&quot;请重新申请验证码!&quot;);
+        }
+        if (!sessionVerifyCode.equalsIgnoreCase(code)) {
+            throw new AuthenticationServiceException(&quot;验证码错误!&quot;);
+        }
+    }
+}
+</code></pre><p>1、当前登录请求是否是 POST 请求，如果不是，则抛出异常。</p>
+<p>2、判断请求格式是否是 JSON，如果是则走我们自定义的逻辑，如果不是则调用 <code>super.attemptAuthentication</code> 方法，进入父类原本的处理逻辑中；当然也可以抛出异常。</p>
+<p>3、如果是 JSON 请求格式的数据，通过 ObjectMapper 读取 request 中的 I/O 流，将 JSON 映射到Map 上。</p>
+<p>4、从 Map 中取出 code key的值，判断验证码是否正确，如果验证码有错，则直接抛出异常。</p>
+<p>5、根据用户名、密码构建 <code>UsernamePasswordAuthenticationToken</code> 对象，然后调用官方的方法进行验证，验证用户名、密码是否真实有效</p>
+<p>接下来就是将我们自定义的 LoginFilter 过滤器代替默认的 <code>UsernamePasswordAuthenticationFilter</code>。</p>
+<pre><code>@Configuration
+public class SecurityConfig extends WebSecurityConfigurerAdapter {
+
+    @Bean
+    PasswordEncoder passwordEncoder() {
+        return NoOpPasswordEncoder.getInstance();
+    }
+
+    @Bean
+    @Override
+    protected UserDetailsService userDetailsService() {
+        InMemoryUserDetailsManager manager = new InMemoryUserDetailsManager();
+        manager.createUser(User.withUsername(&quot;cxyxj&quot;).password(&quot;123&quot;).roles(&quot;admin&quot;).build());
+        manager.createUser(User.withUsername(&quot;security&quot;).password(&quot;security&quot;).roles(&quot;user&quot;).build());
+        return manager;
+    }
+
+
+    @Override
+    @Bean
+    public AuthenticationManager authenticationManagerBean()
+            throws Exception {
+        return super.authenticationManagerBean();
+    }
+
+    @Override
+    protected void configure(HttpSecurity http) throws Exception {
+        // 用自定义的 LoginFilter 实例代替 UsernamePasswordAuthenticationFilter
+        http.addFilterBefore(loginFilter(), UsernamePasswordAuthenticationFilter.class);
+
+        http.authorizeRequests()  //开启配置
+                // 验证码、登录接口放行
+                .antMatchers(&quot;/verify-code&quot;,&quot;/auth/login&quot;).permitAll()
+                .anyRequest() //其他请求
+                .authenticated().and()//验证   表示其他请求需要登录才能访问
+                .csrf().disable();  // 禁用 csrf 保护
+
+                http.exceptionHandling().authenticationEntryPoint(new MyAuthenticationEntryPoint());
+    }
+
+    @Bean
+    LoginFilter loginFilter() throws Exception {
+        LoginFilter loginFilter = new LoginFilter();
+        loginFilter.setFilterProcessesUrl(&quot;/auth/login&quot;);
+        loginFilter.setUsernameParameter(&quot;account&quot;);
+        loginFilter.setPasswordParameter(&quot;pwd&quot;);
+        loginFilter.setAuthenticationManager(authenticationManagerBean());
+        loginFilter.setAuthenticationSuccessHandler(new MyAuthenticationSuccessHandler());
+        loginFilter.setAuthenticationFailureHandler(new MyAuthenticationFailureHandler());
+        return loginFilter;
+    }
+
+}
+
+</code></pre><p>当我们替换了 <code>UsernamePasswordAuthenticationFilter</code> 之后，原本在 SecurityConfig#configure 方法中关于 form 表单的配置就会失效，那些失效的属性，都可以在配置 LoginFilter 实例的时候配置；还需要记得配置<code>AuthenticationManager</code>，否则启动时会报错。</p>
+<h4 id="方法二"><a href="#方法二" class="headerlink" title="方法二"></a>方法二</h4><pre><code>@PostMapping(&quot;/doLogin&quot;)
+public Object login(@RequestBody LoginReq req) {
+    String account = req.getAccount();
+    String pwd = req.getPwd();
+    String code = req.getCode();
+    UsernamePasswordAuthenticationToken authenticationToken =
+            new UsernamePasswordAuthenticationToken(account, pwd);
+    Authentication authentication = authenticationManager.authenticate(authenticationToken);
+    SecurityContextHolder.getContext().setAuthentication(authentication);
+    return authentication.getPrincipal();
+}
+
+
+public class LoginReq {
+
+    private String account;
+
+    private String pwd;
+
+    private String code;
+}
+
+</code></pre><p>方式二就是在我们自己的 Controller 层中，编写一个登录接口，接收用户名、密码、验证码参数。根据用户名、密码构建 <code>UsernamePasswordAuthenticationToken</code> 对象，然后调用官方的方法进行验证，验证用户名、密码是否真实有效；最后将认证对象放入到 Security 的上下文中。就三行代码就实现了简单的登录功能。</p>
+<pre><code>@Configuration
+public class SecurityConfig extends WebSecurityConfigurerAdapter {
+
+    @Bean
+    PasswordEncoder passwordEncoder() {
+        return NoOpPasswordEncoder.getInstance();
+    }
+
+    @Bean
+    @Override
+    protected UserDetailsService userDetailsService() {
+        InMemoryUserDetailsManager manager = new InMemoryUserDetailsManager();
+        manager.createUser(User.withUsername(&quot;cxyxj&quot;).password(&quot;123&quot;).roles(&quot;admin&quot;).build());
+        manager.createUser(User.withUsername(&quot;security&quot;).password(&quot;security&quot;).roles(&quot;user&quot;).build());
+        return manager;
+    }
+
+
+    @Override
+    @Bean
+    public AuthenticationManager authenticationManagerBean()
+            throws Exception {
+        return super.authenticationManagerBean();
+    }
+
+    @Override
+    protected void configure(HttpSecurity http) throws Exception {
+        http.authorizeRequests()  //开启配置
+                // 验证码、登录接口放行
+                .antMatchers(&quot;/verify-code&quot;,&quot;/doLogin&quot;).permitAll()
+                .anyRequest() //其他请求
+                .authenticated().and()//验证   表示其他请求需要登录才能访问
+                .csrf().disable();  // 禁用 csrf 保护
+
+       http.exceptionHandling().authenticationEntryPoint(new MyAuthenticationEntryPoint());
+
+    }
+}
+
+</code></pre><h3 id="自定义登录成功处理"><a href="#自定义登录成功处理" class="headerlink" title="自定义登录成功处理"></a>自定义登录成功处理</h3><p>有时候⻚⾯跳转并不能满⾜我们，特别是在前后端分离开发中就不需要成功之后跳转⻚⾯。 只需要给前端返回⼀个 JSON 通知登录成功还是失败与否。这个时候可以通过⾃定义  AuthenticationSucccessHandler 实现</p>
 <p>根据接⼝的描述信息,也可以得知登录成功会⾃动回调这个⽅法，进⼀步查看它的默认实现</p>
 <p>successForwardUrl、defaultSuccessUrl也是由它的⼦类实现的</p>
 <p><img src="/springsecurity/image-20230714194943686.png" alt="image-20230714194943686"></p>
@@ -1401,9 +1616,9 @@ Exception {
 <p>在UsernamePasswordAuthenticationFilter的attemptAuthentication⽅法 中将请求中⽤户名和密码，封装为Authentication对象，并交给 AuthenticationManager 进⾏认证</p>
 <p>认证成功，将认证信息存储到 SecurityContextHodler 以及调⽤记住我等，并回调  AuthenticationSuccessHandler 处理</p>
 <p>认证失败，清除 SecurityContextHodler 以及 记住我中信息，回调  AuthenticationFailureHandler 处理</p>
-<h4 id="三者关系"><a href="#三者关系" class="headerlink" title="三者关系"></a>三者关系</h4><p>从上⾯分析中得知，AuthenticationManager 是认证的核⼼类，但实际上在底层真正认 证时还离不开 ProviderManager 以及  AuthenticationProvider 。</p>
+<h4 id="三者关系-AuthenticationManager-ProviderManager-AuthenticationProvider"><a href="#三者关系-AuthenticationManager-ProviderManager-AuthenticationProvider" class="headerlink" title="三者关系 AuthenticationManager ProviderManager AuthenticationProvider"></a>三者关系 AuthenticationManager ProviderManager AuthenticationProvider</h4><p>从上⾯分析中得知，AuthenticationManager 是认证的核⼼类，但实际上在底层真正认 证时还离不开 ProviderManager 以及  AuthenticationProvider 。</p>
 <p>AuthenticationManager 是⼀个认证管理器，它定义了 Spring Security 过滤 器要执⾏认证操作。</p>
-<p>ProviderManager AuthenticationManager接⼝的实现类。Spring Security  认证时默认使⽤就是 ProviderManager。</p>
+<p>ProviderManager 是AuthenticationManager接⼝的实现类。Spring Security  认证时默认使⽤就是 ProviderManager。</p>
 <p>AuthenticationProvider 就是针对不同的身份类型执⾏的具体的身份认证。</p>
 <p>AuthenticationManager 与 ProviderManager</p>
 <p><img src="/springsecurity/image-20230715005028283.png" alt="image-20230715005028283"></p>
@@ -3974,7 +4189,7 @@ Oauth2UserDetailsService userDetailsService;
                     <div class="card-image">
                         
                         
-                        <img src="/medias/featureimages/20.jpg" class="responsive-img" alt="Eureka注册中心">
+                        <img src="/medias/featureimages/18.jpg" class="responsive-img" alt="Eureka注册中心">
                         
                         <span class="card-title">Eureka注册中心</span>
                     </div>
@@ -4023,7 +4238,7 @@ Oauth2UserDetailsService userDetailsService;
                     <div class="card-image">
                         
                         
-                        <img src="/medias/featureimages/0.jpg" class="responsive-img" alt="JWT">
+                        <img src="/medias/featureimages/2.jpg" class="responsive-img" alt="JWT">
                         
                         <span class="card-title">JWT</span>
                     </div>
@@ -4230,7 +4445,7 @@ Oauth2UserDetailsService userDetailsService;
            <!--<a href="/sitemap.xml" target="_blank">站点地图</a>丨-->
            
             &nbsp;<i class="fa fa-area-chart"></i>&nbsp;站点总字数:&nbsp;
-            <span class="white-color">156k
+            <span class="white-color">165.2k
              丨            
           
 
@@ -4324,7 +4539,7 @@ Oauth2UserDetailsService userDetailsService;
       <span class="badge-subject">PV</span><span class="badge-value bg-brightgreen" id="busuanzi_value_site_pv"></span>
     </div>
     <div class="github-badge">
-      <span class="badge-subject">WordCount</span><span class="badge-value bg-blueviolet">156k</span>
+      <span class="badge-subject">WordCount</span><span class="badge-value bg-blueviolet">165.2k</span>
     </div>
 </footer>
 
