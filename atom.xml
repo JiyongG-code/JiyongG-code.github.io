@@ -6,7 +6,7 @@
   <link href="/atom.xml" rel="self"/>
   
   <link href="https://jiyongg-code.github.io/"/>
-  <updated>2023-07-23T09:09:01.923Z</updated>
+  <updated>2023-08-12T15:52:12.645Z</updated>
   <id>https://jiyongg-code.github.io/</id>
   
   <author>
@@ -15,6 +15,141 @@
   </author>
   
   <generator uri="http://hexo.io/">Hexo</generator>
+  
+  <entry>
+    <title>Elasticsearch</title>
+    <link href="https://jiyongg-code.github.io/elasticsearch.html"/>
+    <id>https://jiyongg-code.github.io/elasticsearch.html</id>
+    <published>2023-08-12T13:03:42.000Z</published>
+    <updated>2023-08-12T15:52:12.645Z</updated>
+    
+    <summary type="html">
+    
+      
+      
+        
+        
+          &lt;h1 id=&quot;相关概念&quot;&gt;&lt;a href=&quot;#相关概念&quot; class=&quot;headerlink&quot; title=&quot;相关概念&quot;&gt;&lt;/a&gt;相关概念&lt;/h1&gt;&lt;h2 id=&quot;倒排索引&quot;&gt;&lt;a href=&quot;#倒排索引&quot; class=&quot;headerlink&quot;
+        
+      
+    
+    </summary>
+    
+    
+  </entry>
+  
+  <entry>
+    <title>基于Spring Cloud Gateway的网关鉴权</title>
+    <link href="https://jiyongg-code.github.io/gateway-authentication.html"/>
+    <id>https://jiyongg-code.github.io/gateway-authentication.html</id>
+    <published>2023-08-10T08:05:30.000Z</published>
+    <updated>2023-08-15T06:06:45.645Z</updated>
+    
+    <summary type="html">
+    
+      
+      
+        
+        
+          &lt;p&gt;&lt;strong&gt;SpringCloud Gateway是纯WebFlux的，使用传统的spring MVC配置spring
+        
+      
+    
+    </summary>
+    
+    
+  </entry>
+  
+  <entry>
+    <title>Java常用的设计模型</title>
+    <link href="https://jiyongg-code.github.io/design-patterns.html"/>
+    <id>https://jiyongg-code.github.io/design-patterns.html</id>
+    <published>2023-08-07T11:48:08.000Z</published>
+    <updated>2023-08-07T15:09:37.850Z</updated>
+    
+    <summary type="html">
+    
+      
+      
+        
+        
+          &lt;h1 id=&quot;单例模式&quot;&gt;&lt;a href=&quot;#单例模式&quot; class=&quot;headerlink&quot; title=&quot;单例模式&quot;&gt;&lt;/a&gt;单例模式&lt;/h1&gt;&lt;h2 id=&quot;懒汉模式&quot;&gt;&lt;a href=&quot;#懒汉模式&quot; class=&quot;headerlink&quot;
+        
+      
+    
+    </summary>
+    
+    
+  </entry>
+  
+  <entry>
+    <title>SpringBoot+Filebeat+Kafka+ELK完成海量日志收集</title>
+    <link href="https://jiyongg-code.github.io/filebeat-kafka-ekl.html"/>
+    <id>https://jiyongg-code.github.io/filebeat-kafka-ekl.html</id>
+    <published>2023-08-07T07:13:29.000Z</published>
+    <updated>2023-08-07T08:08:07.611Z</updated>
+    
+    <summary type="html">
+    
+      
+      
+        
+        
+          &lt;p&gt;一般结构都是filebeat采集日志，然后发送到消息队列，redis，kafaka。然后logstash去获取，利用filter功能过滤分析，然后存储到elasticsearch中。&lt;/p&gt;
+&lt;h1 id=&quot;Filebeat&quot;&gt;&lt;a href=&quot;#Filebeat&quot;
+        
+      
+    
+    </summary>
+    
+    
+  </entry>
+  
+  <entry>
+    <title>SpringbootAOP面向切面编程</title>
+    <link href="https://jiyongg-code.github.io/springboot-aop.html"/>
+    <id>https://jiyongg-code.github.io/springboot-aop.html</id>
+    <published>2023-08-07T05:21:44.000Z</published>
+    <updated>2023-08-07T11:59:14.145Z</updated>
+    
+    <summary type="html">
+    
+      
+      
+        
+        
+          &lt;p&gt;AOP：面向切面编程，相对于OOP面向对象编程&lt;/p&gt;
+&lt;p&gt;Spring的AOP是通过JDK的动态代理和CGLIB实现的。&lt;/p&gt;
+&lt;h3 id=&quot;AOP的术语&quot;&gt;&lt;a href=&quot;#AOP的术语&quot; class=&quot;headerlink&quot;
+        
+      
+    
+    </summary>
+    
+    
+  </entry>
+  
+  <entry>
+    <title>Springboot常用注解</title>
+    <link href="https://jiyongg-code.github.io/springboot-annotation.html"/>
+    <id>https://jiyongg-code.github.io/springboot-annotation.html</id>
+    <published>2023-08-06T11:49:47.000Z</published>
+    <updated>2023-08-06T12:38:49.387Z</updated>
+    
+    <summary type="html">
+    
+      
+      
+        
+        
+          &lt;h1 id=&quot;RequestParm&quot;&gt;&lt;a href=&quot;#RequestParm&quot; class=&quot;headerlink&quot;
+        
+      
+    
+    </summary>
+    
+    
+  </entry>
   
   <entry>
     <title>Kafka消费顺序-消费可靠性-不重复消费</title>
@@ -125,11 +260,11 @@
   </entry>
   
   <entry>
-    <title>Xuecheng项目</title>
+    <title>ccc</title>
     <link href="https://jiyongg-code.github.io/xuecheng.html"/>
     <id>https://jiyongg-code.github.io/xuecheng.html</id>
     <published>2023-03-27T08:42:14.000Z</published>
-    <updated>2023-04-02T13:19:41.858Z</updated>
+    <updated>2023-08-16T16:47:06.069Z</updated>
     
     <summary type="html">
     
@@ -149,7 +284,7 @@
     <link href="https://jiyongg-code.github.io/springsecurity-oauth2.html"/>
     <id>https://jiyongg-code.github.io/springsecurity-oauth2.html</id>
     <published>2023-03-25T05:09:37.000Z</published>
-    <updated>2023-08-02T11:53:10.629Z</updated>
+    <updated>2023-08-15T15:24:06.061Z</updated>
     
     <summary type="html">
     
@@ -303,7 +438,7 @@
     <link href="https://jiyongg-code.github.io/feign.html"/>
     <id>https://jiyongg-code.github.io/feign.html</id>
     <published>2023-03-23T13:40:54.000Z</published>
-    <updated>2023-03-29T12:30:33.639Z</updated>
+    <updated>2023-08-13T16:30:13.965Z</updated>
     
     <summary type="html">
     
@@ -348,162 +483,6 @@
     
     
       <category term="Gateway" scheme="https://jiyongg-code.github.io/tags/Gateway/"/>
-    
-  </entry>
-  
-  <entry>
-    <title>Nacos</title>
-    <link href="https://jiyongg-code.github.io/nacos.html"/>
-    <id>https://jiyongg-code.github.io/nacos.html</id>
-    <published>2023-03-23T12:43:40.000Z</published>
-    <updated>2023-03-23T14:07:58.385Z</updated>
-    
-    <summary type="html">
-    
-      
-      
-        
-        
-          &lt;h1 id=&quot;Nacos注册中心&quot;&gt;&lt;a href=&quot;#Nacos注册中心&quot; class=&quot;headerlink&quot; title=&quot;Nacos注册中心&quot;&gt;&lt;/a&gt;Nacos注册中心&lt;/h1&gt;&lt;h2 id=&quot;认识和安装Nacos&quot;&gt;&lt;a href=&quot;#认识和安装Nacos&quot;
-        
-      
-    
-    </summary>
-    
-      <category term="Springcloud" scheme="https://jiyongg-code.github.io/categories/Springcloud/"/>
-    
-    
-      <category term="Springcloud" scheme="https://jiyongg-code.github.io/tags/Springcloud/"/>
-    
-  </entry>
-  
-  <entry>
-    <title>Ribbon-LoadBalance</title>
-    <link href="https://jiyongg-code.github.io/ribbon-loadbalance.html"/>
-    <id>https://jiyongg-code.github.io/ribbon-loadbalance.html</id>
-    <published>2023-03-23T12:24:28.000Z</published>
-    <updated>2023-03-23T14:05:05.326Z</updated>
-    
-    <summary type="html">
-    
-      
-      
-        
-        
-          &lt;h1 id=&quot;Ribbon负载均衡&quot;&gt;&lt;a href=&quot;#Ribbon负载均衡&quot; class=&quot;headerlink&quot; title=&quot;Ribbon负载均衡&quot;&gt;&lt;/a&gt;Ribbon负载均衡&lt;/h1&gt;&lt;h2 id=&quot;负载均衡原理&quot;&gt;&lt;a href=&quot;#负载均衡原理&quot;
-        
-      
-    
-    </summary>
-    
-      <category term="SpringCloud" scheme="https://jiyongg-code.github.io/categories/SpringCloud/"/>
-    
-    
-      <category term="SpringCloud" scheme="https://jiyongg-code.github.io/tags/SpringCloud/"/>
-    
-  </entry>
-  
-  <entry>
-    <title>Eureka注册中心</title>
-    <link href="https://jiyongg-code.github.io/eureka.html"/>
-    <id>https://jiyongg-code.github.io/eureka.html</id>
-    <published>2023-03-23T11:57:31.000Z</published>
-    <updated>2023-03-23T14:03:59.397Z</updated>
-    
-    <summary type="html">
-    
-      
-      
-        
-        
-          &lt;h1 id=&quot;Eureka的结构和作用&quot;&gt;&lt;a href=&quot;#Eureka的结构和作用&quot; class=&quot;headerlink&quot; title=&quot;Eureka的结构和作用&quot;&gt;&lt;/a&gt;Eureka的结构和作用&lt;/h1&gt;&lt;p&gt;&lt;img
-        
-      
-    
-    </summary>
-    
-      <category term="SpringCloud" scheme="https://jiyongg-code.github.io/categories/SpringCloud/"/>
-    
-    
-      <category term="Eureka" scheme="https://jiyongg-code.github.io/tags/Eureka/"/>
-    
-  </entry>
-  
-  <entry>
-    <title>SpringSecurity</title>
-    <link href="https://jiyongg-code.github.io/springsecurity.html"/>
-    <id>https://jiyongg-code.github.io/springsecurity.html</id>
-    <published>2023-03-22T12:20:31.000Z</published>
-    <updated>2023-08-02T08:15:41.114Z</updated>
-    
-    <summary type="html">
-    
-      
-      
-        
-        
-          &lt;h1 id=&quot;Spring-Security&quot;&gt;&lt;a href=&quot;#Spring-Security&quot; class=&quot;headerlink&quot; title=&quot;Spring Security&quot;&gt;&lt;/a&gt;Spring Security&lt;/h1&gt;&lt;p&gt;Spring Security 是
-        
-      
-    
-    </summary>
-    
-      <category term="Auth" scheme="https://jiyongg-code.github.io/categories/Auth/"/>
-    
-    
-      <category term="SpringSecuritt" scheme="https://jiyongg-code.github.io/tags/SpringSecuritt/"/>
-    
-  </entry>
-  
-  <entry>
-    <title>JWT</title>
-    <link href="https://jiyongg-code.github.io/jwt.html"/>
-    <id>https://jiyongg-code.github.io/jwt.html</id>
-    <published>2023-03-22T11:08:28.000Z</published>
-    <updated>2023-03-23T14:03:18.287Z</updated>
-    
-    <summary type="html">
-    
-      
-      
-        
-        
-          &lt;h1 id=&quot;JWT&quot;&gt;&lt;a href=&quot;#JWT&quot; class=&quot;headerlink&quot; title=&quot;JWT&quot;&gt;&lt;/a&gt;JWT&lt;/h1&gt;&lt;h2 id=&quot;JWT介绍&quot;&gt;&lt;a href=&quot;#JWT介绍&quot; class=&quot;headerlink&quot;
-        
-      
-    
-    </summary>
-    
-      <category term="Auth" scheme="https://jiyongg-code.github.io/categories/Auth/"/>
-    
-    
-      <category term="JWT" scheme="https://jiyongg-code.github.io/tags/JWT/"/>
-    
-  </entry>
-  
-  <entry>
-    <title>Oauth</title>
-    <link href="https://jiyongg-code.github.io/oauth.html"/>
-    <id>https://jiyongg-code.github.io/oauth.html</id>
-    <published>2023-03-21T15:59:53.000Z</published>
-    <updated>2023-03-22T11:07:04.144Z</updated>
-    
-    <summary type="html">
-    
-      
-      
-        
-        
-          &lt;h1 id=&quot;Oauth&quot;&gt;&lt;a href=&quot;#Oauth&quot; class=&quot;headerlink&quot; title=&quot;Oauth&quot;&gt;&lt;/a&gt;Oauth&lt;/h1&gt;&lt;h2 id=&quot;什么是OAuth&quot;&gt;&lt;a href=&quot;#什么是OAuth&quot; class=&quot;headerlink&quot;
-        
-      
-    
-    </summary>
-    
-      <category term="Auth" scheme="https://jiyongg-code.github.io/categories/Auth/"/>
-    
-    
-      <category term="Oauth" scheme="https://jiyongg-code.github.io/tags/Oauth/"/>
     
   </entry>
   

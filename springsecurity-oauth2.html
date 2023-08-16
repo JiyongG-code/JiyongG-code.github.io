@@ -615,7 +615,7 @@
 
 
 
-<div class="bg-cover pd-header post-cover" style="background-image: url('/medias/featureimages/14.jpg')">
+<div class="bg-cover pd-header post-cover" style="background-image: url('/medias/featureimages/13.jpg')">
     <div class="container">
         <div class="row">
             <div class="col s12 m12 l12">
@@ -761,14 +761,14 @@
                 
                 <div class="info-break-policy">
                     <i class="fa fa-file-word-o fa-fw"></i>文章字数:&nbsp;&nbsp;
-                    3.5k
+                    4.3k
                 </div>
                 
 
                 
                 <div class="info-break-policy">
                     <i class="fa fa-clock-o fa-fw"></i>阅读时长:&nbsp;&nbsp;
-                    13 分
+                    17 分
                 </div>
                 
                 
@@ -790,13 +790,13 @@
 <ul>
 <li><strong>OAuth2AuthorizationRequestRedirectFilter</strong>：这个过滤器用于拦截客户端的授权请求，使用OAuth2AuthorizationRequestResolver来解析OAuth2AuthorizationRequest对象，并重定向到授权服务器的授权端点。里面会调用<strong>DefaultOAuth2AuthorizationRequestResolver</strong>，里面包含授权服务的所有请求参数</li>
 <li><strong>OAuth2LoginAuthenticationFilter</strong>：这个过滤器用于处理授权服务器返回的授权码，使用<strong>AuthorizationCodeAuthenticationProvider</strong>来进行身份验证，并获取<strong>OAuth2LoginAuthenticationToken</strong>对象。</li>
-<li><strong>AuthorizationCodeAuthenticationProvider</strong>：这个提供者用于验证授权码，使用OAuth2AccessTokenResponseClient来发送令牌请求，并获取OAuth2AccessTokenResponse对象。</li>
+<li><strong>OAuth2AuthorizationCodeAuthenticationProvider</strong>：这个提供者用于验证授权码，使用OAuth2AccessTokenResponseClient接口携带code来发送令牌请求，并获取OAuth2AccessTokenResponse对象。</li>
 <li><strong>DefaultAuthorizationCodeTokenResponseClient</strong>：这个客户端用于发送令牌请求，使用RestTemplate来发送HTTP请求，并解析响应为OAuth2AccessTokenResponse对象。</li>
 <li><strong>OAuth2UserService</strong>：这个服务用于获取用户信息，使用RestTemplate来发送HTTP请求到用户信息端点，并创建OAuth2User对象。</li>
 <li><strong>DefaultOAuth2UserService</strong>：这个服务是OAuth2UserService的默认实现，它可以根据不同的用户信息响应格式来适配不同的提供者。</li>
 </ul>
-<h2 id="OAuth2AuthorizationRequestRedirectWebFilter"><a href="#OAuth2AuthorizationRequestRedirectWebFilter" class="headerlink" title="OAuth2AuthorizationRequestRedirectWebFilter"></a>OAuth2AuthorizationRequestRedirectWebFilter</h2><p>先来看第一个<code>OAuth2AuthorizationRequestRedirectWebFilter</code>，它实现了Spring Webflux的<code>WebFilter</code>接口，这显然是Webflux的东西，如果你用到Webflux的话这个会有用，但是不是现在我们用的。</p>
-<h2 id="DefaultOAuth2AuthorizationRequestResolver"><a href="#DefaultOAuth2AuthorizationRequestResolver" class="headerlink" title="DefaultOAuth2AuthorizationRequestResolver"></a>DefaultOAuth2AuthorizationRequestResolver</h2><p>从名称上看着是一个默认OAuth2授权请求解析器。它实现了接口OAuth2AuthorizationRequestResolver</p>
+<h2 id="OAuth2AuthorizationRequestRedirectWebFilter"><a href="#OAuth2AuthorizationRequestRedirectWebFilter" class="headerlink" title="OAuth2AuthorizationRequestRedirectWebFilter"></a>OAuth2AuthorizationRequestRedirectWebFilter</h2><p>先来看第一个<code>OAuth2AuthorizationRequestRedirectWebFilter</code>，它实现了Spring Webflux的<code>WebFilter</code>接口，这显然是Webflux的东西，如果你用到Webflux的话这个会有用，但是不是现在用的。</p>
+<h3 id="DefaultOAuth2AuthorizationRequestResolver"><a href="#DefaultOAuth2AuthorizationRequestResolver" class="headerlink" title="DefaultOAuth2AuthorizationRequestResolver"></a>DefaultOAuth2AuthorizationRequestResolver</h3><p>从名称上看着是一个默认OAuth2授权请求解析器。它实现了接口OAuth2AuthorizationRequestResolver</p>
 <p><img src="/springsecurity-oauth2/image-20230801145153240.png" alt="image-20230801145153240"></p>
 <p>就是把HttpServletRequest 和ClientRegistrationID封装成OAuth2AuthorizationRequest</p>
 <p>当请求<code>/oauth2/authorization</code>时，<code>DefaultOAuth2AuthorizationRequestResolver</code> 会从<code>/oauth2/authorization</code>对应的<code>HttpServletRequest</code>中提取数据封装到<code>OAuth2AuthorizationRequest</code>请求对象中做进一步使用。</p>
@@ -806,15 +806,15 @@
 <li>通过配置<code>oauth2Login().authorizationEndpoint().baseUri()</code>方法，修改授权请求的基础路径</li>
 <li>[通过实现<code>AccessDecisionManager</code>接口，自定义决策管理器，判断是否有访问权限，并在<code>WebSecurityConfig</code>中配置启用<code>filterSecurityInterceptor</code>。</li>
 </ul>
-<h2 id="OAuth2AuthorizationRequest"><a href="#OAuth2AuthorizationRequest" class="headerlink" title="OAuth2AuthorizationRequest"></a>OAuth2AuthorizationRequest</h2><p>封装了一些OAuth2相关概念参数</p>
+<h3 id="OAuth2AuthorizationRequest"><a href="#OAuth2AuthorizationRequest" class="headerlink" title="OAuth2AuthorizationRequest"></a>OAuth2AuthorizationRequest</h3><p>封装了一些OAuth2相关概念参数</p>
 <p><img src="/springsecurity-oauth2/image-20230801151136827.png" alt="image-20230801151136827"></p>
-<h2 id="OAuth2AuthorizationRequestRedirectFilter"><a href="#OAuth2AuthorizationRequestRedirectFilter" class="headerlink" title="OAuth2AuthorizationRequestRedirectFilter"></a>OAuth2AuthorizationRequestRedirectFilter</h2><p>继承了 OncePerRequestFilter</p>
+<h3 id="OAuth2AuthorizationRequestRedirectFilter"><a href="#OAuth2AuthorizationRequestRedirectFilter" class="headerlink" title="OAuth2AuthorizationRequestRedirectFilter"></a>OAuth2AuthorizationRequestRedirectFilter</h3><p>继承了 OncePerRequestFilter</p>
 <p>这个过滤器用于拦截客户端的授权请求，使用OAuth2AuthorizationRequestResolver来解析OAuth2AuthorizationRequest对象，并重定向到授权服务器的授权端点。</p>
 <p><img src="/springsecurity-oauth2/image-20230801161322372.png" alt="image-20230801161322372"></p>
 <p><img src="/springsecurity-oauth2/image-20230801162945544.png" alt="image-20230801162945544"></p>
 <p><img src="/springsecurity-oauth2/image-20230801162956665.png" alt="image-20230801162956665"></p>
 <p>主要是用sendRedirectForAuthorization</p>
-<h2 id="sendRedirectForAuthorization"><a href="#sendRedirectForAuthorization" class="headerlink" title="sendRedirectForAuthorization"></a>sendRedirectForAuthorization</h2><p>它的主要作用就是向第三方平台进行授权重定向访问。它所有的逻辑都和<code>OAuth2AuthorizationRequest</code>有关</p>
+<h3 id="sendRedirectForAuthorization"><a href="#sendRedirectForAuthorization" class="headerlink" title="sendRedirectForAuthorization"></a>sendRedirectForAuthorization</h3><p>它的主要作用就是向第三方平台进行授权重定向访问。它所有的逻辑都和<code>OAuth2AuthorizationRequest</code>有关</p>
 <h3 id="OAuth2AuthorizationRequestResolver"><a href="#OAuth2AuthorizationRequestResolver" class="headerlink" title="OAuth2AuthorizationRequestResolver"></a>OAuth2AuthorizationRequestResolver</h3><p>需要去分析解析类<code>OAuth2AuthorizationRequestResolver</code></p>
 <p><img src="/springsecurity-oauth2/image-20230801163501080.png" alt="image-20230801163501080"></p>
 <p>上面方法里面的<code>resolve(request, registrationId, redirectUriAction)</code>方法才是最终从<code>/oauth2/authorization</code>提取<code>OAuth2AuthorizationRequest</code>的根本方法。</p>
@@ -827,7 +827,7 @@
    String redirectUriAction = getAction(request, &quot;login&quot;);
     // 然后进入根本的解析方法
    return resolve(request, registrationId, redirectUriAction);
-</code></pre><h2 id="OAuth2AuthorizationRequest-1"><a href="#OAuth2AuthorizationRequest-1" class="headerlink" title="OAuth2AuthorizationRequest"></a>OAuth2AuthorizationRequest</h2><p><code>OAuth2AuthorizationRequestResolver</code>在各种授权方式下的<code>OAuth2AuthorizationRequest</code>对象的解析</p>
+</code></pre><h3 id="OAuth2AuthorizationRequest-1"><a href="#OAuth2AuthorizationRequest-1" class="headerlink" title="OAuth2AuthorizationRequest"></a>OAuth2AuthorizationRequest</h3><p><code>OAuth2AuthorizationRequestResolver</code>在各种授权方式下的<code>OAuth2AuthorizationRequest</code>对象的解析</p>
 <p><img src="/springsecurity-oauth2/image-20230801170100554.png" alt="image-20230801170100554"></p>
 <h3 id="由AuthorizationGrantType决定的"><a href="#由AuthorizationGrantType决定的" class="headerlink" title="由AuthorizationGrantType决定的"></a>由AuthorizationGrantType决定的</h3><ul>
 <li><code>authorizationGrantType</code> ，来自配置ClientRegistration.getAuthorizationGrantType()。</li>
@@ -935,7 +935,7 @@
 </ol>
 <h1 id="回调"><a href="#回调" class="headerlink" title="回调"></a>回调</h1><h2 id="OAuth2登录认证"><a href="#OAuth2登录认证" class="headerlink" title="OAuth2登录认证"></a>OAuth2登录认证</h2><p>当第三方收到OAuth2授权请求后，会将授权的回执通过我方提供的回调请求<code>redirect_uri</code>传递给我们。由于默认情况下回调的路径满足<code>/login/oauth2/code/*</code>，所以我们只要找到拦截回调的过滤器就可以知道Spring Security是如何处理回调了</p>
 <h2 id="OAuth2LoginAuthenticationFilter"><a href="#OAuth2LoginAuthenticationFilter" class="headerlink" title="OAuth2LoginAuthenticationFilter"></a>OAuth2LoginAuthenticationFilter</h2><p>第三方认证服务器在调用<code>redirect_uri</code>时附加<code>code</code>和<code>state</code>参数，在被这个<code>Filter</code>拦截后，创建一个待认证凭据<code>OAuth2LoginAuthenticationToken</code>，并委托给了<code>AuthenticationManager</code>进行身份验证。</p>
-<p>一旦成功验证，则生成认证凭据<code>OAuth2AuthenticationToken</code>和认证客户端对象<code>OAuth2AuthorizedClient</code>。 最后， <code>OAuth2AuthenticationToken</code>返回，并最终存储在<code>SecurityContextRepository</code>完成认证处理；而<code>OAuth2AuthorizedClient</code>被保存到<code>OAuth2AuthorizedClientRepository</code></p>
+<p>一旦成功验证，则生成认证凭据<code>OAuth2AuthenticationToken</code>和认证客户端对象<code>OAuth2AuthorizedClient</code>。 最后， <code>OAuth2AuthenticationToken</code>返回，并最终存储在<code>SecurityContextRepository</code>完成认证处理；而</p>
 <p><img src="/springsecurity-oauth2/image-20230801205032925.png" alt="image-20230801205032925"></p>
 <p>这个过滤器和<code>UsernamePasswordAuthenticationFilter</code>一样继承了<code>AbstractAuthenticationProcessingFilter</code>，流程有相像的地方</p>
 <h2 id="OAuth2对应的AuthenticationProvider"><a href="#OAuth2对应的AuthenticationProvider" class="headerlink" title="OAuth2对应的AuthenticationProvider"></a>OAuth2对应的AuthenticationProvider</h2><p>OAuth2LoginAuthenticationProvider</p>
@@ -945,7 +945,8 @@
 <p>在OAuth2LoginAuthenticationProvider的构造方法里面有一个<code>OAuth2AccessTokenResponseClient</code></p>
 <p><img src="/springsecurity-oauth2/image-20230801214249780.png" alt="image-20230801214249780"></p>
 <p>在该实现中包含了一个<code>OAuth2AccessTokenResponseClient</code>成员变量，它抽象了通过<code>tokenUri</code>端点从认证服务器获取<strong>Token</strong>的细节。你可以根据<strong>OAuth 2.0</strong>常用的四种模式来进行实现它， 以达到根据不同的策略来获取<strong>Token</strong>的能力。</p>
-<h2 id="DefaultAuthorizationCodeTokenResponseClient"><a href="#DefaultAuthorizationCodeTokenResponseClient" class="headerlink" title="DefaultAuthorizationCodeTokenResponseClient"></a>DefaultAuthorizationCodeTokenResponseClient</h2><p>在<strong>Spring Security 5</strong>中<strong>OAuth 2.0</strong>登录的配置中默认使用<code>DefaultAuthorizationCodeTokenResponseClient</code>。如果你想使用自定义实现的话可以通过<code>HttpSecurity</code>来配置</p>
+<h2 id="DefaultAuthorizationCodeTokenResponseClient"><a href="#DefaultAuthorizationCodeTokenResponseClient" class="headerlink" title="DefaultAuthorizationCodeTokenResponseClient"></a>DefaultAuthorizationCodeTokenResponseClient</h2><p>OAuth2AccessTokenResponseClient的实现类</p>
+<p>在<strong>Spring Security 5</strong>中<strong>OAuth 2.0</strong>登录的配置中默认使用<code>DefaultAuthorizationCodeTokenResponseClient</code>。如果你想使用自定义实现的话可以通过<code>HttpSecurity</code>来配置</p>
 <pre><code>        @Override
         protected void configure(HttpSecurity http) throws Exception {
             http.oauth2Login()
@@ -964,7 +965,7 @@
 </ul>
 <p>DefaultAuthorizationCodeTokenResponseClient的主要方法</p>
 <p><img src="/springsecurity-oauth2/image-20230801230601870.png" alt="image-20230801230601870"></p>
-<h1 id="OAuth2UserService"><a href="#OAuth2UserService" class="headerlink" title="OAuth2UserService"></a>OAuth2UserService</h1><ul>
+<h1 id="OAuth2UserService-（用code获取用户信息）"><a href="#OAuth2UserService-（用code获取用户信息）" class="headerlink" title="OAuth2UserService （用code获取用户信息）"></a>OAuth2UserService （用code获取用户信息）</h1><ul>
 <li><strong>DefaultOAuth2UserService</strong>：这个类是OAuth2UserService的默认实现，它可以根据不同的用户信息响应格式来适配不同的提供者，如Google、GitHub、Facebook等。它使用RestOperations来发送HTTP请求到用户信息端点，并使用OAuth2UserRequest和OAuth2UserAuthority来创建OAuth2User对象。</li>
 <li><strong>OidcUserService</strong>：这个类是OAuth2UserService的一个扩展，它专门用于处理OpenID Connect（OIDC）协议的用户信息响应。它继承了DefaultOAuth2UserService，并重写了loadUser方法，使用OidcUserRequest和OidcUserAuthority来创建OidcUser对象。OidcUser对象包含了OIDC标准的用户信息，如id_token、sub、name等。</li>
 <li><strong>DelegatingOAuth2UserService</strong>是一个类，它实现了OAuth2UserService接口，它的作用是根据不同的提供者来委派不同的OAuth2UserService来处理用户信息响应。它可以通过构造器来注入一个列表的OAuth2UserService，每个OAuth2UserService都可以指定一个或多个提供者的标识（registrationId）。当DelegatingOAuth2UserService收到一个用户请求时，它会根据用户请求中的提供者标识来选择一个合适的OAuth2UserService来调用loadUser方法，并返回一个用户对象。如果没有找到合适的OAuth2UserService，它会抛出异常。DelegatingOAuth2UserService可以实现多个提供者的用户信息映射的灵活配置和扩展。</li>
@@ -979,6 +980,26 @@
 </ul>
 <p>DefaultOAuth2User提供了一些方法来访问这些属性，如getAuthorities、getAttributes、getNameAttributeKey、getName等。它还重写了equals、hashCode和toString方法，以便于比较和打印用户对象。拿到用户信息了</p>
 <p>当DefaultOAuth2UserService获取到用户信息后，它会创建一个OAuth2AuthenticationToken，并将其设置到SecurityContextHolder中。然后，它会触发AuthenticationSuccessHandler，用于处理认证成功后的逻辑。</p>
+<pre><code>import org.springframework.security.core.annotation.AuthenticationPrincipal;
+import org.springframework.security.oauth2.core.user.OAuth2User;
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.RestController;
+
+@RestController
+public class UserController {
+
+    @GetMapping(&quot;/user&quot;)
+    public String getUserInfo(@AuthenticationPrincipal OAuth2User oauth2User) {
+        String username = oauth2User.getName();
+        String email = oauth2User.getAttribute(&quot;email&quot;);
+        String pictureUrl = oauth2User.getAttribute(&quot;picture&quot;);
+
+        return &quot;Username: &quot; + username + &quot;&lt;br&gt;&quot;
+                + &quot;Email: &quot; + email + &quot;&lt;br&gt;&quot;
+                + &quot;Picture URL: &quot; + pictureUrl;
+    }
+}
+</code></pre><p><code>@AuthenticationPrincipal</code> 注解用于从 Spring Security 中获取当前认证用户的 <code>OAuth2User</code> 对象。然后，可以使用 <code>OAuth2User</code> 对象的方法来获取用户的属性，如用户名、电子邮件、头像 URL 等。</p>
 <h1 id="配置文件yaml"><a href="#配置文件yaml" class="headerlink" title="配置文件yaml"></a>配置文件yaml</h1><pre><code>spring:
   security:
     oauth2:
@@ -1051,6 +1072,70 @@ public class OAuth2LoginSecurityConfig {
             );
         return http.build();
     }
+}
+</code></pre><h1 id="整合微信登录"><a href="#整合微信登录" class="headerlink" title="整合微信登录"></a>整合微信登录</h1><p>yaml</p>
+<pre><code>pring:
+  security:
+    oauth2:
+      client:
+        registration:
+          work-wechat-scan:
+            # client-id为企业微信 的企业ID
+            # 下面client-id是假的，你用你自己的企业ID
+            client-id: wwaxxxxxx
+            # client-secret企业微信对应应用的secret，
+            # 每个企业微信应用都有独立的secret，不要搞错
+            # 下面client-secret假的，你用你自己创建的企业微信应用secret
+            client-secret:  nvzGI4Alp3zxxxxxxxKbnfTEets5W8
+            authorization-grant-type: authorization_code
+            redirect-uri: &#39;{baseUrl}/login/oauth2/code/{registrationId}&#39;
+        provider:
+          work-wechat-scan:
+            authorization-uri: https://open.work.weixin.qq.com/wwopen/sso/qrConnect
+            token-uri: https://qyapi.weixin.qq.com/cgi-bin/gettoken
+            user-info-uri: https://qyapi.weixin.qq.com/cgi-bin/user/getuserinfo</code></pre><p>为了保持<strong>Spring Security OAuth2</strong>的风格，当访问：</p>
+<pre><code>http://你的网站/oauth2/authorization/work-wechat-scan</code></pre><p>会重定向到企业微信扫码登录链接，格式为：</p>
+<pre><code>https://open.work.weixin.qq.com/wwopen/sso/qrConnect?appid=CORPID&amp;agentid=AGENT</code></pre><h2 id="OAuth2AuthorizationRequestRedirectFilter用于处理授权请求的转发，"><a href="#OAuth2AuthorizationRequestRedirectFilter用于处理授权请求的转发，" class="headerlink" title="OAuth2AuthorizationRequestRedirectFilter用于处理授权请求的转发，"></a><strong>OAuth2AuthorizationRequestRedirectFilter</strong>用于处理授权请求的转发，</h2><h2 id="OAuth2AuthorizationRequestResolver-用于解析授权请求的参数并创建授权请求对象，就是去请求授权码"><a href="#OAuth2AuthorizationRequestResolver-用于解析授权请求的参数并创建授权请求对象，就是去请求授权码" class="headerlink" title="OAuth2AuthorizationRequestResolver 用于解析授权请求的参数并创建授权请求对象，就是去请求授权码"></a><code>OAuth2AuthorizationRequestResolver</code> 用于解析授权请求的参数并创建授权请求对象，就是去请求授权码</h2><h2 id="向微信获取code"><a href="#向微信获取code" class="headerlink" title="向微信获取code"></a>向微信获取code</h2><p>自定义OAuth2AuthorizationRequestResolver，把yaml里面的微信需要的id之类的拼装到url里面。</p>
+<h2 id="OAuth2LoginAuthenticationFilter就来拦截返回过来的code-授权码"><a href="#OAuth2LoginAuthenticationFilter就来拦截返回过来的code-授权码" class="headerlink" title="OAuth2LoginAuthenticationFilter就来拦截返回过来的code,授权码"></a>OAuth2LoginAuthenticationFilter就来拦截返回过来的code,授权码</h2><p>默认拦截/login/oauth2/code/*</p>
+<h2 id="用获取的code向微信得到令牌"><a href="#用获取的code向微信得到令牌" class="headerlink" title="用获取的code向微信得到令牌"></a>用获取的code向微信得到令牌</h2><p><strong>重写了OAuth2AccessTokenResponseClien，来向携带code去微信申请令牌，其实就是构造一个OAuth2AuthorizationCodeGrantRequest获取code，构建一个</strong> RequestEntity <strong>对象，将授权码等参数放入请求中，并发送请求到授权服务器的</strong> token-uri，并且自定义了一个<strong>OAuth2AccessTokenResponseConverter</strong>来解析微信发过来的json，获得令牌。</p>
+<h2 id="用令牌获取用户信息"><a href="#用令牌获取用户信息" class="headerlink" title="用令牌获取用户信息"></a>用令牌获取用户信息</h2><p><strong>自定义OAuth2UserService用来携带令牌向微信获取用户信息，</strong>改下参数封装成<strong>URI</strong>交给<code>RestTemplate</code>请求微信API就是用重写的<strong>OAuth2UserService中的loadUser中调用restTemplate。</strong></p>
+<p><strong>自定义OAuth2User，并且在自定义OAuth2UserService中用自定义OAuth2Use返回用户信息。</strong></p>
+<h1 id="自定义资源管理器的jwt解析"><a href="#自定义资源管理器的jwt解析" class="headerlink" title="自定义资源管理器的jwt解析"></a>自定义资源管理器的jwt解析</h1><p>创建一个类来实现 <code>JwtDecoder</code> 接口，但在该类中使用固定的密钥来验证 JWT 签名</p>
+<pre><code>import org.springframework.security.oauth2.jwt.JwtDecoder;
+import org.springframework.security.oauth2.jwt.JwtException;
+import org.springframework.security.oauth2.jwt.Jwt;
+import org.springframework.security.oauth2.jwt.NimbusJwtDecoder;
+
+public class FixedKeyJwtDecoder implements JwtDecoder {
+
+    private final NimbusJwtDecoder jwtDecoder;
+
+    public FixedKeyJwtDecoder(String fixedSigningKey) {
+        this.jwtDecoder = NimbusJwtDecoder.withSecretKey(new SecretKeySpec(fixedSigningKey.getBytes(), SignatureAlgorithm.HS256.getValue())).build();
+    }
+
+    @Override
+    public Jwt decode(String token) throws JwtException {
+        return jwtDecoder.decode(token);
+    }
+}
+</code></pre><p>在 Spring 配置中，将上述自定义的 <code>JwtDecoder</code> 注入到 Spring Security 的配置中，用于解析 JWT。</p>
+<pre><code>import org.springframework.context.annotation.Bean;
+import org.springframework.context.annotation.Configuration;
+import org.springframework.security.oauth2.jwt.JwtDecoder;
+
+@Configuration
+public class SecurityConfig {
+
+    @Value(&quot;${your.fixed.signing.key}&quot;)
+    private String fixedSigningKey;
+
+    @Bean
+    public JwtDecoder jwtDecoder() {
+        return new FixedKeyJwtDecoder(fixedSigningKey);
+    }
+
+    // 其他配置...
 }
 </code></pre>
             </div>
@@ -1545,9 +1630,9 @@ public class OAuth2LoginSecurityConfig {
                     <div class="card-image">
                         
                         
-                        <img src="/medias/featureimages/15.jpg" class="responsive-img" alt="Xuecheng项目">
+                        <img src="/medias/featureimages/7.jpg" class="responsive-img" alt="ccc">
                         
-                        <span class="card-title">Xuecheng项目</span>
+                        <span class="card-title">ccc</span>
                     </div>
                 </a>
                 <div class="card-content article-content">
@@ -1594,7 +1679,7 @@ public class OAuth2LoginSecurityConfig {
                     <div class="card-image">
                         
                         
-                        <img src="/medias/featureimages/20.jpg" class="responsive-img" alt="Java反射">
+                        <img src="/medias/featureimages/19.jpg" class="responsive-img" alt="Java反射">
                         
                         <span class="card-title">Java反射</span>
                     </div>
@@ -1801,7 +1886,7 @@ public class OAuth2LoginSecurityConfig {
            <!--<a href="/sitemap.xml" target="_blank">站点地图</a>丨-->
            
             &nbsp;<i class="fa fa-area-chart"></i>&nbsp;站点总字数:&nbsp;
-            <span class="white-color">165.2k
+            <span class="white-color">179k
              丨            
           
 
@@ -1895,7 +1980,7 @@ public class OAuth2LoginSecurityConfig {
       <span class="badge-subject">PV</span><span class="badge-value bg-brightgreen" id="busuanzi_value_site_pv"></span>
     </div>
     <div class="github-badge">
-      <span class="badge-subject">WordCount</span><span class="badge-value bg-blueviolet">165.2k</span>
+      <span class="badge-subject">WordCount</span><span class="badge-value bg-blueviolet">179k</span>
     </div>
 </footer>
 

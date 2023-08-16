@@ -8,7 +8,10 @@
     <meta name="baidu-site-verification" content="fmlEuI34ir">
     <meta name="google-site-verification" content="yCy2azpds5XSuGZvis6OuA-XIGF5GuGpYRAaGfD6o48">
     <meta name="360-site-verification" content="b7c11a830ef90fd1464ad6206bb7b6e7">
-    <meta name="description" content="Spring SecuritySpring Security 是 Spring 家族中的一个安全管理框架，应用程序的两个主要区域是“认证”和“授权”（或者访问控制）。Spring Security是针对Spring项目的安全框架，也是Spr">
+    <meta name="description" content="Spring SecuritySpring Security 的运行流程大致如下：
+
+当用户发送一个请求到 Web 应用程序时，请求会被 Spring Security 的过滤器链（Filter Chain）拦截。
+过滤器链中有多个过滤器，">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no">
     <meta name="renderer" content="webkit|ie-stand|ie-comp">
@@ -615,7 +618,7 @@
 
 
 
-<div class="bg-cover pd-header post-cover" style="background-image: url('/medias/featureimages/8.jpg')">
+<div class="bg-cover pd-header post-cover" style="background-image: url('/medias/featureimages/7.jpg')">
     <div class="container">
         <div class="row">
             <div class="col s12 m12 l12">
@@ -770,14 +773,14 @@
                 
                 <div class="info-break-policy">
                     <i class="fa fa-file-word-o fa-fw"></i>文章字数:&nbsp;&nbsp;
-                    24.4k
+                    25.2k
                 </div>
                 
 
                 
                 <div class="info-break-policy">
                     <i class="fa fa-clock-o fa-fw"></i>阅读时长:&nbsp;&nbsp;
-                    105 分
+                    108 分
                 </div>
                 
                 
@@ -793,7 +796,19 @@
         <hr class="clearfix">
         <div class="card-content article-card-content">
             <div id="articleContent">
-                <h1 id="Spring-Security"><a href="#Spring-Security" class="headerlink" title="Spring Security"></a>Spring Security</h1><p>Spring Security 是 Spring 家族中的一个安全管理框架，应用程序的两个主要区域是“认证”和“授权”（或者访问控制）。Spring Security是针对Spring项目的安全框架，也是Spring Boot底层安全模块默认的技术选型</p>
+                <h1 id="Spring-Security"><a href="#Spring-Security" class="headerlink" title="Spring Security"></a>Spring Security</h1><p>Spring Security 的运行流程大致如下：</p>
+<ul>
+<li>当用户发送一个请求到 Web 应用程序时，请求会被 Spring Security 的过滤器链（Filter Chain）拦截。</li>
+<li>过滤器链中有多个过滤器，每个过滤器负责处理不同的安全逻辑，如用户名密码认证、记住我功能、异常处理等。</li>
+<li>如果请求需要身份验证，过滤器链会调用 AuthenticationManager 接口，该接口是认证管理器的核心接口，它委托给不同的 AuthenticationProvider 实现类来完成具体的认证逻辑。</li>
+<li>AuthenticationProvider 会调用 UserDetailsService 接口，该接口负责从数据库或其他数据源获取用户的详细信息（UserDetails），如用户名、密码、角色等。</li>
+<li>AuthenticationProvider 会比较用户输入的密码和 UserDetailsService 返回的密码是否匹配，如果匹配，认证成功，返回一个 Authentication 对象，该对象包含了用户的身份信息和权限信息。</li>
+<li>过滤器链会将 Authentication 对象存储到 SecurityContextHolder 中，该类是一个全局的安全上下文容器，可以在任何地方访问当前用户的安全信息。</li>
+<li>如果请求需要授权，过滤器链会调用 AccessDecisionManager 接口，该接口是授权管理器的核心接口，它根据不同的授权策略（如基于角色、基于资源等）来决定用户是否有权限访问请求的资源。</li>
+<li>AccessDecisionManager 会调用 SecurityMetadataSource 接口，该接口负责获取请求资源所需的权限信息。</li>
+<li>AccessDecisionManager 会比较 SecurityContextHolder 中的用户权限信息和 SecurityMetadataSource 返回的资源权限信息是否匹配，如果匹配，授权成功，放行请求，否则抛出异常或重定向到错误页面。</li>
+<li></li>
+</ul>
 <p>Spring Security 采用的是责任链的设计模式，它有一条很长的过滤器链。</p>
 <p>Spring Security对Web资源的保护是靠Filter实现的</p>
 <p>当初始化Spring Security时，会创建一个名为SpringSecurityFilterChain的Servlet过滤器，类型为 org.springframework.security.web.FilterChainProxy，它实现了javax.servlet.Filter，因此外部的请求会经过此类，<img src="/springsecurity/image-20230325122446975.png" alt="image-20230325122446975"></p>
@@ -1340,7 +1355,66 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
 }
 
 </code></pre><p>当我们替换了 <code>UsernamePasswordAuthenticationFilter</code> 之后，原本在 SecurityConfig#configure 方法中关于 form 表单的配置就会失效，那些失效的属性，都可以在配置 LoginFilter 实例的时候配置；还需要记得配置<code>AuthenticationManager</code>，否则启动时会报错。</p>
-<h4 id="方法二"><a href="#方法二" class="headerlink" title="方法二"></a>方法二</h4><pre><code>@PostMapping(&quot;/doLogin&quot;)
+<h5 id="AuthenticationFailureHandler登录失败回调"><a href="#AuthenticationFailureHandler登录失败回调" class="headerlink" title="AuthenticationFailureHandler登录失败回调"></a>AuthenticationFailureHandler登录失败回调</h5><pre><code>public class MyAuthenticationFailureHandler implements AuthenticationFailureHandler {
+    @Override
+    public void onAuthenticationFailure(HttpServletRequest request, HttpServletResponse response, AuthenticationException e) throws IOException, ServletException {
+        response.setContentType(&quot;application/json;charset=utf-8&quot;);
+        PrintWriter out = response.getWriter();
+        String msg = &quot;&quot;;
+        if (e instanceof LockedException) {
+            msg = &quot;账户被锁定，请联系管理员!&quot;;
+        }
+       else if (e instanceof BadCredentialsException) {
+            msg = &quot;用户名或者密码输入错误，请重新输入!&quot;;
+        }
+        out.write(e.getMessage());
+        out.flush();
+        out.close();
+    }
+}</code></pre><h5 id="MyAuthenticationSuccessHandler登录成功回调"><a href="#MyAuthenticationSuccessHandler登录成功回调" class="headerlink" title="MyAuthenticationSuccessHandler登录成功回调"></a>MyAuthenticationSuccessHandler登录成功回调</h5><pre><code>public class MyAuthenticationSuccessHandler implements AuthenticationSuccessHandler {
+
+    @Override
+    public void onAuthenticationSuccess(HttpServletRequest request, HttpServletResponse response, Authentication authentication) throws IOException, ServletException {
+        Object principal = authentication.getPrincipal();
+        response.setContentType(&quot;application/json;charset=utf-8&quot;);
+        PrintWriter out = response.getWriter();
+        out.write(new ObjectMapper().writeValueAsString(principal));
+        out.flush();
+        out.close();
+    }
+
+}
+//可以在这里实现返回jwt之类的逻辑
+//public class JwtAuthenticationSuccessHandler implements AuthenticationSuccessHandler {
+
+//    @Override
+//  public void onAuthenticationSuccess(HttpServletRequest request, HttpServletResponse response, Authentication authentication) throws IOException, ServletException {
+        // 在这里生成 JWT 并将其放入响应头或响应体中
+//        String jwt = generateJwt(authentication.getName()); // 这里需要实现自己的 JWT 生成逻辑
+//       response.setHeader(&quot;Authorization&quot;, &quot;Bearer &quot; + jwt); // 将 JWT 放入响应头
+//        response.getWriter().write(&quot;{\&quot;token\&quot;: \&quot;&quot; + jwt + &quot;\&quot;}&quot;); // 或将 JWT 放入响应体
+//    }
+
+    // 实现 JWT 生成逻辑
+//    private String generateJwt(String username) {
+        // 这里可以使用第三方库生成 JWT，也可以自行实现
+        // 返回生成的 JWT 字符串
+//   }
+//}
+</code></pre><p>AuthenticationEntryPoint</p>
+<p>用于处理身份验证异常，主要作用是在用户未通过身份验证访问受保护的资源时，决定如何返回适当的响应。</p>
+<pre><code>public class MyAuthenticationEntryPoint implements AuthenticationEntryPoint {
+    @Override
+    public void commence(HttpServletRequest request, HttpServletResponse response, AuthenticationException e) throws IOException, ServletException {
+        response.setContentType(&quot;application/json;charset=utf-8&quot;);
+        PrintWriter out = response.getWriter();
+        out.write(&quot;您未登录，请先登录！&quot;);
+        out.flush();
+        out.close();
+    }
+}
+
+</code></pre><h4 id="方法二"><a href="#方法二" class="headerlink" title="方法二"></a>方法二</h4><pre><code>@PostMapping(&quot;/doLogin&quot;)
 public Object login(@RequestBody LoginReq req) {
     String account = req.getAccount();
     String pwd = req.getPwd();
@@ -4189,7 +4263,7 @@ Oauth2UserDetailsService userDetailsService;
                     <div class="card-image">
                         
                         
-                        <img src="/medias/featureimages/18.jpg" class="responsive-img" alt="Eureka注册中心">
+                        <img src="/medias/featureimages/17.jpg" class="responsive-img" alt="Eureka注册中心">
                         
                         <span class="card-title">Eureka注册中心</span>
                     </div>
@@ -4238,7 +4312,7 @@ Oauth2UserDetailsService userDetailsService;
                     <div class="card-image">
                         
                         
-                        <img src="/medias/featureimages/2.jpg" class="responsive-img" alt="JWT">
+                        <img src="/medias/featureimages/3.jpg" class="responsive-img" alt="JWT">
                         
                         <span class="card-title">JWT</span>
                     </div>
@@ -4445,7 +4519,7 @@ Oauth2UserDetailsService userDetailsService;
            <!--<a href="/sitemap.xml" target="_blank">站点地图</a>丨-->
            
             &nbsp;<i class="fa fa-area-chart"></i>&nbsp;站点总字数:&nbsp;
-            <span class="white-color">165.2k
+            <span class="white-color">179k
              丨            
           
 
@@ -4539,7 +4613,7 @@ Oauth2UserDetailsService userDetailsService;
       <span class="badge-subject">PV</span><span class="badge-value bg-brightgreen" id="busuanzi_value_site_pv"></span>
     </div>
     <div class="github-badge">
-      <span class="badge-subject">WordCount</span><span class="badge-value bg-blueviolet">165.2k</span>
+      <span class="badge-subject">WordCount</span><span class="badge-value bg-blueviolet">179k</span>
     </div>
 </footer>
 
