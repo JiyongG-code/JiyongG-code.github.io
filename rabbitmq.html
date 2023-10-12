@@ -774,14 +774,14 @@
                 
                 <div class="info-break-policy">
                     <i class="fa fa-file-word-o fa-fw"></i>文章字数:&nbsp;&nbsp;
-                    9.7k
+                    10.4k
                 </div>
                 
 
                 
                 <div class="info-break-policy">
                     <i class="fa fa-clock-o fa-fw"></i>阅读时长:&nbsp;&nbsp;
-                    38 分
+                    40 分
                 </div>
                 
                 
@@ -1952,6 +1952,38 @@ public void testTTLMsg() {
 <li>基于磁盘存储，消息时效性会降低</li>
 <li>性能受限于磁盘的IO</li>
 </ul>
+<h1 id="Pull和push"><a href="#Pull和push" class="headerlink" title="Pull和push"></a>Pull和push</h1><p>RabbitMQ是一种流行的消息中间件，它支持两种消费模式：pull和push。这两种模式的区别如下：</p>
+<ul>
+<li>Pull模式是指消费者主动从队列中拉取消息，需要调用channel.basicGet方法，每次只能获取一条消息。这种模式的优点是消费者可以控制自己的消费速度和时间，缺点是消息的实时性较差，而且需要不断轮询队列，效率低下。</li>
+<li>Push模式是指消费者订阅队列后，RabbitMQ会自动将消息推送给消费者，需要调用channel.basicConsume方法，可以持续接收消息。这种模式的优点是消息的实时性高，而且不需要轮询队列，效率高。缺点是消费者可能无法及时处理过多的消息，导致消息积压或丢失。</li>
+</ul>
+<p>一般来说，如果对消息的实时性要求高，或者消费者能够快速处理消息，推荐使用push模式。如果对消息的实时性要求不高，或者消费者需要根据自身情况调整消费速度，推荐使用pull模式。</p>
+<p>springboot选择pull模式还是push模式，主要取决于业务场景和需求。一般来说，pull模式可以让消费者根据自己的消费能力和策略主动从消息中间件拉取消息，更加灵活和可控，但是也需要消费者自己维护消息的偏移量和重试机制。push模式可以让消费者无需关心消息的来源和状态，只需要处理消息中间件推送过来的消息，更加简单和方便，但是也可能导致消费者的缓冲区溢出或者消息的延迟。</p>
+<ul>
+<li>pull模式：您可以使用RabbitTemplate的execute方法，传入一个ChannelCallback接口，然后在doInRabbit方法中调用channel.basicGet方法，主动从指定队列中拉取消息，并进行相应的处理¹。例如：</li>
+</ul>
+<pre class="line-numbers language-java"><code class="language-java">rabbitTemplate<span class="token punctuation">.</span><span class="token function">execute</span><span class="token punctuation">(</span><span class="token keyword">new</span> <span class="token class-name">ChannelCallback</span><span class="token operator">&lt;</span>T<span class="token operator">></span><span class="token punctuation">(</span><span class="token punctuation">)</span> <span class="token punctuation">{</span>
+    <span class="token annotation punctuation">@Override</span>
+    <span class="token keyword">public</span> T <span class="token function">doInRabbit</span><span class="token punctuation">(</span>Channel channel<span class="token punctuation">)</span> <span class="token keyword">throws</span> Exception <span class="token punctuation">{</span>
+        <span class="token comment" spellcheck="true">// 从队列中拉取消息</span>
+        GetResponse response <span class="token operator">=</span> channel<span class="token punctuation">.</span><span class="token function">basicGet</span><span class="token punctuation">(</span>queueName<span class="token punctuation">,</span> <span class="token boolean">false</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+        <span class="token comment" spellcheck="true">// 将消息转换为对象</span>
+        T result <span class="token operator">=</span> <span class="token punctuation">(</span>T<span class="token punctuation">)</span>messageConverter<span class="token punctuation">.</span><span class="token function">fromMessage</span><span class="token punctuation">(</span>message<span class="token punctuation">)</span><span class="token punctuation">;</span>
+        <span class="token comment" spellcheck="true">// 处理消息</span>
+        consumer<span class="token punctuation">.</span><span class="token function">accept</span><span class="token punctuation">(</span>result<span class="token punctuation">)</span><span class="token punctuation">;</span>
+        <span class="token comment" spellcheck="true">// 确认消息</span>
+        channel<span class="token punctuation">.</span><span class="token function">basicAck</span><span class="token punctuation">(</span>response<span class="token punctuation">.</span><span class="token function">getEnvelope</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">.</span><span class="token function">getDeliveryTag</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">,</span> <span class="token boolean">false</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+        <span class="token keyword">return</span> result<span class="token punctuation">;</span>
+    <span class="token punctuation">}</span>
+<span class="token punctuation">}</span><span class="token punctuation">)</span><span class="token punctuation">;</span><span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span></span></code></pre>
+<ul>
+<li>push模式：您可以使用@RabbitListener注解，标注在一个方法上，指定要监听的队列，然后在方法中处理接收到的消息²。例如：</li>
+</ul>
+<pre class="line-numbers language-java"><code class="language-java"><span class="token annotation punctuation">@RabbitListener</span><span class="token punctuation">(</span>queues <span class="token operator">=</span> QUEUE_NAME<span class="token punctuation">)</span>
+<span class="token keyword">public</span> <span class="token keyword">void</span> <span class="token function">receiveMessage</span><span class="token punctuation">(</span>String message<span class="token punctuation">)</span> <span class="token punctuation">{</span>
+    <span class="token comment" spellcheck="true">// 处理消息</span>
+    System<span class="token punctuation">.</span>out<span class="token punctuation">.</span><span class="token function">println</span><span class="token punctuation">(</span><span class="token string">"Received message: "</span> <span class="token operator">+</span> message<span class="token punctuation">)</span><span class="token punctuation">;</span>
+<span class="token punctuation">}</span><span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span></span></code></pre>
 
             </div>
             <hr />
@@ -2696,7 +2728,7 @@ public void testTTLMsg() {
            <!--<a href="/sitemap.xml" target="_blank">站点地图</a>丨-->
            
             &nbsp;<i class="fa fa-area-chart"></i>&nbsp;站点总字数:&nbsp;
-            <span class="white-color">179k
+            <span class="white-color">195.7k
              丨            
           
 
@@ -2790,7 +2822,7 @@ public void testTTLMsg() {
       <span class="badge-subject">PV</span><span class="badge-value bg-brightgreen" id="busuanzi_value_site_pv"></span>
     </div>
     <div class="github-badge">
-      <span class="badge-subject">WordCount</span><span class="badge-value bg-blueviolet">179k</span>
+      <span class="badge-subject">WordCount</span><span class="badge-value bg-blueviolet">195.7k</span>
     </div>
 </footer>
 

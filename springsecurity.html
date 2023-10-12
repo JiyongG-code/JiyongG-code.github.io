@@ -773,14 +773,14 @@
                 
                 <div class="info-break-policy">
                     <i class="fa fa-file-word-o fa-fw"></i>文章字数:&nbsp;&nbsp;
-                    25.2k
+                    26k
                 </div>
                 
 
                 
                 <div class="info-break-policy">
                     <i class="fa fa-clock-o fa-fw"></i>阅读时长:&nbsp;&nbsp;
-                    108 分
+                    111 分
                 </div>
                 
                 
@@ -807,8 +807,12 @@
 <li>如果请求需要授权，过滤器链会调用 AccessDecisionManager 接口，该接口是授权管理器的核心接口，它根据不同的授权策略（如基于角色、基于资源等）来决定用户是否有权限访问请求的资源。</li>
 <li>AccessDecisionManager 会调用 SecurityMetadataSource 接口，该接口负责获取请求资源所需的权限信息。</li>
 <li>AccessDecisionManager 会比较 SecurityContextHolder 中的用户权限信息和 SecurityMetadataSource 返回的资源权限信息是否匹配，如果匹配，授权成功，放行请求，否则抛出异常或重定向到错误页面。</li>
-<li></li>
 </ul>
+<h1 id="AbstractAuthenticationToken"><a href="#AbstractAuthenticationToken" class="headerlink" title="AbstractAuthenticationToken"></a>AbstractAuthenticationToken</h1><p>在Spring Security认证过程中，AbstractAuthenticationToken是一个非常重要的类，它主要用于存储和管理主体的各种信息，以及主体经过认证后的相关信息。</p>
+<p>它是一个基础类，可以用来扩展和定制自己的Authentication对象。在AbstractAuthenticationToken中，一般会存储一些如主体信息（principal）和凭证（credentials）等基础数据。</p>
+<p>我们可以从AbstractAuthenticationToken类中继承并创建自己的Authentication对象，比如在上面的代码片段中，MyUserNamePassToken就是继承了AbstractAuthenticationToken的一个具体应用。在这个例子中，我们在自定义的Authentication对象中，存储了用户名（account）和密码（pwd），并且在登录成功后，这些信息会被传递给MyAuthenticationSuccessHandler进行处理。</p>
+<p>需要注意的是，在Spring Security中，Authentication对象的认证状态是由isAuthenticated()方法来设定的，如果该方法返回true，表示认证通过，反之则表示认证未通过。在上述代码中，我们在创建MyUserNamePassToken对象时，通过调用setAuthenticated(false)方法，设定了认证状态为未通过，这表示用户在登录过程中还需要进行进一步的认证。</p>
+<p>总的来说，AbstractAuthenticationToken为我们提供了一个扩展和自定义Authentication对象的基类，使我们能够更灵活地处理登录过程中的各种逻辑和信息。</p>
 <p>Spring Security 采用的是责任链的设计模式，它有一条很长的过滤器链。</p>
 <p>Spring Security对Web资源的保护是靠Filter实现的</p>
 <p>当初始化Spring Security时，会创建一个名为SpringSecurityFilterChain的Servlet过滤器，类型为 org.springframework.security.web.FilterChainProxy，它实现了javax.servlet.Filter，因此外部的请求会经过此类，<img src="/springsecurity/image-20230325122446975.png" alt="image-20230325122446975"></p>
@@ -1224,7 +1228,7 @@ SecurityContextHolder.getContext().setAuthentication(token);</code></pre><p>对�
 <p>注意:不会跳转到之前请求路径 </p>
 <p>defaultSuccessUrl    默认使⽤ redirect 跳转 （重定向）      </p>
 <p>注意:如果之前 请求路径,会有优先跳转之前请求路径,可以传⼊第⼆个参数进⾏修改</p>
-<p>请求抓发</p>
+<p>请求转发</p>
 <p>请求转发是服务器请求资源,服务器直接访问目标地址的URL,把那个URL的响应内容读取过来,然后把这些内容再发给浏览器.浏览器根本不知道服务器发送的内容从哪里来的,因为<strong>这个跳转过程实在服务器实现</strong>的，并不是在客户端实现的所以客户端并不知道这个跳转动作，所以它<strong>的地址栏还是原来的地址.</strong></p>
 <p>重定向</p>
 <p>是服务端根据逻辑,<strong>发送一个状态码</strong>,告诉浏览器重新去请求那个地址.<strong>所以地址栏显示的是新的URL</strong></p>
@@ -1690,7 +1694,7 @@ Exception {
 <p>在UsernamePasswordAuthenticationFilter的attemptAuthentication⽅法 中将请求中⽤户名和密码，封装为Authentication对象，并交给 AuthenticationManager 进⾏认证</p>
 <p>认证成功，将认证信息存储到 SecurityContextHodler 以及调⽤记住我等，并回调  AuthenticationSuccessHandler 处理</p>
 <p>认证失败，清除 SecurityContextHodler 以及 记住我中信息，回调  AuthenticationFailureHandler 处理</p>
-<h4 id="三者关系-AuthenticationManager-ProviderManager-AuthenticationProvider"><a href="#三者关系-AuthenticationManager-ProviderManager-AuthenticationProvider" class="headerlink" title="三者关系 AuthenticationManager ProviderManager AuthenticationProvider"></a>三者关系 AuthenticationManager ProviderManager AuthenticationProvider</h4><p>从上⾯分析中得知，AuthenticationManager 是认证的核⼼类，但实际上在底层真正认 证时还离不开 ProviderManager 以及  AuthenticationProvider 。</p>
+<h4 id="三者关系-AuthenticationManager-ProviderManager-AuthenticationProvider"><a href="#三者关系-AuthenticationManager-ProviderManager-AuthenticationProvider" class="headerlink" title="三者关系 AuthenticationManager ProviderManager AuthenticationProvider"></a>三者关系 AuthenticationManager ProviderManager AuthenticationProvider</h4><p>从上⾯分析中得知，AuthenticationManager 是认证的核⼼类，但实际上在底层真正认证时还离不开 ProviderManager 以及  AuthenticationProvider 。</p>
 <p>AuthenticationManager 是⼀个认证管理器，它定义了 Spring Security 过滤 器要执⾏认证操作。</p>
 <p>ProviderManager 是AuthenticationManager接⼝的实现类。Spring Security  认证时默认使⽤就是 ProviderManager。</p>
 <p>AuthenticationProvider 就是针对不同的身份类型执⾏的具体的身份认证。</p>
@@ -2756,7 +2760,8 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
 <p>相⽐于认证异常，权限异常类就要少了很多，默认提供的权限异常如下：</p>
 <p><img src="/springsecurity/image-20230716124756429.png" alt="image-20230716124756429"></p>
 <p>在实际项⽬开发中，如果默认提供异常⽆法满⾜需求时，就需要根据实际需要来⾃定义异常 类。</p>
-<h2 id="自定义异常处理配置"><a href="#自定义异常处理配置" class="headerlink" title="自定义异常处理配置"></a>自定义异常处理配置</h2><pre><code>@Configuration
+<h2 id="自定义异常处理配置"><a href="#自定义异常处理配置" class="headerlink" title="自定义异常处理配置"></a>自定义异常处理配置</h2><p>方式一</p>
+<pre><code>@Configuration
  public class SecurityConfig extends WebSecurityConfigurerAdapter {
  @Override
  protected void configure(HttpSecurity http) throws Exception {
@@ -2776,7 +2781,8 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
   });
   }
  }</code></pre><p>方式二</p>
-<h3 id="实现AuthenticationEntryPoint"><a href="#实现AuthenticationEntryPoint" class="headerlink" title="实现AuthenticationEntryPoint"></a>实现AuthenticationEntryPoint</h3><pre class="line-numbers language-text"><code class="language-text">public class SimpleAuthenticationEntryPoint implements AuthenticationEntryPoint {
+<h3 id="实现AuthenticationEntryPoint"><a href="#实现AuthenticationEntryPoint" class="headerlink" title="实现AuthenticationEntryPoint"></a>实现AuthenticationEntryPoint</h3><p>当用户请求一个需要身份验证的资源时，如果用户没有登录，系统会根据配置的AuthenticationEntryPoint，引导用户到特定的登录页面或者跳转到其他相关的认证流程</p>
+<pre class="line-numbers language-text"><code class="language-text">public class SimpleAuthenticationEntryPoint implements AuthenticationEntryPoint {
      @Override
      public void commence(HttpServletRequest request, HttpServletResponse response, AuthenticationException authException) throws IOException, ServletException {
 
@@ -2795,7 +2801,8 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
          printWriter.close();
      }
  }<span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span></span></code></pre>
-<h3 id="实现-AccessDeniedHandler"><a href="#实现-AccessDeniedHandler" class="headerlink" title="实现 AccessDeniedHandler"></a>实现 AccessDeniedHandler</h3><pre><code>public class SimpleAccessDeniedHandler implements AccessDeniedHandler {
+<h3 id="实现-AccessDeniedHandler"><a href="#实现-AccessDeniedHandler" class="headerlink" title="实现 AccessDeniedHandler"></a>实现 AccessDeniedHandler</h3><p>用户已经登录了，但是访问了其自身没有权限的资源时被调用的</p>
+<pre><code>public class SimpleAccessDeniedHandler implements AccessDeniedHandler {
      @Override
      public void handle(HttpServletRequest request, HttpServletResponse response, AccessDeniedException accessDeniedException) throws IOException, ServletException {
          //todo your business
@@ -3770,6 +3777,95 @@ Oauth2UserDetailsService userDetailsService;
                 //用户信息加载
                 .userDetailsService(userDetailsService);
     }
+</code></pre><h1 id="弃用WebSecurityConfigurerAdapter配置类"><a href="#弃用WebSecurityConfigurerAdapter配置类" class="headerlink" title="弃用WebSecurityConfigurerAdapter配置类"></a>弃用WebSecurityConfigurerAdapter配置类</h1><p><a href="https://spring.io/blog/2022/02/21/spring-security-without-the-websecurityconfigureradapter#ldap-authentication" target="_blank" rel="noopener">Spring Security without the WebSecurityConfigurerAdapter</a>这个是</p>
+<pre><code>import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.context.annotation.Bean;
+import org.springframework.context.annotation.Configuration;
+import org.springframework.security.authentication.AuthenticationManager;
+import org.springframework.security.config.annotation.authentication.configuration.AuthenticationConfiguration;
+import org.springframework.security.config.annotation.method.configuration.EnableGlobalMethodSecurity;
+import org.springframework.security.config.annotation.web.builders.HttpSecurity;
+import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
+import org.springframework.security.config.http.SessionCreationPolicy;
+import org.springframework.security.web.SecurityFilterChain;
+import org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter;
+import org.springframework.web.cors.CorsConfiguration;
+import org.springframework.web.cors.CorsConfigurationSource;
+import org.springframework.web.cors.UrlBasedCorsConfigurationSource;
+
+@Configuration
+@EnableWebSecurity    // 添加 security 过滤器
+@EnableGlobalMethodSecurity(prePostEnabled = true)    // 启用方法级别的权限认证
+public class SpringSecurityConfig {
+    @Autowired
+    private XxxUserService xxxUserService;
+
+    // 权限不足错误信息处理，包含认证错误与鉴权错误处理
+    @Autowired
+    private JwtAuthError jwtAuthError;
+
+    // jwt 校验过滤器，从 http 头部 Authorization 字段读取 token 并校验
+    @Bean
+    public JwtAuthFilter authFilter() throws Exception {
+        return new JwtAuthFilter();
+    }
+
+    /**
+     * 密码明文加密方式配置
+     * @return
+     */
+    @Bean
+    public PasswordEncoder passwordEncoder() {
+        return new BCryptPasswordEncoder();
+    }
+
+    /**
+     * 获取AuthenticationManager（认证管理器），登录时认证使用
+     * @param authenticationConfiguration
+     * @return
+     * @throws Exception
+     */
+    @Bean
+    public AuthenticationManager authenticationManager(AuthenticationConfiguration authenticationConfiguration) throws Exception {
+        return authenticationConfiguration.getAuthenticationManager();
+    }
+
+    @Bean
+    SecurityFilterChain filterChain(HttpSecurity http) throws Exception {
+        return http
+                // 基于 token，不需要 csrf
+                .csrf().disable()
+                // 基于 token，不需要 session
+                .sessionManagement().sessionCreationPolicy(SessionCreationPolicy.STATELESS).and()
+                // 设置 jwtAuthError 处理认证失败、鉴权失败
+                .exceptionHandling().authenticationEntryPoint(jwtAuthError).accessDeniedHandler(jwtAuthError).and()
+                // 下面开始设置权限
+                .authorizeRequests(authorize -&gt; authorize
+                        // 请求放开
+                        .antMatchers(&quot;/**&quot;).permitAll()
+                        .antMatchers(&quot;/**&quot;).permitAll()
+                        // 其他地址的访问均需验证权限
+                        .anyRequest().authenticated()
+                )
+                // 添加 JWT 过滤器，JWT 过滤器在用户名密码认证过滤器之前
+                .addFilterBefore(authFilter(), UsernamePasswordAuthenticationFilter.class)
+                // 认证用户时用户信息加载配置，注入springAuthUserService
+                .userDetailsService(xxxAuthUserService)
+                .build();
+    }
+
+    /**
+     * 配置跨源访问(CORS)
+     * @return
+     */
+    @Bean
+    CorsConfigurationSource corsConfigurationSource() {
+        UrlBasedCorsConfigurationSource source = new UrlBasedCorsConfigurationSource();
+        source.registerCorsConfiguration(&quot;/**&quot;, new CorsConfiguration().applyPermitDefaultValues());
+        return source;
+    }
+
+}
 </code></pre>
             </div>
             <hr />
@@ -4519,7 +4615,7 @@ Oauth2UserDetailsService userDetailsService;
            <!--<a href="/sitemap.xml" target="_blank">站点地图</a>丨-->
            
             &nbsp;<i class="fa fa-area-chart"></i>&nbsp;站点总字数:&nbsp;
-            <span class="white-color">179k
+            <span class="white-color">195.7k
              丨            
           
 
@@ -4613,7 +4709,7 @@ Oauth2UserDetailsService userDetailsService;
       <span class="badge-subject">PV</span><span class="badge-value bg-brightgreen" id="busuanzi_value_site_pv"></span>
     </div>
     <div class="github-badge">
-      <span class="badge-subject">WordCount</span><span class="badge-value bg-blueviolet">179k</span>
+      <span class="badge-subject">WordCount</span><span class="badge-value bg-blueviolet">195.7k</span>
     </div>
 </footer>
 

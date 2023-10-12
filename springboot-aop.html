@@ -760,14 +760,14 @@ AOP的术语通知(有的地方叫增强)(Advice)
                 
                 <div class="info-break-policy">
                     <i class="fa fa-file-word-o fa-fw"></i>文章字数:&nbsp;&nbsp;
-                    649
+                    887
                 </div>
                 
 
                 
                 <div class="info-break-policy">
                     <i class="fa fa-clock-o fa-fw"></i>阅读时长:&nbsp;&nbsp;
-                    2 分
+                    3 分
                 </div>
                 
                 
@@ -845,6 +845,12 @@ public class AopAdvice {
     }
 
 }<span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span></span></code></pre>
+<p>ProceedingJoinPoint和JoinPoint是两个用于表示目标方法连接点的接口，它们都可以在切面方法中作为参数获取目标方法的信息，例如方法名，参数，返回值等。它们的区别在于：</p>
+<ul>
+<li>ProceedingJoinPoint是JoinPoint的子接口，它只能用在@Around类型的切面方法中，而JoinPoint可以用在任何类型的切面方法中。</li>
+<li>ProceedingJoinPoint提供了一个额外的proceed()方法，它可以让切面方法控制目标方法的执行，例如决定是否执行，何时执行，传递什么参数等。而JoinPoint没有这个方法，它只能获取目标方法的信息，不能影响目标方法的执行。</li>
+<li>ProceedingJoinPoint的proceed()方法可以接受一个Object[]类型的参数，表示传递给目标方法的参数。如果不传递任何参数，则使用原始的参数。而JoinPoint没有这个功能，它只能获取原始的参数。</li>
+</ul>
 
             </div>
             <hr />
@@ -1567,7 +1573,7 @@ FilebeatFileBeat是一个轻量的日志采集器比
            <!--<a href="/sitemap.xml" target="_blank">站点地图</a>丨-->
            
             &nbsp;<i class="fa fa-area-chart"></i>&nbsp;站点总字数:&nbsp;
-            <span class="white-color">179k
+            <span class="white-color">195.7k
              丨            
           
 
@@ -1661,7 +1667,7 @@ FilebeatFileBeat是一个轻量的日志采集器比
       <span class="badge-subject">PV</span><span class="badge-value bg-brightgreen" id="busuanzi_value_site_pv"></span>
     </div>
     <div class="github-badge">
-      <span class="badge-subject">WordCount</span><span class="badge-value bg-blueviolet">179k</span>
+      <span class="badge-subject">WordCount</span><span class="badge-value bg-blueviolet">195.7k</span>
     </div>
 </footer>
 

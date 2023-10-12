@@ -6,7 +6,7 @@
   <link href="/atom.xml" rel="self"/>
   
   <link href="https://jiyongg-code.github.io/"/>
-  <updated>2023-08-12T15:52:12.645Z</updated>
+  <updated>2023-10-12T08:17:54.467Z</updated>
   <id>https://jiyongg-code.github.io/</id>
   
   <author>
@@ -15,6 +15,154 @@
   </author>
   
   <generator uri="http://hexo.io/">Hexo</generator>
+  
+  <entry>
+    <title>SpringBootEventAndListener</title>
+    <link href="https://jiyongg-code.github.io/springbooteventandlistener.html"/>
+    <id>https://jiyongg-code.github.io/springbooteventandlistener.html</id>
+    <published>2023-10-12T08:17:54.000Z</published>
+    <updated>2023-10-12T08:17:54.467Z</updated>
+    
+    <summary type="html">
+    
+    </summary>
+    
+    
+  </entry>
+  
+  <entry>
+    <title>Condition</title>
+    <link href="https://jiyongg-code.github.io/condition.html"/>
+    <id>https://jiyongg-code.github.io/condition.html</id>
+    <published>2023-10-09T09:23:26.000Z</published>
+    <updated>2023-10-10T11:54:57.094Z</updated>
+    
+    <summary type="html">
+    
+      
+      
+        
+        
+          &lt;h1 id=&quot;java中Condition类的详细介绍&quot;&gt;&lt;a href=&quot;#java中Condition类的详细介绍&quot; class=&quot;headerlink&quot;
+        
+      
+    
+    </summary>
+    
+    
+  </entry>
+  
+  <entry>
+    <title>springboot的一些类和接口</title>
+    <link href="https://jiyongg-code.github.io/springboot-api.html"/>
+    <id>https://jiyongg-code.github.io/springboot-api.html</id>
+    <published>2023-10-05T10:59:22.000Z</published>
+    <updated>2023-10-12T13:30:45.066Z</updated>
+    
+    <summary type="html">
+    
+      
+      
+        
+        
+          &lt;h1 id=&quot;ServerEndpointExporter&quot;&gt;&lt;a href=&quot;#ServerEndpointExporter&quot; class=&quot;headerlink&quot;
+        
+      
+    
+    </summary>
+    
+    
+  </entry>
+  
+  <entry>
+    <title>redisTemplate</title>
+    <link href="https://jiyongg-code.github.io/redistemplate.html"/>
+    <id>https://jiyongg-code.github.io/redistemplate.html</id>
+    <published>2023-10-05T05:00:10.000Z</published>
+    <updated>2023-10-05T06:53:54.457Z</updated>
+    
+    <summary type="html">
+    
+      
+      
+        
+        
+          &lt;h2 id=&quot;一、SpringDataRedis简介&quot;&gt;&lt;a href=&quot;#一、SpringDataRedis简介&quot; class=&quot;headerlink&quot; title=&quot;一、SpringDataRedis简介&quot;&gt;&lt;/a&gt;一、SpringDataRedis简介&lt;/h2&gt;&lt;h3
+        
+      
+    
+    </summary>
+    
+    
+  </entry>
+  
+  <entry>
+    <title>CompletableFuture 异步编程</title>
+    <link href="https://jiyongg-code.github.io/completablefuture.html"/>
+    <id>https://jiyongg-code.github.io/completablefuture.html</id>
+    <published>2023-09-27T11:52:11.000Z</published>
+    <updated>2023-09-29T16:30:45.866Z</updated>
+    
+    <summary type="html">
+    
+      
+      
+        
+        
+          &lt;h1 id=&quot;创建异步任务&quot;&gt;&lt;a href=&quot;#创建异步任务&quot; class=&quot;headerlink&quot;
+        
+      
+    
+    </summary>
+    
+    
+  </entry>
+  
+  <entry>
+    <title>WebFlux</title>
+    <link href="https://jiyongg-code.github.io/webflux.html"/>
+    <id>https://jiyongg-code.github.io/webflux.html</id>
+    <published>2023-09-03T03:59:05.000Z</published>
+    <updated>2023-09-03T16:45:44.168Z</updated>
+    
+    <summary type="html">
+    
+      
+      
+        
+        
+          &lt;h1 id=&quot;什么是webflux&quot;&gt;&lt;a href=&quot;#什么是webflux&quot; class=&quot;headerlink&quot;
+        
+      
+    
+    </summary>
+    
+    
+  </entry>
+  
+  <entry>
+    <title>Mybatis</title>
+    <link href="https://jiyongg-code.github.io/mybatis.html"/>
+    <id>https://jiyongg-code.github.io/mybatis.html</id>
+    <published>2023-08-20T10:17:41.000Z</published>
+    <updated>2023-10-11T16:33:35.198Z</updated>
+    
+    <summary type="html">
+    
+      
+      
+        
+        
+          &lt;h1 id=&quot;依赖&quot;&gt;&lt;a href=&quot;#依赖&quot; class=&quot;headerlink&quot; title=&quot;依赖&quot;&gt;&lt;/a&gt;依赖&lt;/h1&gt;&lt;p&gt;Maven&lt;/p&gt;
+&lt;pre&gt;&lt;code&gt;&amp;lt;dependency&amp;gt;
+ 
+        
+      
+    
+    </summary>
+    
+    
+  </entry>
   
   <entry>
     <title>Elasticsearch</title>
@@ -110,7 +258,7 @@
     <link href="https://jiyongg-code.github.io/springboot-aop.html"/>
     <id>https://jiyongg-code.github.io/springboot-aop.html</id>
     <published>2023-08-07T05:21:44.000Z</published>
-    <updated>2023-08-07T11:59:14.145Z</updated>
+    <updated>2023-10-05T16:40:54.366Z</updated>
     
     <summary type="html">
     
@@ -134,7 +282,7 @@
     <link href="https://jiyongg-code.github.io/springboot-annotation.html"/>
     <id>https://jiyongg-code.github.io/springboot-annotation.html</id>
     <published>2023-08-06T11:49:47.000Z</published>
-    <updated>2023-08-06T12:38:49.387Z</updated>
+    <updated>2023-10-06T10:32:37.538Z</updated>
     
     <summary type="html">
     
@@ -244,7 +392,7 @@
     <link href="https://jiyongg-code.github.io/rabbitmq.html"/>
     <id>https://jiyongg-code.github.io/rabbitmq.html</id>
     <published>2023-03-29T10:06:32.000Z</published>
-    <updated>2023-07-23T12:02:10.897Z</updated>
+    <updated>2023-10-06T10:38:50.430Z</updated>
     
     <summary type="html">
     
@@ -284,7 +432,7 @@
     <link href="https://jiyongg-code.github.io/springsecurity-oauth2.html"/>
     <id>https://jiyongg-code.github.io/springsecurity-oauth2.html</id>
     <published>2023-03-25T05:09:37.000Z</published>
-    <updated>2023-08-15T15:24:06.061Z</updated>
+    <updated>2023-09-02T16:59:27.340Z</updated>
     
     <summary type="html">
     
@@ -300,189 +448,6 @@
     
     
       <category term="OAuth2" scheme="https://jiyongg-code.github.io/tags/OAuth2/"/>
-    
-  </entry>
-  
-  <entry>
-    <title>Java反射</title>
-    <link href="https://jiyongg-code.github.io/java-reflection.html"/>
-    <id>https://jiyongg-code.github.io/java-reflection.html</id>
-    <published>2023-03-24T12:12:20.000Z</published>
-    <updated>2023-03-24T13:35:58.524Z</updated>
-    
-    <summary type="html">
-    
-      
-      
-        
-        
-          &lt;h2 id=&quot;反射机制是什么&quot;&gt;&lt;a href=&quot;#反射机制是什么&quot; class=&quot;headerlink&quot;
-        
-      
-    
-    </summary>
-    
-      <category term="Java" scheme="https://jiyongg-code.github.io/categories/Java/"/>
-    
-    
-      <category term="反射" scheme="https://jiyongg-code.github.io/tags/%E5%8F%8D%E5%B0%84/"/>
-    
-  </entry>
-  
-  <entry>
-    <title>Redis02分布式缓存</title>
-    <link href="https://jiyongg-code.github.io/redis02-distributed-caching.html"/>
-    <id>https://jiyongg-code.github.io/redis02-distributed-caching.html</id>
-    <published>2023-03-24T11:24:54.000Z</published>
-    <updated>2023-03-24T16:11:02.829Z</updated>
-    
-    <summary type="html">
-    
-      
-      
-        
-        
-          &lt;h1 id=&quot;分布式缓存&quot;&gt;&lt;a href=&quot;#分布式缓存&quot; class=&quot;headerlink&quot; title=&quot;分布式缓存&quot;&gt;&lt;/a&gt;分布式缓存&lt;/h1&gt;&lt;p&gt;–
-        
-      
-    
-    </summary>
-    
-      <category term="NoSql" scheme="https://jiyongg-code.github.io/categories/NoSql/"/>
-    
-    
-      <category term="Redis" scheme="https://jiyongg-code.github.io/tags/Redis/"/>
-    
-  </entry>
-  
-  <entry>
-    <title>Redis入门</title>
-    <link href="https://jiyongg-code.github.io/redis01-getting-started.html"/>
-    <id>https://jiyongg-code.github.io/redis01-getting-started.html</id>
-    <published>2023-03-24T10:52:05.000Z</published>
-    <updated>2023-03-24T11:15:44.718Z</updated>
-    
-    <summary type="html">
-    
-      
-      
-        
-        
-          &lt;h1 id=&quot;初识Redis&quot;&gt;&lt;a href=&quot;#初识Redis&quot; class=&quot;headerlink&quot;
-        
-      
-    
-    </summary>
-    
-      <category term="NoSql" scheme="https://jiyongg-code.github.io/categories/NoSql/"/>
-    
-    
-      <category term="Redis" scheme="https://jiyongg-code.github.io/tags/Redis/"/>
-    
-  </entry>
-  
-  <entry>
-    <title>Kafka架构</title>
-    <link href="https://jiyongg-code.github.io/kafka02-architecture.html"/>
-    <id>https://jiyongg-code.github.io/kafka02-architecture.html</id>
-    <published>2023-03-24T10:14:38.000Z</published>
-    <updated>2023-03-24T10:47:55.375Z</updated>
-    
-    <summary type="html">
-    
-      
-      
-        
-        
-          &lt;h1 id=&quot;Kafka架构&quot;&gt;&lt;a href=&quot;#Kafka架构&quot; class=&quot;headerlink&quot; title=&quot;Kafka架构&quot;&gt;&lt;/a&gt;Kafka架构&lt;/h1&gt;&lt;p&gt;&lt;img
-        
-      
-    
-    </summary>
-    
-      <category term="Message Queue" scheme="https://jiyongg-code.github.io/categories/Message-Queue/"/>
-    
-    
-      <category term="Kafka" scheme="https://jiyongg-code.github.io/tags/Kafka/"/>
-    
-  </entry>
-  
-  <entry>
-    <title>Kafka介绍</title>
-    <link href="https://jiyongg-code.github.io/kafka01-introductory.html"/>
-    <id>https://jiyongg-code.github.io/kafka01-introductory.html</id>
-    <published>2023-03-23T14:39:11.000Z</published>
-    <updated>2023-03-24T10:16:49.053Z</updated>
-    
-    <summary type="html">
-    
-      
-      
-        
-        
-          &lt;h1 id=&quot;什么是消息系统？&quot;&gt;&lt;a href=&quot;#什么是消息系统？&quot; class=&quot;headerlink&quot;
-        
-      
-    
-    </summary>
-    
-      <category term="Message Queue" scheme="https://jiyongg-code.github.io/categories/Message-Queue/"/>
-    
-    
-      <category term="Kafka" scheme="https://jiyongg-code.github.io/tags/Kafka/"/>
-    
-  </entry>
-  
-  <entry>
-    <title>Feign</title>
-    <link href="https://jiyongg-code.github.io/feign.html"/>
-    <id>https://jiyongg-code.github.io/feign.html</id>
-    <published>2023-03-23T13:40:54.000Z</published>
-    <updated>2023-08-13T16:30:13.965Z</updated>
-    
-    <summary type="html">
-    
-      
-      
-        
-        
-          &lt;h1 id=&quot;Feign远程调用&quot;&gt;&lt;a href=&quot;#Feign远程调用&quot; class=&quot;headerlink&quot; title=&quot;Feign远程调用&quot;&gt;&lt;/a&gt;Feign远程调用&lt;/h1&gt;&lt;p&gt;以前利用RestTemplate发起远程调用的代码：&lt;/p&gt;
-&lt;p&gt;&lt;img
-        
-      
-    
-    </summary>
-    
-      <category term="SpringCloud" scheme="https://jiyongg-code.github.io/categories/SpringCloud/"/>
-    
-    
-      <category term="SpringCloud" scheme="https://jiyongg-code.github.io/tags/SpringCloud/"/>
-    
-  </entry>
-  
-  <entry>
-    <title>Gateway</title>
-    <link href="https://jiyongg-code.github.io/gateway.html"/>
-    <id>https://jiyongg-code.github.io/gateway.html</id>
-    <published>2023-03-23T13:40:13.000Z</published>
-    <updated>2023-03-23T14:02:41.561Z</updated>
-    
-    <summary type="html">
-    
-      
-      
-        
-        
-          &lt;h1 id=&quot;Gateway服务网关&quot;&gt;&lt;a href=&quot;#Gateway服务网关&quot; class=&quot;headerlink&quot; title=&quot;Gateway服务网关&quot;&gt;&lt;/a&gt;Gateway服务网关&lt;/h1&gt;&lt;p&gt;Spring Cloud Gateway 是 Spring
-        
-      
-    
-    </summary>
-    
-      <category term="SpringCloud" scheme="https://jiyongg-code.github.io/categories/SpringCloud/"/>
-    
-    
-      <category term="Gateway" scheme="https://jiyongg-code.github.io/tags/Gateway/"/>
     
   </entry>
   

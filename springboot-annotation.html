@@ -759,14 +759,14 @@
                 
                 <div class="info-break-policy">
                     <i class="fa fa-file-word-o fa-fw"></i>文章字数:&nbsp;&nbsp;
-                    595
+                    1.9k
                 </div>
                 
 
                 
                 <div class="info-break-policy">
                     <i class="fa fa-clock-o fa-fw"></i>阅读时长:&nbsp;&nbsp;
-                    2 分
+                    7 分
                 </div>
                 
                 
@@ -795,6 +795,7 @@
 </code></pre><p><img src="/springboot-annotation/image-20230806201921849.png" alt="image-20230806201921849"></p>
 <h1 id="RequestBody"><a href="#RequestBody" class="headerlink" title="@RequestBody"></a>@RequestBody</h1><p>@RequestBody 将前台JSON 对象数据转换为后台可处理数据 (前台 -&gt; 后台)</p>
 <p>1.如果参数时放在请求体中，application/json传入后台的话，那么后台要用@RequestBody才能接收到；<br>2.如果不是放在请求体中的话，那么后台接收前台传过来的参数时，要用@RequestParam来接收，或者形参前 什么也不写也能接收。<br>3.如果参数前写了@RequestParam(xxx)，那么前端必须有对应的xxx名字才行(不管其是否有值，当然可以通过设置该注解的required属性来调节是否必须传)，如果没有xxx名的话，那么请求会出错，报400。</p>
+<h1 id="ResponseBody"><a href="#ResponseBody" class="headerlink" title="@ResponseBody"></a>@ResponseBody</h1><p>@ResponseBody注解的作用是将controller的方法返回的对象通过适当的转换器转换为指定的格式之后，写入到response对象的body区，通常用来返回JSON数据或者是XML数据123。例如，如果您想返回一个Person对象的JSON数据，您可以在方法上加上@ResponseBody注解，然后直接返回Person对象，Spring框架会自动将其转换为JSON格式并写入到response对象的body区。</p>
 <h1 id="PathVariable"><a href="#PathVariable" class="headerlink" title="@PathVariable"></a>@PathVariable</h1><p>@PathVariable是从url中获取请求值</p>
 <p>get方式请求</p>
 <pre><code>  @ResponseBody
@@ -843,7 +844,101 @@ public class InnerController {
         return &quot;success&quot;;
     }
 }
-</code></pre>
+</code></pre><h1 id="RequestHeader"><a href="#RequestHeader" class="headerlink" title="@RequestHeader"></a>@RequestHeader</h1><p><code>@RequestHeader</code> 是Spring框架中的一个注解，用于从HTTP请求头中获取特定的信息，并将其映射到方法参数或类字段上。它的作用是用来获取HTTP请求头中的信息，例如请求的内容类型、授权信息、自定义的头部信息等。</p>
+<ol>
+<li><strong>获取特定HTTP请求头信息：</strong> 通过在Controller方法的参数中使用 <code>@RequestHeader</code> 注解，你可以获取HTTP请求中指定的头部信息，例如：</li>
+</ol>
+<pre><code>javaCopy code@GetMapping(&quot;/example&quot;)
+public ResponseEntity&lt;String&gt; example(@RequestHeader(&quot;User-Agent&quot;) String userAgent) {
+    // 处理userAgent
+}</code></pre><p>上述示例中，<code>@RequestHeader(&quot;User-Agent&quot;)</code> 用于获取HTTP请求头中的 “User-Agent” 头部信息，并将其映射到方法参数 <code>userAgent</code> 中。</p>
+<ol>
+<li><strong>获取多个HTTP请求头信息：</strong> 你可以使用 <code>@RequestHeader</code> 注解多次来获取多个不同的HTTP请求头信息，例如：</li>
+</ol>
+<pre><code>javaCopy code@GetMapping(&quot;/example&quot;)
+public ResponseEntity&lt;String&gt; example(
+    @RequestHeader(&quot;User-Agent&quot;) String userAgent,
+    @RequestHeader(&quot;Authorization&quot;) String authorization
+) {
+    // 处理userAgent和authorization
+}</code></pre><p>这个方法同时获取了 “User-Agent” 和 “Authorization” 头部信息。</p>
+<ol>
+<li><strong>默认值和必需性：</strong> 你可以通过 <code>@RequestHeader</code> 的 <code>defaultValue</code> 属性为请求头指定默认值，以防请求中没有提供该头部信息。此外，你还可以使用 <code>@RequestHeader</code> 的 <code>required</code> 属性来指定头部信息是否是必需的，默认值为 <code>true</code>。</li>
+</ol>
+<pre><code>javaCopy code@GetMapping(&quot;/example&quot;)
+public ResponseEntity&lt;String&gt; example(
+    @RequestHeader(value = &quot;Authorization&quot;, required = false, defaultValue = &quot;Guest&quot;) String authorization
+) {
+    // 如果请求中没有提供 &quot;Authorization&quot; 头部信息，将使用默认值 &quot;Guest&quot;
+}</code></pre><ol>
+<li><strong>映射到类字段：</strong> 除了映射到方法参数，你还可以使用 <code>@RequestHeader</code> 注解将请求头信息映射到类的字段上。这在需要在多个方法中共享相同的请求头信息时很有用。</li>
+</ol>
+<pre><code>javaCopy code@RestController
+public class MyController {
+
+    @RequestHeader(&quot;User-Agent&quot;)
+    private String userAgent;
+
+    @GetMapping(&quot;/example&quot;)
+    public ResponseEntity&lt;String&gt; example() {
+        // 使用类字段中的userAgent
+    }
+}</code></pre><h1 id="ConditionalOnMissingBean"><a href="#ConditionalOnMissingBean" class="headerlink" title="@ConditionalOnMissingBean"></a>@ConditionalOnMissingBean</h1><p>@ConditionalOnMissingBean是一个用于修饰Bean的注解，它的作用是在项目启动时开始自动化配置注册生成Bean，当某个类型的Bean被注册之后，如果再注册相同类型的Bean就会失败，该注解会保证Spring容器中只有一个Bean类型的实例，当注册多个相同类型的Bean时，会出现异常。它可以用在@Configuration类或@Bean方法上，用来控制自动配置的条件。例如，下面的代码表示只有当RedisOperations类不存在时，才会创建一个RedisTemplate的Bean：</p>
+<pre class="line-numbers language-java"><code class="language-java"><span class="token annotation punctuation">@Configuration</span>
+<span class="token annotation punctuation">@ConditionalOnMissingBean</span><span class="token punctuation">(</span>RedisOperations<span class="token punctuation">.</span><span class="token keyword">class</span><span class="token punctuation">)</span>
+<span class="token keyword">public</span> <span class="token keyword">class</span> <span class="token class-name">RedisAutoConfiguration</span> <span class="token punctuation">{</span>
+
+  <span class="token annotation punctuation">@Bean</span>
+  <span class="token keyword">public</span> RedisTemplate<span class="token operator">&lt;</span>Object<span class="token punctuation">,</span> Object<span class="token operator">></span> <span class="token function">redisTemplate</span><span class="token punctuation">(</span>
+      RedisConnectionFactory redisConnectionFactory<span class="token punctuation">)</span> <span class="token punctuation">{</span>
+    RedisTemplate<span class="token operator">&lt;</span>Object<span class="token punctuation">,</span> Object<span class="token operator">></span> template <span class="token operator">=</span> <span class="token keyword">new</span> <span class="token class-name">RedisTemplate</span><span class="token operator">&lt;</span><span class="token operator">></span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+    template<span class="token punctuation">.</span><span class="token function">setConnectionFactory</span><span class="token punctuation">(</span>redisConnectionFactory<span class="token punctuation">)</span><span class="token punctuation">;</span>
+    <span class="token keyword">return</span> template<span class="token punctuation">;</span>
+  <span class="token punctuation">}</span>
+<span class="token punctuation">}</span><span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span></span></code></pre>
+<h1 id="ConditionalOnClass"><a href="#ConditionalOnClass" class="headerlink" title="@ConditionalOnClass"></a>@ConditionalOnClass</h1><p>@ConditionalOnClass这个注解的作用是当类路径中存在指定的类时，才会使标有该注解的类或方法生效。它是Spring Boot提供的一个条件注解，用来控制自动配置的条件。它可以用在@Configuration类或@Bean方法上，用来判断是否需要创建某个Bean或执行某个配置。它有两个属性，value和name，分别可以指定类或类名。例如：</p>
+<pre class="line-numbers language-java"><code class="language-java"><span class="token annotation punctuation">@Configuration</span>
+<span class="token annotation punctuation">@ConditionalOnClass</span><span class="token punctuation">(</span>RedisOperations<span class="token punctuation">.</span><span class="token keyword">class</span><span class="token punctuation">)</span>
+<span class="token keyword">public</span> <span class="token keyword">class</span> <span class="token class-name">RedisAutoConfiguration</span> <span class="token punctuation">{</span>
+
+  <span class="token annotation punctuation">@Bean</span>
+  <span class="token annotation punctuation">@ConditionalOnMissingBean</span><span class="token punctuation">(</span>name <span class="token operator">=</span> <span class="token string">"redisTemplate"</span><span class="token punctuation">)</span>
+  <span class="token keyword">public</span> RedisTemplate<span class="token operator">&lt;</span>Object<span class="token punctuation">,</span> Object<span class="token operator">></span> <span class="token function">redisTemplate</span><span class="token punctuation">(</span>
+      RedisConnectionFactory redisConnectionFactory<span class="token punctuation">)</span> <span class="token punctuation">{</span>
+    RedisTemplate<span class="token operator">&lt;</span>Object<span class="token punctuation">,</span> Object<span class="token operator">></span> template <span class="token operator">=</span> <span class="token keyword">new</span> <span class="token class-name">RedisTemplate</span><span class="token operator">&lt;</span><span class="token operator">></span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+    template<span class="token punctuation">.</span><span class="token function">setConnectionFactory</span><span class="token punctuation">(</span>redisConnectionFactory<span class="token punctuation">)</span><span class="token punctuation">;</span>
+    <span class="token keyword">return</span> template<span class="token punctuation">;</span>
+  <span class="token punctuation">}</span>
+<span class="token punctuation">}</span><span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span></span></code></pre>
+<p>这段代码表示只有当RedisOperations这个类存在于类路径中时，才会执行RedisAutoConfiguration这个配置类，并创建一个RedisTemplate的Bean。</p>
+<h1 id="PreDestroy"><a href="#PreDestroy" class="headerlink" title="@PreDestroy"></a>@PreDestroy</h1><p>@PreDestroy的作用是在Bean销毁前执行一个方法，通常用于释放资源或者做一些清理工作。它是Java规范JSR-250中定义的一个注解，Spring框架支持这个注解，并且提供了相应的实现原理。@PreDestroy注解的使用方法如下：</p>
+<ul>
+<li>首先，需要在springboot的配置文件中设置消费者的确认模式为<strong>MANUAL</strong>，表示手动确认。</li>
+<li>其次，需要在Bean的方法中添加@PreDestroy注解，指定要在Bean销毁前执行的方法。被@PreDestroy修饰的方法必须是非静态的void ()方法，而且不能有任何参数或者抛出异常。</li>
+<li>然后，当Bean被销毁时，Spring框架会自动调用被@PreDestroy修饰的方法，并且只会调用一次。</li>
+</ul>
+<p>以下是一个简单的代码示例：</p>
+<pre class="line-numbers language-java"><code class="language-java"><span class="token keyword">package</span> com<span class="token punctuation">.</span>example<span class="token punctuation">.</span>demo<span class="token punctuation">;</span>
+
+<span class="token keyword">import</span> javax<span class="token punctuation">.</span>annotation<span class="token punctuation">.</span>PreDestroy<span class="token punctuation">;</span>
+
+<span class="token keyword">public</span> <span class="token keyword">class</span> <span class="token class-name">MyBean</span> <span class="token punctuation">{</span>
+
+    <span class="token keyword">public</span> <span class="token function">MyBean</span><span class="token punctuation">(</span><span class="token punctuation">)</span> <span class="token punctuation">{</span>
+        System<span class="token punctuation">.</span>out<span class="token punctuation">.</span><span class="token function">println</span><span class="token punctuation">(</span><span class="token string">"MyBean 构造器执行"</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+    <span class="token punctuation">}</span>
+
+    <span class="token annotation punctuation">@PreDestroy</span>
+    <span class="token keyword">public</span> <span class="token keyword">void</span> <span class="token function">preDestroy</span><span class="token punctuation">(</span><span class="token punctuation">)</span> <span class="token punctuation">{</span>
+        System<span class="token punctuation">.</span>out<span class="token punctuation">.</span><span class="token function">println</span><span class="token punctuation">(</span><span class="token string">"MyBean @PreDestroy 注解标注的方法执行"</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+    <span class="token punctuation">}</span>
+
+    <span class="token keyword">public</span> <span class="token keyword">void</span> <span class="token function">destroy</span><span class="token punctuation">(</span><span class="token punctuation">)</span> <span class="token punctuation">{</span>
+        System<span class="token punctuation">.</span>out<span class="token punctuation">.</span><span class="token function">println</span><span class="token punctuation">(</span><span class="token string">"MyBean destroy 方法执行"</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+    <span class="token punctuation">}</span>
+<span class="token punctuation">}</span><span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span></span></code></pre>
+<p><a href="https://blog.csdn.net/aiwokache/article/details/129037252" target="_blank" rel="noopener">Spring Boot接收从前端传过来的数据常用方式以及处理的技巧_后端接受前端数据的方式_aiwokache的博客-CSDN博客</a></p>
+
             </div>
             <hr />
 
@@ -1565,7 +1660,7 @@ AOP的术语通知(有的地方叫增强)(Advice)
            <!--<a href="/sitemap.xml" target="_blank">站点地图</a>丨-->
            
             &nbsp;<i class="fa fa-area-chart"></i>&nbsp;站点总字数:&nbsp;
-            <span class="white-color">179k
+            <span class="white-color">195.7k
              丨            
           
 
@@ -1659,7 +1754,7 @@ AOP的术语通知(有的地方叫增强)(Advice)
       <span class="badge-subject">PV</span><span class="badge-value bg-brightgreen" id="busuanzi_value_site_pv"></span>
     </div>
     <div class="github-badge">
-      <span class="badge-subject">WordCount</span><span class="badge-value bg-blueviolet">179k</span>
+      <span class="badge-subject">WordCount</span><span class="badge-value bg-blueviolet">195.7k</span>
     </div>
 </footer>
 
